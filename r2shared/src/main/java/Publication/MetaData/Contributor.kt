@@ -1,8 +1,4 @@
-package Publication.Metadata
-
-/**
- * Created by cbaumann on 31/08/2017.
- */
+package Publication.MetaData
 
 class Contributor{
 
@@ -11,6 +7,6 @@ class Contributor{
         get() = multilangName.singleString
     var sortAs: String? = null
     var identifier: String? = null
-    var roles = emptyList<String>().toMutableList()
+    var roles: MutableList<String> = mutableListOf()
 
 }

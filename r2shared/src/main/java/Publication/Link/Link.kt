@@ -12,7 +12,7 @@ class Link {
     /// MIME type of resource.
     var typeLink: String? = null
     /// Indicates the relationship between the resource and its containing collection.
-    var rel = emptyList<String>().toMutableList()
+    var rel: MutableList<String> = mutableListOf()
     /// Indicates the height of the linked resource in pixels.
     var height: Int = 0
     /// Indicates the width of the linked resource in pixels.

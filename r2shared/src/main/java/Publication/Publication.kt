@@ -11,34 +11,34 @@ import java.net.URL
     /// The version of the publication, if the type needs any.
     var version: Double = 0.0
     /// The metadata (title, identifier, contributors, etc.).
-    var metadata = Publication.Metadata()
+    var metadata = Metadata()
     /// Publication.Link.Link to special ressources which are added to the publication.
-    var links = arrayOf<Link>().toMutableList()
+    var links: MutableList<Link> = mutableListOf()
     /// Links of the spine items of the publication.
-    var spine = arrayOf<Link>()
+    var spine: MutableList<Link> = mutableListOf()
     /// Publication.Link.Link to the ressources of the publication.
-    var resources = arrayOf<Link>()
+    var resources: MutableList<Link> = mutableListOf()
     /// Table of content of the publication.
-    var tableOfContents = arrayOf<Link>()
-    var landmarks = arrayOf<Link>()
-    var listOfAudioFiles = arrayOf<Link>()
-    var listOfIllustrations = arrayOf<Link>()
-    var listOfTables = arrayOf<Link>()
-    var listOfVideos = arrayOf<Link>()
-    var pageList = arrayOf<Link>()
+    var tableOfContents: MutableList<Link> = mutableListOf()
+    var landmarks: MutableList<Link> = mutableListOf()
+    var listOfAudioFiles: MutableList<Link> = mutableListOf()
+    var listOfIllustrations: MutableList<Link> = mutableListOf()
+    var listOfTables: MutableList<Link> = mutableListOf()
+    var listOfVideos: MutableList<Link> = mutableListOf()
+    var pageList: MutableList<Link> = mutableListOf()
 
     /// Extension point for links that shouldn't show up in the manifest.
-    var otherLinks = arrayOf<Link>()
+    var otherLinks: MutableList<Link> = mutableListOf()
     // TODO: other collections
     // var otherCollections: [publicationCollection]
-    var internalData = emptyMap<String, String>()
+    var internalData: Map<String, String> = emptyMap()
 
     var coverLink: Link?  = null
         get() = linkContains("cover")
 
-    //  Issue : What if linkContains -> null ?
     val baseUrl: URL? by lazy {
-        val url = URL(linkContains("href")?.href)
+        val selfLink = linkContains("self") ?: null
+        val url = selfLink?.let{ URL(selfLink.href)} ?: null
         val index = url.toString().lastIndexOf('/')
         URL(url.toString().substring(0, index))
     }
@@ -89,10 +89,13 @@ import java.net.URL
     }
 
     private fun findLinkInPublicationLinks (closure: (Link) -> Boolean) : Link? {
-        return try { resources.first(closure) } catch (e: NullPointerException) {
-            try { spine.first(closure)
+        return try {
+            resources.first(closure) } catch (e: NullPointerException) {
+            try {
+                spine.first(closure)
             } catch (e: NullPointerException) {
-                try { links.first(closure)
+                try {
+                    links.first(closure)
                 } catch (e: NullPointerException) {
                     null
                 }

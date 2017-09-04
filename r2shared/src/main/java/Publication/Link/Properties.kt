@@ -12,7 +12,7 @@ class Properties{
     var page: String? = null
     /// Indentifies content contained in the linked resource, that cannot be
     /// strictly identified using a media type.
-    var contains = emptyList<String>().toMutableList()
+    var contains: MutableList<String> = mutableListOf()
     /// Location of a media-overlay for the resource referenced in the Link Object.
     var mediaOverlay: String? = null
     /// Indicates that a resource is encrypted/obfuscated and provides relevant

@@ -1,4 +1,4 @@
-package Publication.Metadata
+package Publication.MetaData
 
 /**
  * Created by cbaumann on 31/08/2017.
@@ -7,5 +7,5 @@ package Publication.Metadata
 class MultilangString{
 
     var singleString: String? = null
-    var multiString = emptyMap<String, String>()
+    var multiString: Map<String, String> = emptyMap()
 }

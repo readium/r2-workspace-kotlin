@@ -18,8 +18,8 @@ class MediaOverlayNodeError(message: String) : Exception(message)
 
 class MediaOverlayNode (var text: String? = null, var audio: String? = null) {
 
-    var role = emptyList<String>().toMutableList()
-    var children = emptyList<MediaOverlayNode>().toMutableList()
+    var role: MutableList<String> = mutableListOf()
+    var children: MutableList<MediaOverlayNode> = mutableListOf()
 
     fun fragmentId() : String? {
         val text = this.text ?: return null

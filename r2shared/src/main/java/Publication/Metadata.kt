@@ -1,9 +1,8 @@
 package Publication
 
-import Publication.Metadata.Contributor
-import Publication.Metadata.MetadataItem
+import Publication.MetaData.Contributor
+import Publication.MetaData.MetadataItem
 import Publication.Link.Rendition
-import Publication.Metadata.Subject
 import java.util.*
 
 /**
@@ -24,27 +23,27 @@ class Metadata{
     var languages: MutableList<String> = mutableListOf<String>()
     var identifier: String? = null
     // Contributors.
-    var authors = mutableListOf<Contributor>()
-    var translators = mutableListOf<Contributor>()
-    var editors = mutableListOf<Contributor>()
-    var artists = mutableListOf<Contributor>()
-    var illustrators = mutableListOf<Contributor>()
-    var letterers = mutableListOf<Contributor>()
-    var pencilers = mutableListOf<Contributor>()
-    var colorists = mutableListOf<Contributor>()
-    var inkers = mutableListOf<Contributor>()
-    var narrators = mutableListOf<Contributor>()
-    var imprints = mutableListOf<Contributor>()
+    var authors: MutableList<Contributor> = mutableListOf()
+    var translators: MutableList<Contributor> = mutableListOf()
+    var editors: MutableList<Contributor> = mutableListOf()
+    var artists: MutableList<Contributor> = mutableListOf()
+    var illustrators: MutableList<Contributor> = mutableListOf()
+    var letterers: MutableList<Contributor> = mutableListOf()
+    var pencilers: MutableList<Contributor> = mutableListOf()
+    var colorists: MutableList<Contributor> = mutableListOf()
+    var inkers: MutableList<Contributor> = mutableListOf()
+    var narrators: MutableList<Contributor> = mutableListOf()
+    var imprints: MutableList<Contributor> = mutableListOf()
     var direction = "default"
-    var subjects = mutableListOf<Subject>()
-    var publishers = mutableListOf<Contributor>()
-    var contributors = mutableListOf<Contributor>()
+    var subjects: MutableList<Contributor> = mutableListOf()
+    var publishers: MutableList<Contributor> = mutableListOf()
+    var contributors: MutableList<Contributor> = mutableListOf()
     var modified: Date? = null
     var publicationDate: String? = null
     var description: String? = null
     var rendition = Rendition()
     var source: String? = null
-    var epubType = mutableListOf<String>()
+    var epubType: MutableList<String> = mutableListOf()
     var rights: String? = null
-    var otherMetadata = mutableListOf<MetadataItem>()
+    var otherMetadata: MutableList<MetadataItem> = mutableListOf()
 }

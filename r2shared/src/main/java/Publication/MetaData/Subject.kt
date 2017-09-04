@@ -1,4 +1,4 @@
-package Publication.Metadata
+package Publication.MetaData
 
 /**
  * Created by cbaumann on 31/08/2017.
