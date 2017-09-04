@@ -1,23 +1,19 @@
-package Publication.MediaOverlays
-
-/**
- * Created by cbaumann on 31/08/2017.
- */
+package MediaOverlays
 
 class MediaOverlays(var nodes: MutableList<MediaOverlayNode> = mutableListOf()){
 
-    fun clip(id: String) : Clip{
+    fun clip(id: String) : Clip {
         val clip: Clip
         val fragmentNode = nodeForFragment(id)
         clip = fragmentNode.clip()
         return clip
     }
 
-    private fun nodeForFragment(id: String?) : MediaOverlayNode{
+    private fun nodeForFragment(id: String?) : MediaOverlayNode {
         findNode(id, this.nodes)?.let {return it} ?: throw Exception("Node not found")
     }
 
-    private fun nodeAfterFragment(id: String?) : MediaOverlayNode{
+    private fun nodeAfterFragment(id: String?) : MediaOverlayNode {
         val ret = findNextNode(id, this.nodes)
                 ret.found?.let {return it} ?: throw Exception("Node not found")
     }

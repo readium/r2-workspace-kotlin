@@ -1,4 +1,6 @@
-package Publication.MetaData
+package MetaData
+
+import MetaData.MultilangString
 
 class Contributor{
 

@@ -1,10 +1,6 @@
-package Publication.MediaOverlays
+package MediaOverlays
 
 import java.net.URL
-
-/**
- * Created by cbaumann on 31/08/2017.
- */
 
 class Clip{
     var relativeUrl: URL? = null
@@ -13,8 +9,6 @@ class Clip{
     var end: Double? = null
     var duration: Double? = null
 }
-
-class MediaOverlayNodeError(message: String) : Exception(message)
 
 class MediaOverlayNode (var text: String? = null, var audio: String? = null) {
 
@@ -29,7 +23,7 @@ class MediaOverlayNode (var text: String? = null, var audio: String? = null) {
     fun clip() : Clip {
         var newClip = Clip()
 
-        val audioString = this.audio ?: throw MediaOverlayNodeError("audio")
+        val audioString = this.audio ?: throw Exception("audio")
         val audioFileString = audioString.split('#').first()
         val audioFileUrl = URL(audioFileString)
 
@@ -40,12 +34,13 @@ class MediaOverlayNode (var text: String? = null, var audio: String? = null) {
         return newClip
     }
 
-    private fun parseTimer(times: String, clip: Clip) : Clip{
-        var times = times.removeRange(0, 2)
+    private fun parseTimer(times: String, clip: Clip) : Clip {
+        //  Remove "t=" prefix
+        val netTimes = times.removeRange(0, 2)
         val start = times.split(',').first()
         val end = times.split(',').last()
-        val startTimer = start?.toDoubleOrNull() ?: throw MediaOverlayNodeError("timersParsing")
-        val endTimer = end?.toDoubleOrNull() ?: throw MediaOverlayNodeError("timerParsing")
+        val startTimer = start?.toDoubleOrNull() ?: throw Exception("timersParsing")
+        val endTimer = end?.toDoubleOrNull() ?: throw Exception("timerParsing")
         clip.start = startTimer
         clip.end = endTimer
         clip.duration = endTimer - startTimer

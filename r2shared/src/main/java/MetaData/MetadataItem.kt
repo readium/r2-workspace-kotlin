@@ -1,4 +1,4 @@
-package Publication.MetaData
+package MetaData
 
 class MetadataItem{
 

@@ -1,13 +1,11 @@
-package Publication.Link
+package Link
 
+import MediaOverlays.MediaOverlays
 import java.sql.Timestamp
 
-/**
- * Created by cbaumann on 30/08/2017.
- */
-
+//  A link to a resource
 class Link {
-
+    //  The link destination
     var href: String? = null
     /// MIME type of resource.
     var typeLink: String? = null
@@ -24,4 +22,12 @@ class Link {
     var duration: Timestamp? = null
     /// Indicates that the linked resource is a URI template.
     var templated: Boolean? = false
+    //  The underlaying nodes in a tree structure of Links
+    var children: MutableList<Link> = mutableListOf()
+    //  The MediaOverlays associated to the resource of the Link
+    var mediaOverlays: MediaOverlays = MediaOverlays()
+
+    fun isEncrypted() : Boolean {
+        return !(properties.encryption == null)
+    }
 }

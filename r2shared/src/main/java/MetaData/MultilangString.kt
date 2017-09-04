@@ -1,8 +1,4 @@
-package Publication.MetaData
-
-/**
- * Created by cbaumann on 31/08/2017.
- */
+package MetaData
 
 class MultilangString{
 

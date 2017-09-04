@@ -1,8 +1,4 @@
-package Publication.Link
-
-/**
- * Created by cbaumann on 31/08/2017.
- */
+package Link
 
 class Properties{
     /// Suggested orientation for the device when displaying the linked resource.

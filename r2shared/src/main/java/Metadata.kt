@@ -1,24 +1,16 @@
-package Publication
-
-import Publication.MetaData.Contributor
-import Publication.MetaData.MetadataItem
-import Publication.Link.Rendition
+import Link.Rendition
+import MetaData.Contributor
+import MetaData.MetadataItem
+import MetaData.MultilangString
 import java.util.*
-
-/**
- * Created by cbaumann on 30/08/2017.
- */
 
 class Metadata{
 
     /// The structure used for the serialisation.
-    var multilangTitle: String = ""//MultilangString?
+    var multilangTitle: MultilangString? = null
     /// The title of the publication.
-    var title: String = ""//{
-        //get {
-          //  return multilangTitle?.singleString ?? ""
-        //}
-    //}
+    var title: String = ""
+        get() = multilangTitle?.singleString ?: ""
 
     var languages: MutableList<String> = mutableListOf<String>()
     var identifier: String? = null
@@ -46,4 +38,8 @@ class Metadata{
     var epubType: MutableList<String> = mutableListOf()
     var rights: String? = null
     var otherMetadata: MutableList<MetadataItem> = mutableListOf()
+
+    fun titleForLang(key: String) : String? {
+        return multilangTitle?.multiString?.get(key)
+    }
 }

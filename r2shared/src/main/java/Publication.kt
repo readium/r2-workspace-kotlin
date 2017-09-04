@@ -1,13 +1,8 @@
-package Publication
-
-import Publication.Link.Link
+import Link.Link
+import com.google.gson.GsonBuilder
 import java.net.URL
 
-/**
- * Created by cbaumann on 30/08/2017.
- */
-
- class Publication {
+class Publication {
     /// The version of the publication, if the type needs any.
     var version: Double = 0.0
     /// The metadata (title, identifier, contributors, etc.).
@@ -36,24 +31,27 @@ import java.net.URL
     var coverLink: Link?  = null
         get() = linkContains("cover")
 
-    val baseUrl: URL? by lazy {
-        val selfLink = linkContains("self") ?: null
-        val url = selfLink?.let{ URL(selfLink.href)} ?: null
+    fun baseUrl() : URL? {
+        val selfLink = linkContains("self")
+        val url = selfLink?.let{ URL(selfLink.href)}
         val index = url.toString().lastIndexOf('/')
-        URL(url.toString().substring(0, index))
+        return URL(url.toString().substring(0, index))
     }
 
     //  To see later : build the manifest
-    val manifest: String by lazy {
-        //var jsonString = manifest.to
-        "manifest"
+    fun manifest() : String {
+        return GsonBuilder().create().toJson(this, Publication::class.java).toString()
     }
 
-    val manifestDictionnary = mapOf<String, Any>()
+    var manifestDictionnary = mapOf<String, Any>()
+
+    fun resource(relativePath: String) : Link? {
+        val matchingLinks = spine + resources
+        return matchingLinks.first({it.href == relativePath})
+    }
 
     fun spineLink(href: String) : Link? {
-        val findLinkWithRel: (Link) -> Boolean = { href == it.href }
-        return findLinkInPublicationLinks(findLinkWithRel)
+        return spine.first({it.href == href})
     }
 
     fun linkContains(rel: String) : Link? {
@@ -68,7 +66,7 @@ import java.net.URL
 
     fun uriTo(link: Link?) : URL? {
         val linkHref = link?.href
-        val publicationBaseUrl = baseUrl
+        val publicationBaseUrl = baseUrl()
         if (link != null && linkHref != null && publicationBaseUrl != null)
             return null
         //  Issue : ???
