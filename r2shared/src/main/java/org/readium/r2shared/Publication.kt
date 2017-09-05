@@ -1,4 +1,5 @@
-import Link.Link
+package org.readium.r2shared
+
 import com.google.gson.GsonBuilder
 import java.net.URL
 
@@ -7,11 +8,11 @@ class Publication {
     var version: Double = 0.0
     /// The metadata (title, identifier, contributors, etc.).
     var metadata = Metadata()
-    /// Publication.Link.Link to special ressources which are added to the publication.
+    /// org.readium.r2shared.Publication.org.readium.r2shared.Link to special ressources which are added to the publication.
     var links: MutableList<Link> = mutableListOf()
     /// Links of the spine items of the publication.
     var spine: MutableList<Link> = mutableListOf()
-    /// Publication.Link.Link to the ressources of the publication.
+    /// org.readium.r2shared.Publication.org.readium.r2shared.Link to the ressources of the publication.
     var resources: MutableList<Link> = mutableListOf()
     /// Table of content of the publication.
     var tableOfContents: MutableList<Link> = mutableListOf()

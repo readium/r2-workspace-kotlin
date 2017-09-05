@@ -1,4 +1,4 @@
-package Link
+package org.readium.r2shared
 
 enum class RenditionLayout{
     reflowable,

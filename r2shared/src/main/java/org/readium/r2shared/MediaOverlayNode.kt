@@ -1,4 +1,4 @@
-package MediaOverlays
+package org.readium.r2shared
 
 import java.net.URL
 

@@ -1,6 +1,5 @@
-package Link
+package org.readium.r2shared
 
-import MediaOverlays.MediaOverlays
 import java.sql.Timestamp
 
 //  A link to a resource

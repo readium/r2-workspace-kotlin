@@ -1,4 +1,4 @@
-package MetaData
+package org.readium.r2shared
 
 class MetadataItem{
 

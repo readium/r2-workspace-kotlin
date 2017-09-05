@@ -1,4 +1,4 @@
-package MetaData
+package org.readium.r2shared
 
 /**
  * Created by cbaumann on 31/08/2017.

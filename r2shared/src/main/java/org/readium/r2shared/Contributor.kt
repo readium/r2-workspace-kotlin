@@ -1,6 +1,4 @@
-package MetaData
-
-import MetaData.MultilangString
+package org.readium.r2shared
 
 class Contributor{
 

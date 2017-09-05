@@ -1,7 +1,5 @@
-import Link.Rendition
-import MetaData.Contributor
-import MetaData.MetadataItem
-import MetaData.MultilangString
+package org.readium.r2shared
+
 import java.util.*
 
 class Metadata{
