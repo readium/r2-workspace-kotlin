@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         publi.metadata.editors.add(contrib)
         publi.metadata.direction = "vertical"
         publi.metadata.rendition.layout = RenditionLayout.fixed
-        textView.textSize = 10.0f
+//        textView.textSize = 10.0f
         textView.text = publi.manifest()
         val gson = Gson()
         val pub = gson.fromJson(textView.text.toString(), Publication::class.java)
