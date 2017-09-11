@@ -37,8 +37,8 @@ class MediaOverlayNode (var text: String? = null, var audio: String? = null) {
     private fun parseTimer(times: String, clip: Clip) : Clip {
         //  Remove "t=" prefix
         val netTimes = times.removeRange(0, 2)
-        val start = times.split(',').first()
-        val end = times.split(',').last()
+        val start = try {times.split(',').first()} catch (e: Exception) { null }
+        val end = try {times.split(',').last()} catch (e: Exception) { null }
         val startTimer = start?.toDoubleOrNull() ?: throw Exception("timersParsing")
         val endTimer = end?.toDoubleOrNull() ?: throw Exception("timerParsing")
         clip.start = startTimer

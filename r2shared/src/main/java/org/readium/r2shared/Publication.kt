@@ -27,7 +27,7 @@ class Publication {
     var otherLinks: MutableList<Link> = mutableListOf()
     // TODO: other collections
     // var otherCollections: [publicationCollection]
-    var internalData: Map<String, String> = emptyMap()
+    var internalData: MutableMap<String, String> = mutableMapOf()
 
     var coverLink: Link?  = null
         get() = linkContains("cover")

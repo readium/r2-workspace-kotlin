@@ -28,7 +28,7 @@ class Metadata{
     var subjects: MutableList<Contributor> = mutableListOf()
     var publishers: MutableList<Contributor> = mutableListOf()
     var contributors: MutableList<Contributor> = mutableListOf()
-    var modified: Date? = null
+    var modified: String? = null
     var publicationDate: String? = null
     var description: String? = null
     var rendition = Rendition()
