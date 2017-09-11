@@ -59,12 +59,12 @@ class MediaOverlays(var nodes: MutableList<MediaOverlays.MediaOverlayNode> = mut
         return NextNodeResult(null, prevNodeFoundFlag)
     }
 
-    private fun getFirstNonSectionChild(node: MediaOverlays.MediaOverlayNode) : MediaOverlays.MediaOverlayNode? {
-        for (node in node.children){
-            if (node.role.contains("section")){
-                getFirstNonSectionChild(node)?.let{return it}
+    private fun getFirstNonSectionChild(node: MediaOverlayNode) : MediaOverlayNode? {
+        node.children.forEach { child ->
+            if (child.role.contains("section")){
+                getFirstNonSectionChild(child)?.let{return it}
             } else {
-                return node
+                return child
             }
         }
         return null
