@@ -10,7 +10,7 @@ class Metadata{
     var title: String = ""
         get() = multilangTitle?.singleString ?: ""
 
-    var languages: MutableList<String> = mutableListOf<String>()
+    var languages: MutableList<String> = mutableListOf()
     var identifier: String? = null
     // Contributors.
     var authors: MutableList<Contributor> = mutableListOf()
@@ -24,14 +24,14 @@ class Metadata{
     var inkers: MutableList<Contributor> = mutableListOf()
     var narrators: MutableList<Contributor> = mutableListOf()
     var imprints: MutableList<Contributor> = mutableListOf()
-    var direction = "default"
+    var direction:String = "default"
     var subjects: MutableList<Contributor> = mutableListOf()
     var publishers: MutableList<Contributor> = mutableListOf()
     var contributors: MutableList<Contributor> = mutableListOf()
     var modified: Date? = null
     var publicationDate: String? = null
     var description: String? = null
-    var rendition = Rendition()
+    var rendition:Rendition = Rendition()
     var source: String? = null
     var epubType: MutableList<String> = mutableListOf()
     var rights: String? = null

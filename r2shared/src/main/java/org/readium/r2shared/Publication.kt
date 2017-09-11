@@ -7,7 +7,7 @@ class Publication {
     /// The version of the publication, if the type needs any.
     var version: Double = 0.0
     /// The metadata (title, identifier, contributors, etc.).
-    var metadata = Metadata()
+    var metadata: Metadata = Metadata()
     /// org.readium.r2shared.Publication.org.readium.r2shared.Link to special ressources which are added to the publication.
     var links: MutableList<Link> = mutableListOf()
     /// Links of the spine items of the publication.
@@ -27,10 +27,13 @@ class Publication {
     var otherLinks: MutableList<Link> = mutableListOf()
     // TODO: other collections
     // var otherCollections: [publicationCollection]
-    var internalData: Map<String, String> = emptyMap()
+    var internalData: Map<String, String> = mapOf()
+
+    var manifestDictionnary: Map<String, Any> = mapOf()
 
     var coverLink: Link?  = null
         get() = linkContains("cover")
+
 
     fun baseUrl() : URL? {
         val selfLink = linkContains("self")
@@ -44,7 +47,6 @@ class Publication {
         return GsonBuilder().create().toJson(this, Publication::class.java).toString()
     }
 
-    var manifestDictionnary = mapOf<String, Any>()
 
     fun resource(relativePath: String) : Link? {
         val matchingLinks = spine + resources
