@@ -1,37 +1,35 @@
 package org.readium.r2shared
 
-class MediaOverlays(var nodes: MutableList<MediaOverlays.MediaOverlayNode> = mutableListOf()){
+class MediaOverlays(private var nodes: MutableList<MediaOverlayNode> = mutableListOf()){
 
-    fun clip(id: String) : MediaOverlays.Clip {
-        val clip: MediaOverlays.Clip
+    fun clip(id: String) : Clip {
+        val clip: Clip
         val fragmentNode = nodeForFragment(id)
         clip = fragmentNode.clip()
         return clip
     }
 
-    private fun nodeForFragment(id: String?) : MediaOverlays.MediaOverlayNode {
+    private fun nodeForFragment(id: String?) : MediaOverlayNode {
         findNode(id, this.nodes)?.let {return it} ?: throw Exception("Node not found")
     }
 
-    private fun nodeAfterFragment(id: String?) : MediaOverlays.MediaOverlayNode {
-        val ret = findNextNode(id, this.nodes)
-                ret.found?.let {return it} ?: throw Exception("Node not found")
-    }
+    private fun nodeAfterFragment(id: String?) =
+            findNextNode(id, this.nodes).found ?: throw Exception("Node not found")
 
-    private fun findNode(fragment: String?, inNodes: MutableList<MediaOverlays.MediaOverlayNode>) : MediaOverlays.MediaOverlayNode? {
+    private fun findNode(fragment: String?, inNodes: MutableList<MediaOverlayNode>) : MediaOverlayNode? {
         for (node in inNodes){
             if (node.role.contains("section"))
                 findNode(fragment, node.children).let { return it }
-            if (fragment == null || (node.text?.contains(fragment)!! == false)){
+            if (fragment == null || (!node.text?.contains(fragment)!!)){
                 return node
             }
         }
         return null
     }
 
-    data class NextNodeResult(val found: MediaOverlays.MediaOverlayNode?, val prevFound: Boolean)
+    data class NextNodeResult(val found: MediaOverlayNode?, val prevFound: Boolean)
 
-    private fun findNextNode(fragment: String?, inNodes: MutableList<MediaOverlays.MediaOverlayNode>) : NextNodeResult {
+    private fun findNextNode(fragment: String?, inNodes: MutableList<MediaOverlayNode>) : NextNodeResult {
         var prevNodeFoundFlag = false
         //  For each node of the current scope...
         for (node in inNodes){
@@ -51,7 +49,7 @@ class MediaOverlays(var nodes: MutableList<MediaOverlays.MediaOverlayNode> = mut
                 prevNodeFoundFlag = ret.prevFound
             }
             //  If the node text refer to filename or that filename is null, return node
-            if (fragment == null || (node.text?.contains(fragment)!! == false)) {
+            if (fragment == null || (!node.text?.contains(fragment)!!)) {
                 prevNodeFoundFlag = true
             }
         }

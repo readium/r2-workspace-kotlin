@@ -25,15 +25,10 @@ class Publication {
 
     /// Extension point for links that shouldn't show up in the manifest.
     var otherLinks: MutableList<Link> = mutableListOf()
-    // TODO: other collections
-    // var otherCollections: [publicationCollection]
-    var internalData: Map<String, String> = mapOf()
-
+    var internalData: MutableMap<String, String> = mutableMapOf()
     var manifestDictionnary: Map<String, Any> = mapOf()
-
     var coverLink: Link?  = null
         get() = linkContains("cover")
-
 
     fun baseUrl() : URL? {
         val selfLink = linkContains("self")
@@ -43,21 +38,13 @@ class Publication {
     }
 
     //  To see later : build the manifest
-    fun manifest() : String {
-        return GsonBuilder().create().toJson(this, Publication::class.java).toString()
-    }
+    fun manifest() : String = GsonBuilder().create().toJson(this, Publication::class.java).toString()
 
+    fun resource(relativePath: String) : Link? = (spine + resources).first({it.href == relativePath})
 
-    fun resource(relativePath: String) : Link? {
-        val matchingLinks = spine + resources
-        return matchingLinks.first({it.href == relativePath})
-    }
+    fun spineLink(href: String) : Link? = spine.first({it.href == href})
 
-    fun spineLink(href: String) : Link? {
-        return spine.first({it.href == href})
-    }
-
-    fun linkContains(rel: String) : Link? {
+    private fun linkContains(rel: String) : Link? {
         val findLinkWithRel: (Link) -> Boolean = { it.rel.contains(rel) }
         return findLinkInPublicationLinks(findLinkWithRel)
     }

@@ -9,8 +9,11 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.Gson
+import org.readium.r2streamer.Parser.EpubParser
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var epubParser: EpubParser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
@@ -25,11 +28,19 @@ class MainActivity : AppCompatActivity() {
         publi.metadata.editors.add(contrib)
         publi.metadata.direction = "vertical"
         publi.metadata.rendition.layout = RenditionLayout.fixed
-//        textView.textSize = 10.0f
         textView.text = publi.manifest()
         val gson = Gson()
         val pub = gson.fromJson(textView.text.toString(), Publication::class.java)
+        test()
         Toast.makeText(this@MainActivity, pub.metadata.editors.first().name, Toast.LENGTH_LONG).show()
+    }
+
+    fun test(){
+        epubParser = EpubParser()
+        val pubBox = epubParser.parse(
+                "/sdcard/Documents/book.epub")
+        val publication = pubBox.publication
+        Toast.makeText(this@MainActivity, publication.metadata.title, Toast.LENGTH_LONG).show()
     }
 
 }

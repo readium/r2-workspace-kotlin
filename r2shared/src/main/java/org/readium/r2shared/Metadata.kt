@@ -1,7 +1,5 @@
 package org.readium.r2shared
 
-import java.util.*
-
 class Metadata{
 
     /// The structure used for the serialisation.
@@ -25,7 +23,7 @@ class Metadata{
     var narrators: MutableList<Contributor> = mutableListOf()
     var imprints: MutableList<Contributor> = mutableListOf()
     var direction:String = "default"
-    var subjects: MutableList<Contributor> = mutableListOf()
+    var subjects: MutableList<Subject> = mutableListOf()
     var publishers: MutableList<Contributor> = mutableListOf()
     var contributors: MutableList<Contributor> = mutableListOf()
     var modified: String? = null
@@ -37,7 +35,5 @@ class Metadata{
     var rights: String? = null
     var otherMetadata: MutableList<MetadataItem> = mutableListOf()
 
-    fun titleForLang(key: String) : String? {
-        return multilangTitle?.multiString?.get(key)
-    }
+    fun titleForLang(key: String) : String?  = multilangTitle?.multiString?.get(key)
 }

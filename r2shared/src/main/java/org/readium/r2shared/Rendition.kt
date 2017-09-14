@@ -1,29 +1,29 @@
 package org.readium.r2shared
 
-enum class RenditionLayout{
-    reflowable,
-    fixed
+enum class RenditionLayout(val ini: String){
+    reflowable("reflowable"),
+    fixed("fixed")
 }
 
-enum class RenditionFlow{
-    paginated,
-    continuous,
-    document,
-    fixed
+enum class RenditionFlow(val ini: String){
+    paginated("paginated"),
+    continuous("continuous"),
+    document("document"),
+    fixed("fixed")
 }
 
-enum class RenditionOrientation{
-    auto,
-    landscape,
-    portrait
+enum class RenditionOrientation(val ini: String){
+    auto("auto"),
+    landscape("landscape"),
+    portrait("portrait")
 }
 
-enum class RenditionSpread{
-    auto,
-    landscape,
-    portrait,
-    both,
-    none
+enum class RenditionSpread(val ini: String){
+    auto("auto"),
+    landscape("landscape"),
+    portrait("portrait"),
+    both("both"),
+    none("none")
 }
 
 class Rendition{
@@ -32,6 +32,7 @@ class Rendition{
     var layout: RenditionLayout? = null
     var viewport: String? = null
     var orientation: RenditionOrientation? = null
+
     fun isEmpty() : Boolean {
         if (layout != null
                 || flow != null

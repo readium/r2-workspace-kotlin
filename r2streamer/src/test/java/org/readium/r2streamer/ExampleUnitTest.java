@@ -1,6 +1,8 @@
 package org.readium.r2streamer;
 
 import org.junit.Test;
+import org.readium.r2shared.Publication;
+import org.readium.r2streamer.Parser.OPFParser;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +12,7 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
