@@ -1,4 +1,4 @@
-package org.readium.r2navigator;
+package org.readium.r2.navigator;
 
 import org.junit.Test;
 

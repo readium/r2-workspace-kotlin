@@ -1,4 +1,4 @@
-package org.readium.r2shared;
+package org.readium.r2.shared;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.readium.r2shared.test", appContext.getPackageName());
+        assertEquals("org.readium.r2.shared.test", appContext.getPackageName());
     }
 }
