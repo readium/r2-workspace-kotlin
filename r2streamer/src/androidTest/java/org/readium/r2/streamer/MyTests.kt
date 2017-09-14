@@ -1,5 +1,6 @@
 package org.readium.r2.streamer
 
+import android.support.v4.app.ActivityCompat
 import org.junit.Test
 import org.readium.r2.streamer.Parser.EpubParser
 import junit.framework.Assert.*
