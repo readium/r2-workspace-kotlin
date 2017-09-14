@@ -1,11 +1,11 @@
-package org.readium.r2streamer.Parser
+package org.readium.r2.streamer.Parser
 
 import org.readium.r2shared.Link
 import org.readium.r2shared.Metadata
 import org.readium.r2shared.Publication
-import org.readium.r2streamer.AEXML.AEXML
-import org.readium.r2streamer.AEXML.Node
-import org.readium.r2streamer.Containers.Container
+import org.readium.r2.streamer.AEXML.AEXML
+import org.readium.r2.streamer.AEXML.Node
+import org.readium.r2.streamer.Containers.Container
 
 class OPFParser {
 

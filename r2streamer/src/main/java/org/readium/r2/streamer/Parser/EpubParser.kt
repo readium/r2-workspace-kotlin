@@ -1,10 +1,10 @@
-package org.readium.r2streamer.Parser
+package org.readium.r2.streamer.Parser
 
 import org.readium.r2shared.Publication
-import org.readium.r2streamer.AEXML.AEXML
-import org.readium.r2streamer.Containers.ContainerEpub
-import org.readium.r2streamer.Containers.ContainerEpubDirectory
-import org.readium.r2streamer.Containers.EpubContainer
+import org.readium.r2.streamer.AEXML.AEXML
+import org.readium.r2.streamer.Containers.ContainerEpub
+import org.readium.r2.streamer.Containers.ContainerEpubDirectory
+import org.readium.r2.streamer.Containers.EpubContainer
 import java.io.ByteArrayInputStream
 import java.io.File
 

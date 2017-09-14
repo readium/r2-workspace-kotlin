@@ -1,4 +1,4 @@
-package org.readium.r2streamer;
+package org.readium.streamer;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

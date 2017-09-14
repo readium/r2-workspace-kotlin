@@ -1,4 +1,4 @@
-package org.readium.r2streamer.Containers
+package org.readium.r2.streamer.Containers
 
 import org.readium.r2shared.RootFile
 import java.io.ByteArrayOutputStream

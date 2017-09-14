@@ -1,7 +1,7 @@
-package org.readium.r2streamer.Parser
+package org.readium.r2.streamer.Parser
 
 import org.readium.r2shared.*
-import org.readium.r2streamer.AEXML.Node
+import org.readium.r2.streamer.AEXML.Node
 
 const val noTitleError = "Error : Publication has no title"
 

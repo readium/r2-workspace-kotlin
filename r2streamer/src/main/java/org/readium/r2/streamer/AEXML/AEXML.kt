@@ -1,10 +1,8 @@
-package org.readium.r2streamer.AEXML
+package org.readium.r2.streamer.AEXML
 
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
-import java.sql.Time
-import java.util.*
 
 class Node(val name: String) {
 

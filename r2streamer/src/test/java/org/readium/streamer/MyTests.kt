@@ -1,9 +1,7 @@
-package org.readium.r2streamer
+package org.readium.streamer
 
-import android.os.Environment
 import org.junit.Test
-import org.junit.Assert.*
-import org.readium.r2streamer.Parser.EpubParser
+import org.readium.r2.streamer.Parser.EpubParser
 
 class MyTests{
 

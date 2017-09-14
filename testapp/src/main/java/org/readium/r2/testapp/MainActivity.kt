@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.Gson
-import org.readium.r2streamer.Parser.EpubParser
+import org.readium.r2.streamer.Parser.EpubParser
 
 class MainActivity : AppCompatActivity() {
 

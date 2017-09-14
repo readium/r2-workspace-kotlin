@@ -1,7 +1,7 @@
-package org.readium.r2streamer.Containers
+package org.readium.r2.streamer.Containers
 
 import org.readium.r2shared.RootFile
-import org.readium.r2streamer.Parser.mimetype
+import org.readium.r2.streamer.Parser.mimetype
 import java.io.File
 import java.util.zip.ZipFile
 

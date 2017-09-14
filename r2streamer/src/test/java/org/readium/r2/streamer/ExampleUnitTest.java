@@ -1,8 +1,6 @@
-package org.readium.r2streamer;
+package org.readium.streamer;
 
 import org.junit.Test;
-import org.readium.r2shared.Publication;
-import org.readium.r2streamer.Parser.OPFParser;
 
 import static org.junit.Assert.*;
 
