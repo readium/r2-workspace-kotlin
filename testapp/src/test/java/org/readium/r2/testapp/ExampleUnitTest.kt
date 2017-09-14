@@ -1,4 +1,4 @@
-package org.readium.testapp
+package org.readium.r2.testapp
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package org.readium.testapp
+package org.readium.r2.testapp
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("org.readium.testapp", appContext.packageName)
+        assertEquals("org.readium.r2.testapp", appContext.packageName)
     }
 }
