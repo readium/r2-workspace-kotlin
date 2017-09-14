@@ -1,4 +1,4 @@
-package org.readium.testapp
+package org.readium.r2.testapp
 
 import org.readium.r2shared.RenditionLayout
 import org.readium.r2shared.Contributor
