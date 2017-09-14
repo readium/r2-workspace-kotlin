@@ -1,4 +1,4 @@
-package org.readium.streamer
+package org.readium.r2.streamer
 
 import org.junit.Test
 import org.readium.r2.streamer.Parser.EpubParser
