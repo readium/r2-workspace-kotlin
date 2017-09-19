@@ -1,10 +1,15 @@
 package org.readium.r2.streamer.Parser
 
-import org.readium.r2shared.Publication
+import android.util.Log
+import org.readium.r2.shared.Publication
 import org.readium.r2.streamer.AEXML.AEXML
 import org.readium.r2.streamer.Containers.ContainerEpub
 import org.readium.r2.streamer.Containers.ContainerEpubDirectory
 import org.readium.r2.streamer.Containers.EpubContainer
+import org.readium.r2.streamer.Parser.EpubParserSubClasses.EncryptionParser
+import org.readium.r2.streamer.Parser.EpubParserSubClasses.NCXParser
+import org.readium.r2.streamer.Parser.EpubParserSubClasses.NavigationDocumentParser
+import org.readium.r2.streamer.Parser.EpubParserSubClasses.OPFParser
 import java.io.ByteArrayInputStream
 import java.io.File
 
@@ -60,18 +65,25 @@ class EpubParser : PublicationParser {
             container.data(container.rootFile.rootFilePath)
         } catch (e: Exception) { throw Exception("Missing File") }
         aexml.parseXml(ByteArrayInputStream(data))
-        val epubVersion = aexml.getFirst("package")!!.properties["version"]!!.toDouble()
+        val epubVersion = aexml.getFirst("package").properties["version"]!!.toDouble()
         var publication = opfParser.parseOpf(aexml, container, epubVersion)
 
-        publication = parseEncryption(container, publication)
+        parseEncryption(container, publication)
         publication = parseNavigationDocument(container, publication)
         publication = parseNcxDocument(container, publication)
 
         return PubBox(publication, container)
     }
 
-    private fun parseEncryption(container: EpubContainer, publication: Publication): Publication {
-        return publication
+    private fun parseEncryption(container: EpubContainer, publication: Publication) {
+        val document: AEXML
+        try {
+            document = container.xmlDocumentforFile(encryptionDotXmlPath)
+        } catch (e: Exception){
+            Log.d("Error", e.toString())
+            return
+        }
+        return
     }
 
     private fun parseNavigationDocument(container: EpubContainer, publication: Publication) : Publication {

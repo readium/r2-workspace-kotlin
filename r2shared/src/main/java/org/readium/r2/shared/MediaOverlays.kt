@@ -1,6 +1,7 @@
-package org.readium.r2shared
+package org.readium.r2.shared
 
 class MediaOverlays(var nodes: MutableList<MediaOverlayNode> = mutableListOf()){
+
 
     fun clip(id: String) : Clip {
         val clip: Clip

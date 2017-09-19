@@ -1,4 +1,4 @@
-package org.readium.r2shared
+package org.readium.r2.shared
 
 import com.google.gson.GsonBuilder
 import java.net.URL

@@ -1,6 +1,9 @@
 package org.readium.r2.streamer.Containers
 
-import org.readium.r2shared.RootFile
+import org.readium.r2.shared.Link
+import org.readium.r2.shared.RootFile
+import org.readium.r2.streamer.AEXML.AEXML
+import org.readium.r2.streamer.AEXML.Node
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -71,6 +74,10 @@ interface ZipArchiveContainer: Container {
 }
 
 interface EpubContainer : Container {
+
+    fun xmlDocumentforFile(string: String) : AEXML
+    fun smlDocumentforResource(link: Link?) : AEXML
+
 }
 
 interface CbzContainer : Container {

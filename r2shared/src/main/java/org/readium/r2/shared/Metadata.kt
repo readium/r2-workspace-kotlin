@@ -1,4 +1,4 @@
-package org.readium.r2shared
+package org.readium.r2.shared
 
 class Metadata{
 
@@ -29,7 +29,7 @@ class Metadata{
     var modified: String? = null
     var publicationDate: String? = null
     var description: String? = null
-    var rendition:Rendition = Rendition()
+    var rendition: Rendition = Rendition()
     var source: String? = null
     var epubType: MutableList<String> = mutableListOf()
     var rights: String? = null

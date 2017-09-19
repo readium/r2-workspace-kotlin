@@ -4,52 +4,13 @@ import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 
-class Node(val name: String) {
-
-    var children: MutableList<Node> = mutableListOf()
-    var properties: MutableMap<String, String> = mutableMapOf()
-    var text: String? = ""
-
-    fun get(name: String) : List<Node> {
-        val foundNodes: MutableList<Node> = mutableListOf()
-        for (child in children) {
-            if (child.name == name)
-                foundNodes.add(child)
-        }
-        return foundNodes
-    }
-
-    fun getFirst(name: String) : Node? {
-        for (child in children) {
-            if (child.name == name)
-                return child
-        }
-        return null
-    }
-
-}
-
 class AEXML {
 
     var nodes: MutableList<Node> = mutableListOf()
 
-    fun get(name: String) : List<Node> {
-        val foundNodes: MutableList<Node> = mutableListOf()
-        for (node in nodes) {
-            if (node.name == name)
-                foundNodes.add(node)
-        }
-        return foundNodes
-    }
+    fun get(name: String)  = nodes.filter{it.name == name}
 
-    fun getFirst(name: String) : Node? {
-        for (node in nodes) {
-            if (node.name == name)
-                return node
-        }
-        return null
-    }
-
+    fun getFirst(name: String) = nodes.first{it.name == name}
 
     fun parseXml(stream: InputStream) {
         nodes = mutableListOf()
@@ -62,7 +23,7 @@ class AEXML {
             when (parser.eventType) {
                 XmlPullParser.START_TAG -> {
                     val node = Node(parser.name)
-                    for (i in 0 until parser.attributeCount - 1)
+                    for (i in 0 until parser.attributeCount)
                         node.properties.put(parser.getAttributeName(i), parser.getAttributeValue(i))
                     if (!(nodes.isEmpty()))
                         nodes.last().children.add(node)

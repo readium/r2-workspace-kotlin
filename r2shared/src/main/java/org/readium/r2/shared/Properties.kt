@@ -1,4 +1,4 @@
-package org.readium.r2shared
+package org.readium.r2.shared
 
 class Properties{
     /// Suggested orientation for the device when displaying the linked resource.

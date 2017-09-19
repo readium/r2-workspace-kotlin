@@ -1,4 +1,4 @@
-package org.readium.r2shared
+package org.readium.r2.shared
 
 //  Contains metadata parsed from Encryption.xml
 class Encryption{
