@@ -13,11 +13,14 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import org.readium.r2.shared.Publication
 import org.readium.r2.streamer.Parser.EpubParser
 import java.io.File
 import java.io.InputStream
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 100)
+
 
         parse_button.setOnClickListener {
             val publication: Publication = EpubParser().parse(publication_path).publication
@@ -115,7 +119,7 @@ class MainActivity : AppCompatActivity() {
 
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int,
-                                         resultData: Intent?) {
+                                         data: Intent?) {
 
         // The ACTION_OPEN_DOCUMENT intent was sent with the request code
         // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
@@ -127,8 +131,8 @@ class MainActivity : AppCompatActivity() {
             // provided to this method as a parameter.
             // Pull that URI using resultData.getData().
             var uri: Uri? = null
-            if (resultData != null) {
-                uri = resultData.data
+            if (data != null) {
+                uri = data.data
                 Log.i(TAG, "Uri: " + uri!!.toString())
                 val intent = intent
                 val action = intent.action
@@ -148,6 +152,20 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+        else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+
+
+            if (data != null) {
+                val name = data.getStringExtra("name")
+                val intent = intent
+                val action = intent.action
+                Log.v("tag", "Content intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
+                val importfilepath: String = r2test_path + name
+                publication_path = importfilepath
+                parse_button.callOnClick()
+            }
+
+        }
     }
 
     private fun getContentName(resolver: ContentResolver, uri: Uri): String? {
@@ -166,6 +184,27 @@ class MainActivity : AppCompatActivity() {
     fun InputStream.toFile(path: String) {
         use { input ->
             File(path).outputStream().use { input.copyTo(it) }
+        }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        when (item.getItemId()) {
+            R.id.list -> {
+
+                val i = Intent(this, EpubListActivity::class.java)
+                startActivityForResult(i, 2)
+
+                return false
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.readium.r2.testapp">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,69 +13,81 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="epub" />
                 <data android:scheme="stanza" />
                 <data android:host="*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:scheme="http"
                     android:host="*"
-                    android:pathPattern=".*\.epub" />
+                    android:pathPattern=".*\.epub"
+                    android:scheme="http" />
                 <data android:mimeType="application/epub+zip" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:scheme="http"
                     android:host="*"
-                    android:pathPattern=".*\.epub" />
+                    android:pathPattern=".*\.epub"
+                    android:scheme="http" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:scheme="http"
                     android:host="*"
-                    android:pathPattern=".*\.pdf" />
+                    android:pathPattern=".*\.pdf"
+                    android:scheme="http" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="application/epub" />
                 <data android:mimeType="application/epub+zip" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
                 <data android:pathPattern=".*\.epub" />
                 <data android:pathPattern=".*\.pdf" />
                 <data
-                    android:scheme="file"
                     android:host="*"
-                    android:pathPattern=".*\.epub" />
+                    android:pathPattern=".*\.epub"
+                    android:scheme="file" />
                 <data
-                    android:scheme="file"
                     android:host="*"
-                    android:pathPattern=".*\.pdf" />
+                    android:pathPattern=".*\.pdf"
+                    android:scheme="file" />
             </intent-filter>
         </activity>
+        <activity android:name=".EpubListActivity"></activity>
     </application>
 
 </manifest>
