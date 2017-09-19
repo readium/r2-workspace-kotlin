@@ -54,10 +54,10 @@ class EpubParser : PublicationParser {
 
         aexml.parseXml(ByteArrayInputStream(data))
         container.rootFile.mimetype = mimetype
-        container.rootFile.rootFilePath = aexml.get("container").first()
-                .get("rootfiles").first()
-                .get("rootfile").first()
-                .properties["full-path"]
+        container.rootFile.rootFilePath = aexml.getFirst("container")
+                ?.getFirst("rootfiles")
+                ?.getFirst("rootfile")
+                ?.properties?.get("full-path")
                 ?: "content.opf"
 
         //val document = container.data(container.rootFile.rootFilePath)
@@ -65,13 +65,12 @@ class EpubParser : PublicationParser {
             container.data(container.rootFile.rootFilePath)
         } catch (e: Exception) { throw Exception("Missing File") }
         aexml.parseXml(ByteArrayInputStream(data))
-        val epubVersion = aexml.getFirst("package").properties["version"]!!.toDouble()
-        var publication = opfParser.parseOpf(aexml, container, epubVersion)
+        val epubVersion = aexml.root()!!.properties["version"]!!.toDouble()
+        val publication = opfParser.parseOpf(aexml, container, epubVersion)
 
         parseEncryption(container, publication)
-        publication = parseNavigationDocument(container, publication)
-        publication = parseNcxDocument(container, publication)
-
+        parseNavigationDocument(container, publication)
+        parseNcxDocument(container, publication)
         return PubBox(publication, container)
     }
 
@@ -86,12 +85,34 @@ class EpubParser : PublicationParser {
         return
     }
 
-    private fun parseNavigationDocument(container: EpubContainer, publication: Publication) : Publication {
-        return publication
+    private fun parseNavigationDocument(container: EpubContainer, publication: Publication) {
+        val navLink = publication.linkWithRel("contents") ?: return
+        val navDocument = try {
+            container.xmlDocumentforResource(navLink)
+        } catch(e: Exception){
+            return
+        }
+        ndp.navigationDocumentPath = navLink.href!!
+        publication.tableOfContents.plusAssign(ndp.tableOfContent(navDocument))
+        publication.landmarks.plusAssign(ndp.landmarks(navDocument))
+        publication.listOfAudioFiles.plusAssign(ndp.listOfAudiofiles(navDocument))
+        publication.listOfIllustrations.plusAssign(ndp.listOfIllustrations(navDocument))
+        publication.listOfTables.plusAssign(ndp.listOfTables(navDocument))
+        publication.listOfVideos.plusAssign(ndp.listOfVideos(navDocument))
+        publication.pageList.plusAssign(ndp.pageList(navDocument))
     }
 
-    private fun parseNcxDocument(container: EpubContainer, publication: Publication) : Publication {
-        return publication
+    private fun parseNcxDocument(container: EpubContainer, publication: Publication){
+        val ncxLink = publication.resources.firstOrNull() { it.typeLink == "application/x-dtbncx+xml" } ?: return
+        val ncxDocument = try {
+            container.xmlDocumentforResource(ncxLink)
+        } catch (e: Exception) { return }
+        ncxp.ncxDocumentPath = ncxLink.href
+        if (publication.tableOfContents.isEmpty())
+            publication.tableOfContents.plusAssign(ncxp.tableOfContents(ncxDocument))
+        if (publication.pageList.isEmpty())
+            publication.pageList.plusAssign(ncxp.pageList(ncxDocument))
+        return
     }
 
 }

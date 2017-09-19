@@ -1,11 +1,27 @@
 package org.readium.r2.streamer.Containers
 
-import org.readium.r2shared.RootFile
-import org.readium.r2.streamer.Parser.mimetype
 import java.io.File
 import java.util.zip.ZipFile
+import org.readium.r2.shared.Link
+import org.readium.r2.shared.RootFile
+import org.readium.r2.streamer.AEXML.AEXML
+import org.readium.r2.streamer.Parser.mimetype
 
 class ContainerEpub(path: String) : EpubContainer, ZipArchiveContainer {
+
+    override fun xmlDocumentforFile(relativePath: String): AEXML {
+        val containerData = data(relativePath)
+        val document = AEXML()
+        document.parseXml(containerData.inputStream())
+        return document
+    }
+
+    override fun xmlDocumentforResource(link: Link?): AEXML {
+        var pathFile = link?.href ?: throw Exception("Missing Link : ${link?.title}")
+        if (pathFile.first() == '/')
+            pathFile = pathFile.substring(1)
+        return xmlDocumentforFile(pathFile)
+    }
 
     lateinit override var rootFile: RootFile
     lateinit override var zipFile: ZipFile

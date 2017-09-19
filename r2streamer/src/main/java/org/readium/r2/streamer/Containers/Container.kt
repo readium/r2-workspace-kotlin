@@ -75,8 +75,8 @@ interface ZipArchiveContainer: Container {
 
 interface EpubContainer : Container {
 
-    fun xmlDocumentforFile(string: String) : AEXML
-    fun smlDocumentforResource(link: Link?) : AEXML
+    fun xmlDocumentforFile(relativePath: String) : AEXML
+    fun xmlDocumentforResource(link: Link?) : AEXML
 
 }
 

@@ -3,7 +3,7 @@ package org.readium.r2.streamer
 import org.junit.Test
 import org.readium.r2.streamer.Containers.Container
 import org.readium.r2.streamer.Parser.EpubParser
-import org.readium.r2shared.Publication
+import org.readium.r2.shared.Publication
 
 class MyTests{
 

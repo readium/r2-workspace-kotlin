@@ -1,6 +1,6 @@
-package org.readium.r2.streamer.Parser
+package org.readium.r2.streamer.Parser.EpubParserSubClasses
 
-import org.readium.r2shared.*
+import org.readium.r2.shared.*
 import org.readium.r2.streamer.AEXML.Node
 
 const val noTitleError = "Error : Publication has no title"
@@ -8,7 +8,7 @@ const val noTitleError = "Error : Publication has no title"
 class MetadataParser {
 
     fun parseRenditionProperties(metadataElement: Node, metadata: Metadata){
-        val metas = metadataElement.get("meta")
+        val metas = metadataElement.get("meta")!!
         if (metas.isEmpty()){
             metadata.rendition.layout = RenditionLayout.reflowable
             return
@@ -67,7 +67,7 @@ class MetadataParser {
         val multilangTitle = MultilangString()
 
         multilangTitle.singleString = try {
-            metadata.get("dc:title").first().text
+            metadata.get("dc:title")?.first()?.text ?: throw Exception("No title")
         } catch (e: Exception) {
             throw Exception(noTitleError)
         }
@@ -84,7 +84,7 @@ class MetadataParser {
     // - Returns: The content of the `<dc:identifier>` element, `nil` if the
     //            element wasn't found.
     fun uniqueIdentifier(metadata: Node, documentProperties: Map<String, String>): String? {
-        val identifiers = metadata.get("dc:identifier")
+        val identifiers = metadata.get("dc:identifier") ?: throw Exception("No identifier")
         if (identifiers.isEmpty())
             return null
         val uniqueId = documentProperties["unique-identifier"]
@@ -98,7 +98,7 @@ class MetadataParser {
 
     fun modifiedDate(metadataElement: Node): String? {
         return try {
-            metadataElement.get("meta").filter {
+            metadataElement.get("meta")!!.filter {
                 it.properties["property"] == "dcterms:modified"
             }.first().text
         } catch (e: Exception) {
@@ -132,7 +132,7 @@ class MetadataParser {
 
         val eid = element.properties["id"]
         if (eid != null) {
-            for (meta in metadataElement.get("meta")
+            for (meta in metadataElement.get("meta")!!
                     .filter { it.properties["refines"] == eid && it.properties["property"] == "role" }) {
                 meta.text?.let { contributor.roles.add(it) }
             }
@@ -174,7 +174,7 @@ class MetadataParser {
 
     fun parseMediaDurations(metadataElement: Node, otherMetadata: MutableList<MetadataItem>) : MutableList<MetadataItem> {
         var metadata = otherMetadata
-        val metas = metadataElement.get("meta")
+        val metas = metadataElement.get("meta")!!
         if (metas.isEmpty())
             return metadata
         val mediaDurationItems = metas.filter { it.properties["property"] == "media:duration" }
@@ -200,7 +200,7 @@ class MetadataParser {
         if (possibleTitles.isEmpty())
             return null
         for (title in possibleTitles) {
-            for (meta in metadata.get("meta").filter {
+            for (meta in metadata.get("meta")!!.filter {
                 it.properties["refines"] == "#${title.properties["id"]}"
                         && it.properties["property"] == "title-type"
                         && it.text == "main"}){
@@ -211,18 +211,18 @@ class MetadataParser {
     }
 
     private fun findContributorsXmlElements(metadata: Node) : List<Node>{
-        var allContributors: MutableList<Node> = mutableListOf()
+        val allContributors: MutableList<Node> = mutableListOf()
 
-        metadata.get("dc:publisher").let { allContributors = allContributors.plus(it).toMutableList() }
-        metadata.get("dc:creator").let { allContributors = allContributors.plus(it).toMutableList() }
-        metadata.get("dc:contributor").let { allContributors = allContributors.plus(it).toMutableList() }
+        metadata.get("dc:publisher")?.let { allContributors.plusAssign(it.toMutableList()) }
+        metadata.get("dc:creator")?.let { allContributors.plusAssign(it.toMutableList()) }
+        metadata.get("dc:contributor")?.let { allContributors.plusAssign(it.toMutableList()) }
         return allContributors
     }
 
     private fun findContributorsMetaXmlElements(metadata: Node) =
-            metadata.get("meta").filter { it.properties["property"] == "dcterms:publisher" }.toMutableList()
-                    .plus(metadata.get("meta").filter { it.properties["property"] == "dcterms:creator" }).toMutableList()
-                .plus(metadata.get("meta").filter { it.properties["property"] == "dcterms:contributor" }).toMutableList()
+            metadata.get("meta")!!.filter { it.properties["property"] == "dcterms:publisher" }.toMutableList()
+                    .plus(metadata.get("meta")!!.filter { it.properties["property"] == "dcterms:creator" }).toMutableList()
+                .plus(metadata.get("meta")!!.filter { it.properties["property"] == "dcterms:contributor" }).toMutableList()
 
     // Return an array of lang:string, defining the multiple representations of
     // a string in different languages.
@@ -233,7 +233,7 @@ class MetadataParser {
         val multiString: MutableMap<String, String> = mutableMapOf()
 
         val elementId = element.properties["id"] ?: return multiString
-        val altScriptMetas = metadata.get("meta").filter {
+        val altScriptMetas = metadata.get("meta")!!.filter {
             it.properties["refines"] == "#$elementId"
                     && it.properties["property"] == "alternate-script"
         }
@@ -246,7 +246,8 @@ class MetadataParser {
                 multiString[lang] = title
         }
         if (!multiString.isEmpty()) {
-            val publicationDefaultLanguage = metadata.get("dc:language").first().text ?: ""
+            val publicationDefaultLanguage = metadata.get("dc:language")?.first()?.text
+                    ?: throw Exception("No language")
             val lang = element.properties["xml:lang"] ?: publicationDefaultLanguage
             val value = element.text ?: ""
             multiString[lang] = value

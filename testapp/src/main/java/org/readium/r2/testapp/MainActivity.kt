@@ -1,19 +1,18 @@
 package org.readium.r2.testapp
 
-import org.readium.r2shared.RenditionLayout
-import org.readium.r2shared.Contributor
-import org.readium.r2shared.Publication
-import org.readium.r2shared.Metadata
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.Gson
+import android.widget.TextView
+import org.readium.r2.shared.Contributor
+import org.readium.r2.shared.Publication
+import org.readium.r2.shared.Metadata
+import org.readium.r2.shared.RenditionLayout
 import org.readium.r2.streamer.Parser.EpubParser
+import android.support.v7.app.AppCompatActivity
+import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var epubParser: EpubParser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
@@ -22,25 +21,15 @@ class MainActivity : AppCompatActivity() {
         val publi = Publication()
         val textView = findViewById<TextView>(R.id.textView)
         val contrib = Contributor()
+        val button = findViewById<Button>(R.id.button)
+        var publication: Publication
+        button.setOnClickListener {
+            publication = test()
+            textView.text = publication.metadata.title
+        }
 
-        publi.metadata = Metadata()
-        contrib.multilangName.singleString = "Patrick Bruel"
-        publi.metadata.editors.add(contrib)
-        publi.metadata.direction = "vertical"
-        publi.metadata.rendition.layout = RenditionLayout.fixed
-        textView.text = publi.manifest()
-        val gson = Gson()
-        val pub = gson.fromJson(textView.text.toString(), Publication::class.java)
-        test()
-        Toast.makeText(this@MainActivity, pub.metadata.editors.first().name, Toast.LENGTH_LONG).show()
     }
 
-    fun test(){
-        epubParser = EpubParser()
-        val pubBox = epubParser.parse(
-                "/sdcard/Documents/book.epub")
-        val publication = pubBox.publication
-        Toast.makeText(this@MainActivity, publication.metadata.title, Toast.LENGTH_LONG).show()
-    }
+    fun test() = EpubParser().parse("/sdcard/Download/blakepierce.epub").publication
 
 }

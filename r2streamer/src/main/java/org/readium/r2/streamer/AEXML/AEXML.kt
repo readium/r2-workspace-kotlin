@@ -8,9 +8,11 @@ class AEXML {
 
     var nodes: MutableList<Node> = mutableListOf()
 
-    fun get(name: String)  = nodes.filter{it.name == name}
+    fun get(name: String) = try { nodes.filter{it.name == name} } catch(e: Exception) { null }
 
-    fun getFirst(name: String) = nodes.first{it.name == name}
+    fun getFirst(name: String) = try { nodes.first{it.name == name} } catch(e: Exception) { null }
+
+    fun root() = try { nodes.first() } catch (e: Exception) { null }
 
     fun parseXml(stream: InputStream) {
         nodes = mutableListOf()
