@@ -2,7 +2,7 @@ package org.readium.r2.streamer.Parser
 
 import android.util.Log
 import org.readium.r2.shared.Publication
-import org.readium.r2.streamer.AEXML.AEXML
+import org.readium.r2.streamer.XmlParser.XmlParser
 import org.readium.r2.streamer.Containers.ContainerEpub
 import org.readium.r2.streamer.Containers.ContainerEpubDirectory
 import org.readium.r2.streamer.Containers.EpubContainer
@@ -44,7 +44,7 @@ class EpubParser : PublicationParser {
     }
 
     override fun parse(fileAtPath: String) : PubBox {
-        val aexml = AEXML()
+        val aexml = XmlParser()
         val container = try {
             generateContainerFrom(fileAtPath)
         } catch (e: Exception) { throw e }
@@ -75,7 +75,7 @@ class EpubParser : PublicationParser {
     }
 
     private fun parseEncryption(container: EpubContainer, publication: Publication) {
-        val document: AEXML
+        val document: XmlParser
         try {
             document = container.xmlDocumentforFile(encryptionDotXmlPath)
         } catch (e: Exception){

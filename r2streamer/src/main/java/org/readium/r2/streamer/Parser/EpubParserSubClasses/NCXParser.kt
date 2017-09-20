@@ -1,20 +1,20 @@
 package org.readium.r2.streamer.Parser.EpubParserSubClasses
 
 import org.readium.r2.shared.Link
-import org.readium.r2.streamer.AEXML.AEXML
-import org.readium.r2.streamer.AEXML.Node
+import org.readium.r2.streamer.XmlParser.XmlParser
+import org.readium.r2.streamer.XmlParser.Node
 import org.readium.r2.streamer.Parser.normalize
 
 class NCXParser{
 
     lateinit var ncxDocumentPath: String
 
-    fun tableOfContents(document: AEXML) : List<Link> {
+    fun tableOfContents(document: XmlParser) : List<Link> {
         val navMapElement = document.root()!!.getFirst("navMap")!!
         return nodeArray(navMapElement, "navPoint")
     }
 
-    fun pageList(document: AEXML) : List<Link> {
+    fun pageList(document: XmlParser) : List<Link> {
         val pageListElement = document.root()!!.getFirst("pageList")
         return nodeArray(pageListElement, "pageTarget")
     }

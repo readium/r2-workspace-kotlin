@@ -1,23 +1,23 @@
 package org.readium.r2.streamer.Parser.EpubParserSubClasses
 
 import org.readium.r2.shared.Link
-import org.readium.r2.streamer.AEXML.AEXML
-import org.readium.r2.streamer.AEXML.Node
+import org.readium.r2.streamer.XmlParser.XmlParser
+import org.readium.r2.streamer.XmlParser.Node
 import org.readium.r2.streamer.Parser.normalize
 
 class NavigationDocumentParser {
 
     var navigationDocumentPath: String = ""
 
-    fun tableOfContent(document: AEXML) = nodeArray(document, "toc")
-    fun pageList(document: AEXML) = nodeArray(document, "page-list")
-    fun landmarks(document: AEXML) = nodeArray(document, "landmarks")
-    fun listOfIllustrations(document: AEXML) = nodeArray(document, "loi")
-    fun listOfTables(document: AEXML) = nodeArray(document, "lot")
-    fun listOfAudiofiles(document: AEXML) = nodeArray(document, "loa")
-    fun listOfVideos(document: AEXML) = nodeArray(document, "lov")
+    fun tableOfContent(document: XmlParser) = nodeArray(document, "toc")
+    fun pageList(document: XmlParser) = nodeArray(document, "page-list")
+    fun landmarks(document: XmlParser) = nodeArray(document, "landmarks")
+    fun listOfIllustrations(document: XmlParser) = nodeArray(document, "loi")
+    fun listOfTables(document: XmlParser) = nodeArray(document, "lot")
+    fun listOfAudiofiles(document: XmlParser) = nodeArray(document, "loa")
+    fun listOfVideos(document: XmlParser) = nodeArray(document, "lov")
 
-    private fun nodeArray(document: AEXML, navType: String) : List<Link> {
+    private fun nodeArray(document: XmlParser, navType: String) : List<Link> {
         var body = document.root()?.getFirst("body")
         body?.getFirst("section")?.let { body = it }
         val navPoint = body?.get("nav")?.firstOrNull{ it.properties["epub:type"] == navType }

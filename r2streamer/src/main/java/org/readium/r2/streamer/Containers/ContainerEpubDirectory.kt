@@ -2,7 +2,7 @@ package org.readium.r2.streamer.Containers
 
 import org.readium.r2.shared.Link
 import org.readium.r2.shared.RootFile
-import org.readium.r2.streamer.AEXML.AEXML
+import org.readium.r2.streamer.XmlParser.XmlParser
 import java.io.File
 
 class ContainerEpubDirectory(path: String) : EpubContainer, DirectoryContainer {
@@ -10,14 +10,14 @@ class ContainerEpubDirectory(path: String) : EpubContainer, DirectoryContainer {
     override var successCreated: Boolean = false
     lateinit override var rootFile: RootFile
 
-    override fun xmlDocumentforFile(relativePath: String): AEXML {
+    override fun xmlDocumentforFile(relativePath: String): XmlParser {
         val containerData = data(relativePath)
-        val document = AEXML()
+        val document = XmlParser()
         document.parseXml(containerData.inputStream())
         return document
     }
 
-    override fun xmlDocumentforResource(link: Link?): AEXML {
+    override fun xmlDocumentforResource(link: Link?): XmlParser {
         var pathFile = link?.href ?: throw Exception("missing Link : ${link?.title}")
         if (pathFile.first() == '/')
             pathFile = pathFile.substring(1)

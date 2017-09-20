@@ -1,7 +1,7 @@
 package org.readium.r2.streamer.Parser.EpubParserSubClasses
 
 import org.readium.r2.shared.*
-import org.readium.r2.streamer.AEXML.Node
+import org.readium.r2.streamer.XmlParser.Node
 
 const val noTitleError = "Error : Publication has no title"
 

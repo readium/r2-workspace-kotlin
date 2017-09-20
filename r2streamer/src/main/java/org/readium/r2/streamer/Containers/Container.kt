@@ -2,8 +2,7 @@ package org.readium.r2.streamer.Containers
 
 import org.readium.r2.shared.Link
 import org.readium.r2.shared.RootFile
-import org.readium.r2.streamer.AEXML.AEXML
-import org.readium.r2.streamer.AEXML.Node
+import org.readium.r2.streamer.XmlParser.XmlParser
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -75,8 +74,8 @@ interface ZipArchiveContainer: Container {
 
 interface EpubContainer : Container {
 
-    fun xmlDocumentforFile(relativePath: String) : AEXML
-    fun xmlDocumentforResource(link: Link?) : AEXML
+    fun xmlDocumentforFile(relativePath: String) : XmlParser
+    fun xmlDocumentforResource(link: Link?) : XmlParser
 
 }
 

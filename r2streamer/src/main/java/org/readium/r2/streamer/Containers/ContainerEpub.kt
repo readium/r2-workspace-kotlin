@@ -4,19 +4,19 @@ import java.io.File
 import java.util.zip.ZipFile
 import org.readium.r2.shared.Link
 import org.readium.r2.shared.RootFile
-import org.readium.r2.streamer.AEXML.AEXML
+import org.readium.r2.streamer.XmlParser.XmlParser
 import org.readium.r2.streamer.Parser.mimetype
 
 class ContainerEpub(path: String) : EpubContainer, ZipArchiveContainer {
 
-    override fun xmlDocumentforFile(relativePath: String): AEXML {
+    override fun xmlDocumentforFile(relativePath: String): XmlParser {
         val containerData = data(relativePath)
-        val document = AEXML()
+        val document = XmlParser()
         document.parseXml(containerData.inputStream())
         return document
     }
 
-    override fun xmlDocumentforResource(link: Link?): AEXML {
+    override fun xmlDocumentforResource(link: Link?): XmlParser {
         var pathFile = link?.href ?: throw Exception("Missing Link : ${link?.title}")
         if (pathFile.first() == '/')
             pathFile = pathFile.substring(1)

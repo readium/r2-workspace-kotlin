@@ -2,7 +2,7 @@ package org.readium.r2.streamer.Parser.EpubParserSubClasses
 
 import android.util.Log
 import org.readium.r2.shared.*
-import org.readium.r2.streamer.AEXML.*
+import org.readium.r2.streamer.XmlParser.*
 import org.readium.r2.streamer.Containers.Container
 import org.readium.r2.streamer.Parser.normalize
 
@@ -11,7 +11,7 @@ class OPFParser {
     val smilp = SMILParser()
     private var rootFilePath: String? = null
 
-    fun parseOpf(document: AEXML, container: Container, epubVersion: Double) : Publication {
+    fun parseOpf(document: XmlParser, container: Container, epubVersion: Double) : Publication {
         val publication = Publication()
 
         rootFilePath = container.rootFile.rootFilePath
@@ -27,7 +27,7 @@ class OPFParser {
         return publication
     }
 
-    private fun parseMetadata(document: AEXML, publication: Publication) {
+    private fun parseMetadata(document: XmlParser, publication: Publication) {
         val metadata = Metadata()
         val mp = MetadataParser()
         val metadataElement: Node? = document

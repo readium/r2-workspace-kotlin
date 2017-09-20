@@ -1,4 +1,4 @@
-package org.readium.r2.streamer.AEXML
+package org.readium.r2.streamer.XmlParser
 
 import junit.framework.Assert.assertTrue
 import org.junit.Test
@@ -7,7 +7,7 @@ import java.io.FileInputStream
 
 class AEXMLTest {
 
-    private val aexml = AEXML()
+    private val aexml = XmlParser()
 
     @Test
     fun parseXml(){
