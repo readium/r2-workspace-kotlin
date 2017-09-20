@@ -26,8 +26,6 @@ import java.io.InputStream
 import java.net.URL
 
 
-
-
 class MainActivity : AppCompatActivity() {
 
     val TAG = this::class.java.simpleName
@@ -119,7 +117,7 @@ class MainActivity : AppCompatActivity() {
     private fun showProgress(context: Context, title: String?, message: String?): ProgressDialog {
 
         val b = ProgressDialog(context)
-        b.setButton(DialogInterface.BUTTON_NEGATIVE,"DISMISS", DialogInterface.OnClickListener { dialogInterface, i ->
+        b.setButton(DialogInterface.BUTTON_NEGATIVE, "DISMISS", DialogInterface.OnClickListener { dialogInterface, i ->
             dialogInterface.dismiss()
         })
         b.setMessage(message)
@@ -187,8 +185,7 @@ class MainActivity : AppCompatActivity() {
                 parse_button.callOnClick()
 
             }
-        }
-        else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
 
             // existing epub selected through the list activity
             if (data != null) {
@@ -198,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                 publication_path = local_path
 
                 parse_button.callOnClick()
-                
+
             }
 
         }
