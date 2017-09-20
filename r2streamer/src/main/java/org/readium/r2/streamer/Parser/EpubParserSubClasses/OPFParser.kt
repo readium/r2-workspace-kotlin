@@ -77,7 +77,7 @@ class OPFParser {
 
     private fun coverLinkFromMeta(metadata: Node, publication: Publication){
         var coverId: String? = null
-        val coverMeta = metadata.get("meta")!!.filter { it.properties["name"] == "cover" }.first()
+        val coverMeta = metadata.get("meta")!!.filter { it.properties["name"] == "cover" }.firstOrNull() ?: return
         coverId = coverMeta.properties["content"]
         val coverLink = publication.resources.first{it.title == coverId}
         coverLink.rel.add("cover")
