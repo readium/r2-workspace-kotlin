@@ -1,6 +1,8 @@
 package org.readium.r2.shared
 
-class Subject{
+import org.json.JSONObject
+
+class Subject : JSONable{
 
     var name: String? = null
     //  The WebPubManifest elements
@@ -9,5 +11,14 @@ class Subject{
     var scheme: String? = null
     //  Epub 3.1 "code" (opf:term)
     var code: String? = null
+
+    override fun getJSON(): JSONObject {
+        val json = JSONObject()
+        json.putOpt("name", name)
+        json.putOpt("sortAs", sortAs)
+        json.putOpt("scheme", scheme)
+        json.putOpt("code", code)
+        return json
+    }
 
 }

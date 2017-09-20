@@ -3,10 +3,11 @@ package org.readium.r2.streamer.Parser.EpubParserSubClasses
 import org.readium.r2.shared.Link
 import org.readium.r2.streamer.AEXML.AEXML
 import org.readium.r2.streamer.AEXML.Node
+import org.readium.r2.streamer.Parser.normalize
 
 class NCXParser{
 
-    var ncxDocumentPath: String? = null
+    lateinit var ncxDocumentPath: String
 
     fun tableOfContents(document: AEXML) : List<Link> {
         val navMapElement = document.root()!!.getFirst("navMap")!!
@@ -35,8 +36,8 @@ class NCXParser{
 
     private fun node(element: Node, type: String) : Link {
         val newNode = Link()
-        newNode.href = ncxDocumentPath + element.getFirst("content")!!.properties["src"]
-        newNode.title = element.getFirst("navLabel")!!.getFirst("text")!!.name
+        newNode.href = normalize(ncxDocumentPath, element.getFirst("content")?.properties?.get("src"))
+        newNode.title = element.getFirst("navLabel")!!.getFirst("text")!!.text
         element.get("type")?.let {
             for (childNode in it){
                 newNode.children.plusAssign(node(childNode, type))

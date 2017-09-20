@@ -1,5 +1,8 @@
 package org.readium.r2.shared
 
+import org.json.JSONArray
+import org.json.JSONObject
+
 class Metadata{
 
     /// The structure used for the serialisation.
@@ -9,7 +12,7 @@ class Metadata{
         get() = multilangTitle?.singleString ?: ""
 
     var languages: MutableList<String> = mutableListOf()
-    var identifier: String? = null
+    lateinit var identifier: String
     // Contributors.
     var authors: MutableList<Contributor> = mutableListOf()
     var translators: MutableList<Contributor> = mutableListOf()
@@ -36,4 +39,32 @@ class Metadata{
     var otherMetadata: MutableList<MetadataItem> = mutableListOf()
 
     fun titleForLang(key: String) : String?  = multilangTitle?.multiString?.get(key)
+
+    fun writeJSON() : JSONObject{
+        val obj = JSONObject()
+        obj.putOpt("languages", getStringArray(languages))
+        obj.putOpt("publicationDate", publicationDate)
+        obj.putOpt("identifier", identifier)
+        obj.putOpt("modified", modified)
+        obj.putOpt("title", title)
+        obj.putOpt("rendition", rendition.getJSON())
+        obj.putOpt("source", source)
+        obj.putOpt("rights", rights)
+        tryPut(obj, subjects, "subjects")
+        tryPut(obj, authors, "authors")
+        tryPut(obj, translators, "translators")
+        tryPut(obj, editors, "editors")
+        tryPut(obj, artists, "artists")
+        tryPut(obj, illustrators, "illustrators")
+        tryPut(obj, letterers, "letterers")
+        tryPut(obj, pencilers, "pencilers")
+        tryPut(obj, colorists, "colorists")
+        tryPut(obj, inkers, "inkers")
+        tryPut(obj, narrators, "narrators")
+        tryPut(obj, contributors, "contributors")
+        tryPut(obj, publishers, "publishers")
+        tryPut(obj, imprints, "imprints")
+        return obj
+    }
+
 }

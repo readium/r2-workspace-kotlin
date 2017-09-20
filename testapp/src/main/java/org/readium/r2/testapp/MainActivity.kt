@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
         var publication: Publication
         button.setOnClickListener {
             publication = test()
-            textView.text = publication.metadata.title
+            textView.text = publication.manifest()
         }
 
     }
 
-    fun test() = EpubParser().parse("/sdcard/Download/blakepierce.epub").publication
+    fun test() = EpubParser().parse("/sdcard/Download/marron.epub").publication
 
 }

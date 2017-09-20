@@ -107,7 +107,7 @@ class EpubParser : PublicationParser {
         val ncxDocument = try {
             container.xmlDocumentforResource(ncxLink)
         } catch (e: Exception) { return }
-        ncxp.ncxDocumentPath = ncxLink.href
+        ncxp.ncxDocumentPath = ncxLink.href ?: return
         if (publication.tableOfContents.isEmpty())
             publication.tableOfContents.plusAssign(ncxp.tableOfContents(ncxDocument))
         if (publication.pageList.isEmpty())

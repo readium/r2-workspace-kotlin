@@ -1,9 +1,10 @@
 package org.readium.r2.shared
 
+import org.json.JSONObject
 import java.sql.Timestamp
 
 //  A link to a resource
-class Link {
+class Link : JSONable{
     //  The link destination
     var href: String? = null
     /// MIME type of resource.
@@ -17,7 +18,7 @@ class Link {
 
     var title: String? = null
     /// Properties associated to the linked resource.
-    var properties:Properties = Properties()
+    var properties: Properties? = null
     /// Indicates the length of the linked resource in seconds.
     var duration: Timestamp? = null
     /// Indicates that the linked resource is a URI template.
@@ -25,9 +26,25 @@ class Link {
     //  The underlaying nodes in a tree structure of Links
     var children: MutableList<Link> = mutableListOf()
     //  The MediaOverlays associated to the resource of the Link
-    var mediaOverlays: MediaOverlays = MediaOverlays()
+    var mediaOverlays: MediaOverlays? = null
 
     fun isEncrypted() : Boolean {
-        return !(properties.encryption == null)
+        return properties?.encryption != null
+    }
+
+    override fun getJSON(): JSONObject {
+        val json = JSONObject()
+        json.putOpt("title", title)
+        json.putOpt("type", typeLink)
+        json.putOpt("href", href)
+        if (rel.isNotEmpty())
+            json.put("rel", getStringArray(rel))
+        json.putOpt("properties", properties)
+        if (height != 0)
+            json.putOpt("height", height)
+        if (width != 0)
+            json.putOpt("width", width)
+        json.putOpt("duration", duration)
+        return json
     }
 }

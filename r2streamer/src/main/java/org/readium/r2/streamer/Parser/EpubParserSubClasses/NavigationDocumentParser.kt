@@ -3,6 +3,7 @@ package org.readium.r2.streamer.Parser.EpubParserSubClasses
 import org.readium.r2.shared.Link
 import org.readium.r2.streamer.AEXML.AEXML
 import org.readium.r2.streamer.AEXML.Node
+import org.readium.r2.streamer.Parser.normalize
 
 class NavigationDocumentParser {
 
@@ -45,7 +46,7 @@ class NavigationDocumentParser {
         val newLiNode = Link()
         val aNode = element.getFirst("a")!!
         val title = (aNode.getFirst("span"))?.name ?: aNode.name
-        newLiNode.href = navigationDocumentPath + aNode.properties["href"]
+        newLiNode.href = normalize(navigationDocumentPath, aNode.properties["href"])
         newLiNode.title = title
         element.getFirst("ol")?.let { newLiNode.children.add(nodeOl(it)) }
         return newLiNode

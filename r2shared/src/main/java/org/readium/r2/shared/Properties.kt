@@ -1,6 +1,8 @@
 package org.readium.r2.shared
 
-class Properties{
+import org.json.JSONObject
+
+class Properties : JSONable {
     /// Suggested orientation for the device when displaying the linked resource.
     var orientation: String? = null
     /// Indicates how the linked resource should be displayed in a reading
@@ -21,5 +23,19 @@ class Properties{
     /// Indicates the condition to be met for the linked resource to be rendered
     /// within a synthetic spread.
     var spread: String? = null
+
+    override fun getJSON(): JSONObject {
+        val json = JSONObject()
+        if (contains.isNotEmpty())
+            json.put("contains", getStringArray(contains))
+        json.putOpt("mediaOverlay", mediaOverlay)
+        json.putOpt("encryption", encryption)
+        json.putOpt("layout", layout)
+        json.putOpt("orientation", orientation)
+        json.putOpt("overflow", overflow)
+        json.putOpt("page", page)
+        json.putOpt("spread", spread)
+        return json
+    }
 
 }

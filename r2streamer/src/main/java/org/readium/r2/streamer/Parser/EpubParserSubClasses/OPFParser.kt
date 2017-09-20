@@ -4,6 +4,7 @@ import android.util.Log
 import org.readium.r2.shared.*
 import org.readium.r2.streamer.AEXML.*
 import org.readium.r2.streamer.Containers.Container
+import org.readium.r2.streamer.Parser.normalize
 
 class OPFParser {
 
@@ -45,7 +46,9 @@ class OPFParser {
         mp.subject(metadataElement)?.let { metadata.subjects.add(it) }
         metadata.languages = metadataElement.get("dc:language")?.map { it.text!! }?.toMutableList()
                 ?: throw Exception("No language")
-        metadata.rights = metadataElement.get("dc:rights")?.map { it.text!! }?.joinToString { " " }
+        val rightsMap = metadataElement.get("dc:rights")?.map { it.text }
+        if (rightsMap != null && rightsMap.isNotEmpty())
+            metadata.rights = rightsMap.joinToString { " " }
         mp.parseContributors(metadataElement, metadata, publication.version)
         document.root()!!.getFirst("spine")?.properties?.get("page-progression-direction")?.let {
             metadata.direction = it
@@ -107,7 +110,7 @@ class OPFParser {
     ///
     /// - Parameter propertiesArray: The array of properties strings.
     /// - Returns: The Properties instance created from the strings array info
-    fun parse(propertiesArray: List<String>) : Properties {
+    fun parse(propertiesArray: List<String>) : Properties? {
         val properties = Properties()
 
         for (property in propertiesArray){
@@ -166,7 +169,7 @@ class OPFParser {
         val link = Link()
 
         link.title = item.properties["id"]
-        link.href = item.properties["href"]
+        link.href = normalize(rootFilePath!!, item.properties["href"])
         link.typeLink = item.properties["media-type"]
         item.properties["properties"]?.let {
             val properties = it.split("\\s+")

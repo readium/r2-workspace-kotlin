@@ -1,5 +1,7 @@
 package org.readium.r2.shared
 
+import org.json.JSONObject
+
 enum class RenditionLayout(val ini: String){
     reflowable("reflowable"),
     fixed("fixed")
@@ -42,4 +44,15 @@ class Rendition{
             return false
         return true
     }
+
+    fun getJSON() : JSONObject{
+        val obj = JSONObject()
+        obj.putOpt("flow", flow?.toString())
+        obj.putOpt("spread", spread?.toString())
+        obj.putOpt("layout", layout?.toString())
+        obj.putOpt("viewport", viewport)
+        obj.putOpt("orientation", orientation?.toString())
+        return obj
+    }
+
 }

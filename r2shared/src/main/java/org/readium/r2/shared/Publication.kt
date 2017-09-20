@@ -1,7 +1,29 @@
 package org.readium.r2.shared
 
-import com.google.gson.GsonBuilder
+import org.json.JSONArray
+import org.json.JSONObject
 import java.net.URL
+
+fun getJSONArray(list: List<JSONable>) : JSONArray{
+    val array = JSONArray()
+    for(i in list){
+        array.put(i.getJSON())
+    }
+    return array
+}
+
+fun getStringArray(list: List<Any>) : JSONArray {
+    val array = JSONArray()
+    for(i in list){
+        array.put(i)
+    }
+    return array
+}
+
+fun tryPut(obj: JSONObject, list: List<JSONable>, tag: String){
+    if (list.isNotEmpty())
+        obj.putOpt(tag, getJSONArray(list))
+}
 
 class Publication {
     /// The version of the publication, if the type needs any.
@@ -38,7 +60,21 @@ class Publication {
     }
 
     //  To see later : build the manifest
-    fun manifest() : String = GsonBuilder().create().toJson(this, Publication::class.java).toString()
+    fun manifest() : String{
+        val json = JSONObject()
+        json.put("metadata", metadata.writeJSON())
+        tryPut(json, links, "links")
+        tryPut(json, spine, "spine")
+        tryPut(json, resources, "resources")
+        tryPut(json, tableOfContents, "toc")
+        tryPut(json, pageList, "page-list")
+        tryPut(json, landmarks, "landmarks")
+        tryPut(json, listOfIllustrations, "loi")
+        tryPut(json, listOfTables, "lot")
+        var str = json.toString()
+        str = str.replace("\\/", "/")
+        return str
+    }
 
     fun resource(relativePath: String) : Link? = (spine + resources).first({it.href == relativePath})
 
