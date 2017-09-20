@@ -29,8 +29,9 @@ import java.net.URL
 class MainActivity : AppCompatActivity() {
 
     val TAG = this::class.java.simpleName
-    val r2test_path = Environment.getExternalStorageDirectory().path + "/r2test/"
-    var publication_path: String = r2test_path + "test.epub"
+
+    val r2test_directory_path = Environment.getExternalStorageDirectory().path + "/r2test/"
+    var publication_path: String = r2test_directory_path + "dummy.epub"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
@@ -38,68 +39,53 @@ class MainActivity : AppCompatActivity() {
 
         askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 100)
 
-
-        parse_button.setOnClickListener {
-            val publication: Publication = EpubParser().parse(publication_path).publication
-            textView.text = publication.metadata.title
+        val dir = File(r2test_directory_path)
+        if (!dir.exists()) {
+            dir.mkdirs()
         }
 
-        pick_button.setOnClickListener {
-            showEpubFiles()
-        }
+        if (intent.action.compareTo(Intent.ACTION_VIEW) == 0) {
 
-
-        val intent = intent
-        val action = intent.action
-
-        if (action.compareTo(Intent.ACTION_VIEW) == 0) {
-            val scheme = intent.scheme
-            val resolver = contentResolver
-
-            if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0) {
+            if (intent.scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0) {
                 val uri = intent.data
-                val name = getContentName(resolver, uri)
-                Log.v("tag", "Content intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
-                val input = resolver.openInputStream(uri)
-                val local_path: String = r2test_path + name
-                val dir = File(r2test_path)
-                if (!dir.exists()) dir.mkdirs()
+                val name = getContentName(contentResolver, uri)
+                Log.v("tag", "Content intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + name)
+                val input = contentResolver.openInputStream(uri)
+                val local_epub_path: String = r2test_directory_path + name
+
+                publication_path = local_epub_path
+                input.toFile(local_epub_path)
+
+                parseAndShowEpub()
+
+            } else if (intent.scheme.compareTo(ContentResolver.SCHEME_FILE) == 0) {
+                val uri = intent.data
+                val name = uri.lastPathSegment
+                Log.v("tag", "File intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + name)
+                val input = contentResolver.openInputStream(uri)
+                val local_path: String = r2test_directory_path + name
 
                 publication_path = local_path
                 input.toFile(local_path)
 
-                parse_button.callOnClick()
+                parseAndShowEpub()
 
-            } else if (scheme.compareTo(ContentResolver.SCHEME_FILE) == 0) {
+            } else if (intent.scheme.compareTo("http") == 0) {
                 val uri = intent.data
                 val name = uri.lastPathSegment
-                Log.v("tag", "File intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
-                val input = resolver.openInputStream(uri)
-                val local_path: String = r2test_path + name
-                val dir = File(r2test_path)
-                if (!dir.exists()) dir.mkdirs()
-                publication_path = local_path
-                input.toFile(local_path)
+                Log.v("tag", "HTTP intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + name)
+                val local_epub_path: String = r2test_directory_path + name
 
-                parse_button.callOnClick()
-
-            } else if (scheme.compareTo("http") == 0) {
-                val uri = intent.data
-                val name = uri.lastPathSegment
-                Log.v("tag", "HTTP intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
-                val local_path: String = r2test_path + name
-                val dir = File(r2test_path)
-                if (!dir.exists()) dir.mkdirs()
-                publication_path = local_path
+                publication_path = local_epub_path
 
                 val progress = showProgress(this, null, "Please wait while your books is being downloaded.")
                 progress.show()
                 val thread = Thread(Runnable {
                     try {
                         val input = URL(uri.toString()).openStream()
-                        input.toFile(local_path)
+                        input.toFile(local_epub_path)
                         runOnUiThread(Runnable {
-                            parse_button.callOnClick()
+                            parseAndShowEpub()
                             progress.dismiss()
                         })
                     } catch (e: Exception) {
@@ -108,10 +94,15 @@ class MainActivity : AppCompatActivity() {
                 })
                 thread.start()
 
-            } else if (scheme.compareTo("ftp") == 0) {
+            } else if (intent.scheme.compareTo("ftp") == 0) {
                 // TODO Import from FTP!
             }
         }
+    }
+
+    private fun parseAndShowEpub() {
+        val publication: Publication = EpubParser().parse(publication_path).publication
+        textView.text = String.format("%s\n\n%s", publication.metadata.title, publication.metadata.description ?: "no description")
     }
 
     private fun showProgress(context: Context, title: String?, message: String?): ProgressDialog {
@@ -136,26 +127,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showEpubFiles() {
-
-        // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
-        // browser.
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-
-        // Filter to only show results that can be "opened", such as a
-        // file (as opposed to a list of contacts or timezones)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-
-        // Filter to show only images, using the image MIME data type.
-        // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
-        // To search for all documents available via installed storage providers,
-        // it would be "*/*".
-        intent.type = "application/epub+zip"
-
-        startActivityForResult(intent, 1)
-    }
-
-
     public override fun onActivityResult(requestCode: Int, resultCode: Int,
                                          data: Intent?) {
 
@@ -172,17 +143,14 @@ class MainActivity : AppCompatActivity() {
             if (data != null) {
                 uri = data.data
                 Log.i(TAG, "Uri: " + uri!!.toString())
-                val resolver = contentResolver
-                val name = getContentName(resolver, uri)
-                val input = resolver.openInputStream(uri)
-                val local_path: String = r2test_path + name
-                val dir = File(r2test_path)
-                if (!dir.exists()) dir.mkdirs()
+                val name = getContentName(contentResolver, uri)
+                val input = contentResolver.openInputStream(uri)
+                val local_epub_path: String = r2test_directory_path + name
 
-                publication_path = local_path
-                input.toFile(local_path)
+                publication_path = local_epub_path
+                input.toFile(local_epub_path)
 
-                parse_button.callOnClick()
+                parseAndShowEpub()
 
             }
         } else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
@@ -191,10 +159,10 @@ class MainActivity : AppCompatActivity() {
             if (data != null) {
 
                 val name = data.getStringExtra("name")
-                val local_path: String = r2test_path + name
-                publication_path = local_path
+                val local_epub_path: String = r2test_directory_path + name
+                publication_path = local_epub_path
 
-                parse_button.callOnClick()
+                parseAndShowEpub()
 
             }
 
@@ -214,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun InputStream.toFile(path: String) {
+    private fun InputStream.toFile(path: String) {
         use { input ->
             File(path).outputStream().use { input.copyTo(it) }
         }
@@ -232,8 +200,28 @@ class MainActivity : AppCompatActivity() {
         when (item.getItemId()) {
             R.id.list -> {
 
-                val i = Intent(this, EpubListActivity::class.java)
-                startActivityForResult(i, 2)
+                val intent = Intent(this, EpubListActivity::class.java)
+                startActivityForResult(intent, 2)
+
+                return false
+            }
+            R.id.add -> {
+
+                // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
+                // browser.
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+
+                // Filter to only show results that can be "opened", such as a
+                // file (as opposed to a list of contacts or timezones)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+
+                // Filter to show only images, using the image MIME data type.
+                // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
+                // To search for all documents available via installed storage providers,
+                // it would be "*/*".
+                intent.type = "application/epub+zip"
+
+                startActivityForResult(intent, 1)
 
                 return false
             }

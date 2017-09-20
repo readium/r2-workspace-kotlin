@@ -3,7 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/list"
-        android:title="list"
+        android:id="@+id/add"
+        android:title="Add ePub"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/list"
+        android:title="Show List"
+        app:showAsAction="always" />
+
 </menu>
