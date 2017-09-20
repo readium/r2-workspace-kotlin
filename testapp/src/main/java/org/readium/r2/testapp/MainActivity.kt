@@ -2,7 +2,10 @@ package org.readium.r2.testapp
 
 import android.Manifest
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.ContentResolver
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -20,6 +23,9 @@ import org.readium.r2.shared.Publication
 import org.readium.r2.streamer.Parser.EpubParser
 import java.io.File
 import java.io.InputStream
+import java.net.URL
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -57,12 +63,12 @@ class MainActivity : AppCompatActivity() {
                 val name = getContentName(resolver, uri)
                 Log.v("tag", "Content intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
                 val input = resolver.openInputStream(uri)
-                val importfilepath: String = r2test_path + name
+                val local_path: String = r2test_path + name
                 val dir = File(r2test_path)
                 if (!dir.exists()) dir.mkdirs()
 
-                publication_path = importfilepath
-                input.toFile(importfilepath)
+                publication_path = local_path
+                input.toFile(local_path)
 
                 parse_button.callOnClick()
 
@@ -71,22 +77,56 @@ class MainActivity : AppCompatActivity() {
                 val name = uri.lastPathSegment
                 Log.v("tag", "File intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
                 val input = resolver.openInputStream(uri)
-                val importfilepath: String = r2test_path + name
+                val local_path: String = r2test_path + name
                 val dir = File(r2test_path)
                 if (!dir.exists()) dir.mkdirs()
-                publication_path = importfilepath
-                input.toFile(importfilepath)
+                publication_path = local_path
+                input.toFile(local_path)
 
                 parse_button.callOnClick()
 
             } else if (scheme.compareTo("http") == 0) {
-                // TODO Import from HTTP!
+                val uri = intent.data
+                val name = uri.lastPathSegment
+                Log.v("tag", "HTTP intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
+                val local_path: String = r2test_path + name
+                val dir = File(r2test_path)
+                if (!dir.exists()) dir.mkdirs()
+                publication_path = local_path
+
+                val progress = showProgress(this, null, "Please wait while your books is being downloaded.")
+                progress.show()
+                val thread = Thread(Runnable {
+                    try {
+                        val input = URL(uri.toString()).openStream()
+                        input.toFile(local_path)
+                        runOnUiThread(Runnable {
+                            parse_button.callOnClick()
+                            progress.dismiss()
+                        })
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                })
+                thread.start()
+
             } else if (scheme.compareTo("ftp") == 0) {
                 // TODO Import from FTP!
             }
         }
     }
 
+    private fun showProgress(context: Context, title: String?, message: String?): ProgressDialog {
+
+        val b = ProgressDialog(context)
+        b.setButton(DialogInterface.BUTTON_NEGATIVE,"DISMISS", DialogInterface.OnClickListener { dialogInterface, i ->
+            dialogInterface.dismiss()
+        })
+        b.setMessage(message)
+        b.setTitle(title)
+
+        return b
+    }
 
     private fun askForPermission(permission: String, requestCode: Int?) {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -98,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showEpubFiles() {
+    private fun showEpubFiles() {
 
         // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
         // browser.
@@ -134,19 +174,15 @@ class MainActivity : AppCompatActivity() {
             if (data != null) {
                 uri = data.data
                 Log.i(TAG, "Uri: " + uri!!.toString())
-                val intent = intent
-                val action = intent.action
                 val resolver = contentResolver
                 val name = getContentName(resolver, uri)
-                Log.v("tag", "Content intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
                 val input = resolver.openInputStream(uri)
-                val importfilepath: String = r2test_path + name
+                val local_path: String = r2test_path + name
                 val dir = File(r2test_path)
                 if (!dir.exists()) dir.mkdirs()
 
-                publication_path = importfilepath
-                input.toFile(importfilepath)
-
+                publication_path = local_path
+                input.toFile(local_path)
 
                 parse_button.callOnClick()
 
@@ -154,15 +190,15 @@ class MainActivity : AppCompatActivity() {
         }
         else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
 
-
+            // existing epub selected through the list activity
             if (data != null) {
+
                 val name = data.getStringExtra("name")
-                val intent = intent
-                val action = intent.action
-                Log.v("tag", "Content intent detected: " + action + " : " + intent.dataString + " : " + intent.type + " : " + name)
-                val importfilepath: String = r2test_path + name
-                publication_path = importfilepath
+                val local_path: String = r2test_path + name
+                publication_path = local_path
+
                 parse_button.callOnClick()
+                
             }
 
         }
