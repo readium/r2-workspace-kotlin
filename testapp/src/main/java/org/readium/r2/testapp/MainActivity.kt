@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
     val TAG = this::class.java.simpleName
 
     val r2test_directory_path = Environment.getExternalStorageDirectory().path + "/r2test/"
-    var publication_path: String = r2test_directory_path + "dummy.epub"
+    val dummy_epub_name = "dummy.epub"
+    var publication_path: String = r2test_directory_path + dummy_epub_name
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
@@ -43,6 +44,9 @@ class MainActivity : AppCompatActivity() {
         if (!dir.exists()) {
             dir.mkdirs()
         }
+
+        copyEpubFromAssetsToSdCard(dummy_epub_name)
+
 
         if (intent.action.compareTo(Intent.ACTION_VIEW) == 0) {
 
@@ -98,6 +102,12 @@ class MainActivity : AppCompatActivity() {
                 // TODO Import from FTP!
             }
         }
+    }
+
+    private fun copyEpubFromAssetsToSdCard(epubFileName: String) {
+        val input = assets.open(epubFileName)
+        input.toFile(publication_path)
+        parseAndShowEpub()
     }
 
     private fun parseAndShowEpub() {
