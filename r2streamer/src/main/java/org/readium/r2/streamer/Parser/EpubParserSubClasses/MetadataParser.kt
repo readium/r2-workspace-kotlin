@@ -96,7 +96,7 @@ class MetadataParser {
         return identifiers[0].text ?: throw Exception("No identifier")
     }
 
-    fun modifiedDate(metadataElement: Node) = metadataElement.get("meta")!!.firstOrNull() {
+    fun modifiedDate(metadataElement: Node) = metadataElement.get("meta")!!.firstOrNull {
                 it.properties["property"] == "dcterms:modified"
             }?.text
 

@@ -6,9 +6,7 @@ import java.io.InputStream
 
 class XmlParser {
 
-    var nodes: MutableList<Node> = mutableListOf()
-
-    fun get(name: String) = try { nodes.filter{it.name == name} } catch(e: Exception) { null }
+    private var nodes: MutableList<Node> = mutableListOf()
 
     fun getFirst(name: String) = try { nodes.first{it.name == name} } catch(e: Exception) { null }
 

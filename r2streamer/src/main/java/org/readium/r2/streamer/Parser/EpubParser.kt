@@ -48,13 +48,13 @@ class EpubParser : PublicationParser {
         val container = try {
             generateContainerFrom(fileAtPath)
         } catch (e: Exception) {
-            Log.e("Error", "Could not generate container")
+            Log.e("Error", "Could not generate container", e)
             return null
         }
         var data = try {
             container.data(containerDotXmlPath)
         } catch (e: Exception) {
-            Log.e("Error", "Missing File : META-INF/container.xml")
+            Log.e("Error", "Missing File : META-INF/container.xml", e)
             return null
         }
 
@@ -69,7 +69,7 @@ class EpubParser : PublicationParser {
         data = try {
             container.data(container.rootFile.rootFilePath)
         } catch (e: Exception) {
-            Log.e("Error", "Missing File : ${container.rootFile.rootFilePath}")
+            Log.e("Error", "Missing File : ${container.rootFile.rootFilePath}", e)
             return null
         }
         aexml.parseXml(ByteArrayInputStream(data))
@@ -103,9 +103,10 @@ class EpubParser : PublicationParser {
         val navDocument = try {
             container.xmlDocumentforResource(navLink)
         } catch(e: Exception){
+            Log.e("Error", "Navigation parsing", e)
             return
         }
-        ndp.navigationDocumentPath = navLink.href!!
+        ndp.navigationDocumentPath = navLink.href ?: return
         publication.tableOfContents.plusAssign(ndp.tableOfContent(navDocument))
         publication.landmarks.plusAssign(ndp.landmarks(navDocument))
         publication.listOfAudioFiles.plusAssign(ndp.listOfAudiofiles(navDocument))
@@ -116,10 +117,13 @@ class EpubParser : PublicationParser {
     }
 
     private fun parseNcxDocument(container: EpubContainer, publication: Publication){
-        val ncxLink = publication.resources.firstOrNull() { it.typeLink == "application/x-dtbncx+xml" } ?: return
+        val ncxLink = publication.resources.firstOrNull { it.typeLink == "application/x-dtbncx+xml" } ?: return
         val ncxDocument = try {
             container.xmlDocumentforResource(ncxLink)
-        } catch (e: Exception) { return }
+        } catch (e: Exception) {
+            Log.e("Error", "Ncx parsing", e)
+            return
+        }
         ncxp.ncxDocumentPath = ncxLink.href ?: return
         if (publication.tableOfContents.isEmpty())
             publication.tableOfContents.plusAssign(ncxp.tableOfContents(ncxDocument))

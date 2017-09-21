@@ -76,10 +76,10 @@ class OPFParser {
     }
 
     private fun coverLinkFromMeta(metadata: Node, publication: Publication){
-        val coverMeta = metadata.get("meta")!!.first { it.properties["name"] == "cover" }
-        val coverId = coverMeta.properties["content"]
-        val coverLink = publication.resources.first {it.title == coverId}
-        coverLink.rel.add("cover")
+        val coverMeta = metadata.get("meta")!!.firstOrNull { it.properties["name"] == "cover" }
+        val coverId = coverMeta?.properties?.get("content")
+        val coverLink = publication.resources.firstOrNull {it.title == coverId}
+        coverLink?.rel?.add("cover")
     }
 
     private fun parseSpine(spine: Node, publication: Publication){

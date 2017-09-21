@@ -18,7 +18,7 @@ class NavigationDocumentParser {
     fun listOfVideos(document: XmlParser) = nodeArray(document, "lov")
 
     private fun nodeArray(document: XmlParser, navType: String) : List<Link> {
-        var body = document.root()?.getFirst("body")
+        var body = document.root().getFirst("body")
         body?.getFirst("section")?.let { body = it }
         val navPoint = body?.get("nav")?.firstOrNull{ it.properties["epub:type"] == navType }
         val olElement = navPoint?.getFirst("ol") ?: return emptyList()

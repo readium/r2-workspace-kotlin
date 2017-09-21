@@ -10,12 +10,12 @@ class NCXParser{
     lateinit var ncxDocumentPath: String
 
     fun tableOfContents(document: XmlParser) : List<Link> {
-        val navMapElement = document.root()!!.getFirst("navMap")!!
+        val navMapElement = document.root().getFirst("navMap")!!
         return nodeArray(navMapElement, "navPoint")
     }
 
     fun pageList(document: XmlParser) : List<Link> {
-        val pageListElement = document.root()!!.getFirst("pageList")
+        val pageListElement = document.root().getFirst("pageList")
         return nodeArray(pageListElement, "pageTarget")
     }
 
@@ -27,10 +27,8 @@ class NCXParser{
         // Find the elements of `type` in the XML element.
         val elements = element?.get(type) ?: return emptyList()
         // For each element create a new node of type `type`.
-        for (elem in elements) {
-            val newNode = node(elem, type)
+        for (newNode in elements.map{node(it, type)})
             newNodeArray.plusAssign(newNode)
-        }
         return newNodeArray
     }
 

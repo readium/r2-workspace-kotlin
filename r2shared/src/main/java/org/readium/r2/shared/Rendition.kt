@@ -36,13 +36,11 @@ class Rendition{
     var orientation: RenditionOrientation? = null
 
     fun isEmpty() : Boolean {
-        if (layout != null
-                || flow != null
-                || spread != null
-                || viewport != null
-                || orientation != null)
-            return false
-        return true
+        return (layout == null
+                && flow == null
+                && spread == null
+                && viewport == null
+                && orientation == null)
     }
 
     fun getJSON() : JSONObject{

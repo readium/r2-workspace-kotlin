@@ -31,7 +31,7 @@ class Publication {
     /// The metadata (title, identifier, contributors, etc.).
     var metadata: Metadata = Metadata()
     /// org.readium.r2shared.Publication.org.readium.r2shared.Link to special ressources which are added to the publication.
-    var links: MutableList<Link> = mutableListOf()
+    private var links: MutableList<Link> = mutableListOf()
     /// Links of the spine items of the publication.
     var spine: MutableList<Link> = mutableListOf()
     /// Link to the ressources of the publication.
@@ -52,7 +52,7 @@ class Publication {
     var coverLink: Link?  = null
         get() = linkWithRel("cover")
 
-    fun baseUrl() : URL? {
+    private fun baseUrl() : URL? {
         val selfLink = linkWithRel("self")
         val url = selfLink?.let{ URL(selfLink.href)}
         val index = url.toString().lastIndexOf('/')

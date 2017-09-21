@@ -1,6 +1,5 @@
 package org.readium.r2.shared
 
-import org.json.JSONArray
 import org.json.JSONObject
 
 class Metadata{

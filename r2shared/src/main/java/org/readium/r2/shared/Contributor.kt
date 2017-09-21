@@ -1,6 +1,5 @@
 package org.readium.r2.shared
 
-import org.json.JSONArray
 import org.json.JSONObject
 
 class Contributor : JSONable{
@@ -11,7 +10,6 @@ class Contributor : JSONable{
         get() = multilangName.singleString
 
     var sortAs: String? = null
-    var identifier: String? = null
     var roles: MutableList<String> = mutableListOf()
 
     override fun getJSON() : JSONObject{
@@ -20,7 +18,6 @@ class Contributor : JSONable{
         if (roles.isNotEmpty())
             obj.put("roles", getStringArray(roles))
         obj.put("sortAs", sortAs)
-        val str = obj.toString()
         return obj
     }
 
