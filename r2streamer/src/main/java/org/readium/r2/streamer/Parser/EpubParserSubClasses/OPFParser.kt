@@ -18,10 +18,14 @@ class OPFParser {
         publication.version = epubVersion
         publication.internalData["type"] = "epub"
         publication.internalData["rootfile"] = rootFilePath!!
-        parseMetadata(document, publication)
+        try {
+            parseMetadata(document, publication)
+        } catch(e: Exception){
+            throw e
+        }
         parseRessources(document.getFirst("package")!!.getFirst("manifest")!!, publication)
-        coverLinkFromMeta(document.root()!!.getFirst("metadata") ?:
-                document.root()!!.getFirst("opf:metadata")!!, publication)
+        coverLinkFromMeta(document.root().getFirst("metadata") ?:
+                    document.root().getFirst("opf:metadata")!!, publication)
         parseSpine(document.getFirst("package")!!.getFirst("spine")!!, publication)
         //  TODO: ParseMediaOverlay
         return publication
@@ -31,14 +35,10 @@ class OPFParser {
         val metadata = Metadata()
         val mp = MetadataParser()
         val metadataElement: Node? = document
-                .root()!!.getFirst("metadata") ?: document.root()!!.getFirst("opf:metadata")
-        metadata.multilangTitle = try {
-            mp.mainTitle(metadataElement!!)
-        } catch (e: Exception) {
-            throw e
-        }
+                .root().getFirst("metadata") ?: document.root().getFirst("opf:metadata")
+        metadata.multilangTitle = mp.mainTitle(metadataElement!!)
         metadata.identifier = mp.uniqueIdentifier(metadataElement,
-                document.getFirst("package")!!.properties)
+                    document.getFirst("package")!!.properties)
         metadata.description = metadataElement.getFirst("dc:description")?.text
         metadata.publicationDate = metadataElement.getFirst("dc:date")?.text
         metadata.modified = mp.modifiedDate(metadataElement)
@@ -50,7 +50,7 @@ class OPFParser {
         if (rightsMap != null && rightsMap.isNotEmpty())
             metadata.rights = rightsMap.joinToString { " " }
         mp.parseContributors(metadataElement, metadata, publication.version)
-        document.root()!!.getFirst("spine")?.properties?.get("page-progression-direction")?.let {
+        document.root().getFirst("spine")?.properties?.get("page-progression-direction")?.let {
             metadata.direction = it
         }
         mp.parseRenditionProperties(metadataElement, metadata)
@@ -76,10 +76,9 @@ class OPFParser {
     }
 
     private fun coverLinkFromMeta(metadata: Node, publication: Publication){
-        var coverId: String? = null
-        val coverMeta = metadata.get("meta")!!.firstOrNull { it.properties["name"] == "cover" } ?: return
-        coverId = coverMeta.properties["content"]
-        val coverLink = publication.resources.first{it.title == coverId}
+        val coverMeta = metadata.get("meta")!!.first { it.properties["name"] == "cover" }
+        val coverId = coverMeta.properties["content"]
+        val coverLink = publication.resources.first {it.title == coverId}
         coverLink.rel.add("cover")
     }
 
@@ -94,7 +93,7 @@ class OPFParser {
             val index = publication.resources.indexOfFirst { it.title == idref }
             if (index == -1)
                 continue
-            val propertyAttribute = item.properties["properties"]?.let {
+            item.properties["properties"]?.let {
                 val properties = it.split(" ")
                 publication.resources[index].properties = parse(properties)
             }
@@ -110,7 +109,7 @@ class OPFParser {
     ///
     /// - Parameter propertiesArray: The array of properties strings.
     /// - Returns: The Properties instance created from the strings array info
-    fun parse(propertiesArray: List<String>) : Properties? {
+    private fun parse(propertiesArray: List<String>) : Properties? {
         val properties = Properties()
 
         for (property in propertiesArray){

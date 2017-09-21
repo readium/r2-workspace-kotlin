@@ -43,14 +43,20 @@ class EpubParser : PublicationParser {
         return container
     }
 
-    override fun parse(fileAtPath: String) : PubBox {
+    override fun parse(fileAtPath: String) : PubBox? {
         val aexml = XmlParser()
         val container = try {
             generateContainerFrom(fileAtPath)
-        } catch (e: Exception) { throw e }
+        } catch (e: Exception) {
+            Log.e("Error", "Could not generate container")
+            return null
+        }
         var data = try {
             container.data(containerDotXmlPath)
-        } catch (e: Exception) { throw Exception("Missing File") }
+        } catch (e: Exception) {
+            Log.e("Error", "Missing File : META-INF/container.xml")
+            return null
+        }
 
         aexml.parseXml(ByteArrayInputStream(data))
         container.rootFile.mimetype = mimetype
@@ -60,14 +66,21 @@ class EpubParser : PublicationParser {
                 ?.properties?.get("full-path")
                 ?: "content.opf"
 
-        //val document = container.data(container.rootFile.rootFilePath)
         data = try {
             container.data(container.rootFile.rootFilePath)
-        } catch (e: Exception) { throw Exception("Missing File") }
+        } catch (e: Exception) {
+            Log.e("Error", "Missing File : ${container.rootFile.rootFilePath}")
+            return null
+        }
         aexml.parseXml(ByteArrayInputStream(data))
-        val epubVersion = aexml.root()!!.properties["version"]!!.toDouble()
-        val publication = opfParser.parseOpf(aexml, container, epubVersion)
-
+        val epubVersion = aexml.root().properties["version"]!!.toDouble()
+        val publication: Publication
+        try {
+            publication = opfParser.parseOpf(aexml, container, epubVersion)
+        } catch(e: Exception){
+            Log.e("Error", e.message, e)
+            return null
+        }
         parseEncryption(container, publication)
         parseNavigationDocument(container, publication)
         parseNcxDocument(container, publication)
@@ -79,7 +92,7 @@ class EpubParser : PublicationParser {
         try {
             document = container.xmlDocumentforFile(encryptionDotXmlPath)
         } catch (e: Exception){
-            Log.d("Error", e.toString())
+            Log.d("Error", "Could not decrypt", e)
             return
         }
         return

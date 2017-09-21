@@ -12,7 +12,7 @@ class XmlParser {
 
     fun getFirst(name: String) = try { nodes.first{it.name == name} } catch(e: Exception) { null }
 
-    fun root() = try { nodes.first() } catch (e: Exception) { null }
+    fun root() = nodes.firstOrNull() ?: throw Exception("No root in xml document")
 
     fun parseXml(stream: InputStream) {
         nodes = mutableListOf()

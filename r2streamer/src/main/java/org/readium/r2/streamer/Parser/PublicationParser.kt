@@ -7,7 +7,7 @@ data class PubBox(val publication: Publication, val container: Container)
 
 interface PublicationParser {
 
-    fun parse(fileAtPath: String) : PubBox
+    fun parse(fileAtPath: String) : PubBox?
 
 }
 

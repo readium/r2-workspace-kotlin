@@ -101,8 +101,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun parseAndShowEpub() {
-        val publication: Publication = EpubParser().parse(publication_path).publication
-        textView.text = String.format("%s\n\n%s", publication.metadata.title, publication.metadata.description ?: "no description")
+        val publication: Publication? = EpubParser().parse(publication_path)?.publication
+        textView.text = String.format("%s\n\n%s", publication?.metadata?.title ?: "Invalid Epub", publication?.metadata?.description ?: "No description")
     }
 
     private fun showProgress(context: Context, title: String?, message: String?): ProgressDialog {
