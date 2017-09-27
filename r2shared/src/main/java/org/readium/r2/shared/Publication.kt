@@ -52,7 +52,7 @@ class Publication {
     var coverLink: Link?  = null
         get() = linkWithRel("cover")
 
-    private fun baseUrl() : URL? {
+    fun baseUrl() : URL? {
         val selfLink = linkWithRel("self")
         val url = selfLink?.let{ URL(selfLink.href)}
         val index = url.toString().lastIndexOf('/')

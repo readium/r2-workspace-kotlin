@@ -26,7 +26,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.0.2'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     //implementation "org.jetbrains.ktor:ktor-netty:$ktor_version"
 
@@ -36,6 +36,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     implementation project(':r2shared')
+    compile 'com.mcxiaoke.koi:core:0.5.5' // useful extensions (only ~100k)
+    compile 'com.mcxiaoke.koi:async:0.5.5' // async functions (only ~70k)
 }
 
 repositories {

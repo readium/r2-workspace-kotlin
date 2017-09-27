@@ -3,7 +3,6 @@ package org.readium.r2.streamer.Containers
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
-import java.io.InputStream
 
 interface DirectoryContainer : Container {
 
@@ -15,7 +14,6 @@ interface DirectoryContainer : Container {
             throw Exception("Missing File")
 
         val buffer = ByteArrayOutputStream()
-
         var nRead: Int
         val data = ByteArray(16384)
         val fis = FileInputStream(epubFile)

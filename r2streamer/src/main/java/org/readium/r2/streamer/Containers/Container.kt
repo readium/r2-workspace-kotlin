@@ -5,7 +5,6 @@ import org.readium.r2.shared.RootFile
 import org.readium.r2.streamer.XmlParser.XmlParser
 import java.io.InputStream
 
-
 interface Container{
 
     var rootFile: RootFile
@@ -14,7 +13,7 @@ interface Container{
 
     fun data(relativePath: String) : ByteArray
 
-    fun dataLength(relativePath: String) : Int
+    fun dataLength(relativePath: String) : Long
 
     fun dataInputStream(relativePath: String) : InputStream
 }
