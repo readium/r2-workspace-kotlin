@@ -18,7 +18,6 @@ class EpubListActivity : ListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_epub_list)
-
         val r2test_path = Environment.getExternalStorageDirectory().path + "/r2test/"
         val listOfFiles = File(r2test_path).listFiles()
         for (i in listOfFiles.indices) {

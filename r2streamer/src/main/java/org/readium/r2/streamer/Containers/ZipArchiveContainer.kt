@@ -25,7 +25,7 @@ interface ZipArchiveContainer: Container {
     }
 
     override fun dataLength(relativePath: String) =
-            zipFile.size()
+            zipFile.size().toLong()
 
     override fun dataInputStream(relativePath: String) =
             zipFile.getInputStream(zipFile.getEntry(relativePath))

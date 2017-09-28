@@ -29,7 +29,7 @@ interface DirectoryContainer : Container {
     }
 
     override fun dataLength(relativePath: String) =
-            File(rootFile.toString() + "/" + relativePath).length().toInt()
+            File(rootFile.toString() + "/" + relativePath).length()
 
     override fun dataInputStream(relativePath: String) =
             FileInputStream(File(rootFile.toString() + "/" + relativePath))
