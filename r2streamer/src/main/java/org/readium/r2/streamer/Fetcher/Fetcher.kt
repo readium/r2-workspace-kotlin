@@ -16,10 +16,12 @@ class Fetcher(publication: Publication, container: Container){
         this.publication = publication
 
         val rootFilePath = publication.internalData["rootfile"] ?: throw Exception("Missing root file")
-        if (rootFilePath.isNotEmpty() && rootFilePath.contains('/'))
-            rootFileDirectory = URL(rootFilePath).removeLastComponent().toString()
-        else
+        if (rootFilePath.isNotEmpty() && rootFilePath.contains('/')) {
+            rootFileDirectory = rootFilePath.replaceAfterLast("/", "", rootFilePath);
+            rootFileDirectory = rootFileDirectory.dropLast(1);
+        } else {
             rootFileDirectory = ""
+        }
         contentFilters = getContentFilters(container.rootFile.mimetype)
     }
 
