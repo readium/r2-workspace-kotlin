@@ -20,7 +20,10 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import org.readium.r2.shared.Publication
+import org.readium.r2.streamer.Containers.Container
 import org.readium.r2.streamer.Parser.EpubParser
+import org.readium.r2.streamer.Parser.PubBox
+import org.readium.r2.streamer.Server.Server
 import java.io.File
 import java.io.InputStream
 import java.net.URL
@@ -31,12 +34,15 @@ class MainActivity : AppCompatActivity() {
     val TAG = this::class.java.simpleName
 
     val r2test_directory_path = Environment.getExternalStorageDirectory().path + "/r2test/"
-    val dummy_epub_name = "dummy.epub"
-    var publication_path: String = r2test_directory_path + dummy_epub_name
+    var epub_name = "dummy.epub"
+    var publication_path: String = r2test_directory_path + epub_name
+
+    val server = Server(PORT_NUMBER)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
+
 
         askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 100)
 
@@ -45,17 +51,18 @@ class MainActivity : AppCompatActivity() {
             dir.mkdirs()
         }
 
-        copyEpubFromAssetsToSdCard(dummy_epub_name)
+        copyEpubFromAssetsToSdCard(epub_name)
 
+        startServer()
 
         if (intent.action.compareTo(Intent.ACTION_VIEW) == 0) {
 
             if (intent.scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0) {
                 val uri = intent.data
-                val name = getContentName(contentResolver, uri)
-                Log.v("tag", "Content intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + name)
+                epub_name = getContentName(contentResolver, uri)!!
+                Log.v("tag", "Content intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + epub_name)
                 val input = contentResolver.openInputStream(uri)
-                val local_epub_path: String = r2test_directory_path + name
+                val local_epub_path: String = r2test_directory_path + epub_name
 
                 publication_path = local_epub_path
                 input.toFile(local_epub_path)
@@ -64,10 +71,10 @@ class MainActivity : AppCompatActivity() {
 
             } else if (intent.scheme.compareTo(ContentResolver.SCHEME_FILE) == 0) {
                 val uri = intent.data
-                val name = uri.lastPathSegment
-                Log.v("tag", "File intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + name)
+                epub_name = uri.lastPathSegment
+                Log.v("tag", "File intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + epub_name)
                 val input = contentResolver.openInputStream(uri)
-                val local_path: String = r2test_directory_path + name
+                val local_path: String = r2test_directory_path + epub_name
 
                 publication_path = local_path
                 input.toFile(local_path)
@@ -76,13 +83,13 @@ class MainActivity : AppCompatActivity() {
 
             } else if (intent.scheme.compareTo("http") == 0) {
                 val uri = intent.data
-                val name = uri.lastPathSegment
-                Log.v("tag", "HTTP intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + name)
-                val local_epub_path: String = r2test_directory_path + name
+                epub_name = uri.lastPathSegment
+                Log.v("tag", "HTTP intent detected: " + intent.action + " : " + intent.dataString + " : " + intent.type + " : " + epub_name)
+                val local_epub_path: String = r2test_directory_path + epub_name
 
                 publication_path = local_epub_path
 
-                val progress = showProgress(this, null, "Please wait while your books is being downloaded.")
+                val progress = showProgress(this, null, getString(R.string.progress_wait_while_downloading_book))
                 progress.show()
                 val thread = Thread(Runnable {
                     try {
@@ -104,6 +111,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun startServer() {
+        server.start()
+    }
+
     private fun copyEpubFromAssetsToSdCard(epubFileName: String) {
         val input = assets.open(epubFileName)
         input.toFile(publication_path)
@@ -111,14 +122,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun parseAndShowEpub() {
-        val publication: Publication? = EpubParser().parse(publication_path)?.publication
-        textView.text = String.format("%s\n\n%s", publication?.metadata?.title ?: "Invalid Epub", publication?.metadata?.description ?: "No description")
+
+        val pub: PubBox? = EpubParser().parse(publication_path)
+        val publication: Publication? = pub?.publication
+        val container: Container? = pub?.container
+        textView.text = String.format("%s\n\n%s", publication?.metadata?.title ?: getString(R.string.error_invalid_epub), publication?.metadata?.description ?: getString(R.string.fallback_no_description))
+
+        server.addEpub(publication!!, container!!, "/" + epub_name)
+
+        if (publication.spine.size > 0) {
+            val urlString = URL + "/" + epub_name + publication.spine.get(0).href
+            readButton.setOnClickListener {
+                val intent = Intent(this, WebViewActivity::class.java)
+                intent.putExtra("url", urlString)
+                intent.putExtra("publication_path", publication_path)
+                intent.putExtra("epub_name", epub_name)
+                startActivity(intent)
+            }
+            Log.d(TAG, urlString)
+        }
     }
 
     private fun showProgress(context: Context, title: String?, message: String?): ProgressDialog {
 
         val b = ProgressDialog(context)
-        b.setButton(DialogInterface.BUTTON_NEGATIVE, "DISMISS", DialogInterface.OnClickListener { dialogInterface, i ->
+        b.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.button_dismiss), DialogInterface.OnClickListener { dialogInterface, i ->
             dialogInterface.dismiss()
         })
         b.setMessage(message)
@@ -153,9 +181,9 @@ class MainActivity : AppCompatActivity() {
             if (data != null) {
                 uri = data.data
                 Log.i(TAG, "Uri: " + uri!!.toString())
-                val name = getContentName(contentResolver, uri)
+                epub_name = getContentName(contentResolver, uri)!!
                 val input = contentResolver.openInputStream(uri)
-                val local_epub_path: String = r2test_directory_path + name
+                val local_epub_path: String = r2test_directory_path + epub_name
 
                 publication_path = local_epub_path
                 input.toFile(local_epub_path)
@@ -168,8 +196,8 @@ class MainActivity : AppCompatActivity() {
             // existing epub selected through the list activity
             if (data != null) {
 
-                val name = data.getStringExtra("name")
-                val local_epub_path: String = r2test_directory_path + name
+                epub_name = data.getStringExtra("name")
+                val local_epub_path: String = r2test_directory_path + epub_name
                 publication_path = local_epub_path
 
                 parseAndShowEpub()
