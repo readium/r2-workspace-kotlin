@@ -12,8 +12,8 @@ class MyTests{
     private var container: Container
 
     init {
-        publication = pubBox.publication
-        container = pubBox.container
+        publication = pubBox!!.publication
+        container = pubBox!!.container
     }
 
     @Test
