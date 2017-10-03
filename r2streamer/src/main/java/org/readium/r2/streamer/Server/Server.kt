@@ -7,7 +7,6 @@ import org.readium.r2.streamer.Fetcher.Fetcher
 import org.readium.r2.streamer.Server.handler.ManifestHandler
 import org.readium.r2.streamer.Server.handler.MediaOverlayHandler
 import org.readium.r2.streamer.Server.handler.ResourceHandler
-import org.readium.r2.streamer.Server.handler.SearchQueryHandler
 
 
 class Server(port: Int) : AbstractServer(port) {
@@ -33,7 +32,6 @@ abstract class AbstractServer(port: Int) : RouterNanoHTTPD(port) {
             addRoute(fileName + MEDIA_OVERLAY_HANDLE, MediaOverlayHandler::class.java, fetcher)
         }
         addRoute(fileName + MANIFEST_HANDLE, ManifestHandler::class.java, fetcher)
-        addRoute(fileName + SEARCH_QUERY_HANDLE, SearchQueryHandler::class.java, fetcher)
         addRoute(fileName + MANIFEST_ITEM_HANDLE, ResourceHandler::class.java, fetcher)
 
     }
