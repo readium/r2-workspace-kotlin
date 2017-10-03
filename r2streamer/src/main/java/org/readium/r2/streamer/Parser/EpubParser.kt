@@ -81,7 +81,9 @@ class EpubParser : PublicationParser {
             Log.e("Error", e.message, e)
             return null
         }
-        parseEncryption(container, publication)
+
+        // commenting out for now
+//        parseEncryption(container, publication)
         parseNavigationDocument(container, publication)
         parseNcxDocument(container, publication)
         return PubBox(publication, container)
