@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
 
 
     defaultConfig {
@@ -28,7 +28,10 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    //implementation "org.jetbrains.ktor:ktor-netty:$ktor_version"
+
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation 'org.nanohttpd:nanohttpd-nanolets:2.3.1'
+    implementation 'com.google.code.gson:gson:2.8.1'
 
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -38,6 +41,14 @@ dependencies {
     implementation project(':r2shared')
     compile 'com.mcxiaoke.koi:core:0.5.5' // useful extensions (only ~100k)
     compile 'com.mcxiaoke.koi:async:0.5.5' // async functions (only ~70k)
+
+    final JACKSON_VERSION = '2.8.6'
+
+    compile "com.fasterxml.jackson.core:jackson-core:$JACKSON_VERSION"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$JACKSON_VERSION"
+    compile "com.fasterxml.jackson.core:jackson-databind:$JACKSON_VERSION"
+    compile 'org.jsoup:jsoup:1.10.2'
+
 }
 
 repositories {
