@@ -47,10 +47,9 @@ class Fetcher(publication: Publication, container: Container){
 
     fun getContentFilters(mimeType: String?) : ContentFilters {
         when (mimeType){
-            "application/epub+zip", "application/oebps-package+xml" -> ContentFiltersEpub()
-            "application/x-cbr" -> ContentFiltersCbz()
-            else -> throw Exception("Missing container MIMEtype")
+            "application/epub+zip", "application/oebps-package+xml" -> return ContentFiltersEpub()
+            "application/x-cbr" -> return ContentFiltersCbz()
+            else -> throw Exception("Missing container  else MIMEtype")
         }
-        throw Exception("Missing container MIMEtype")
     }
 }
