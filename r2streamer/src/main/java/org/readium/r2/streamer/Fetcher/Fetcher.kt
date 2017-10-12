@@ -5,8 +5,8 @@ import org.readium.r2.streamer.Containers.Container
 import java.io.InputStream
 
 class Fetcher(publication: Publication, container: Container) {
-    lateinit var publication: Publication
-    lateinit var container: Container
+    var publication: Publication
+    var container: Container
     var rootFileDirectory: String = ""
     var contentFilters: ContentFilters?
 

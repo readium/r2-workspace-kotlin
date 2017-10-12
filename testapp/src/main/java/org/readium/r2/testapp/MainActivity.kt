@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
 
-
         askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 100)
 
         val dir = File(r2test_directory_path)

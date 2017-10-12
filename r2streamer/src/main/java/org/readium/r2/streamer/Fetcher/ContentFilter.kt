@@ -107,7 +107,6 @@ class ContentFiltersEpub: ContentFilters {
     fun getHtmlLink(ressourceName: String) : String {
         val prefix = "<link rel=\"stylesheet\" type=\"text/css\" href=\""
         val suffix = "\"/>\n"
-
         return prefix + ressourceName + suffix
     }
 
