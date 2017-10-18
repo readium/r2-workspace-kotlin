@@ -35,7 +35,7 @@ class ContentFiltersEpub: ContentFilters {
 
     override fun apply(input: InputStream, publication: Publication, path: String): InputStream {
         var decodedInputStream = decoder.decoding(input, publication, path)
-        val link = publication.linkWithHref(path)
+        val link = publication.linkWithHref("/" + path)
         val baseUrl = publication.baseUrl()?.removeLastComponent()
         if ((link?.typeLink == "application/xhtml+xml" || link?.typeLink == "text/html")
                 && baseUrl != null){
@@ -73,14 +73,17 @@ class ContentFiltersEpub: ContentFilters {
         if (endHeadIndex == -1)
             return stream
         val includes = mutableListOf<String>()
-        val url = baseUrl.toString()
+
         includes.add("<meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0;\"/>\n")
-        includes.add(getHtmlLink(url + "styles/html5patch.css"))
-        includes.add(getHtmlLink(url + "styles/pagination.css"))
-        includes.add(getHtmlLink(url + "styles/safeguards.css"))
-        includes.add(getHtmlLink(url + "styles/readiumCSS-base.css"))
-        includes.add(getHtmlScript(url + "scripts/touchHandling.js"))
-        includes.add(getHtmlScript(url + "scripts/utils.js"))
+        includes.add(getHtmlLink("/styles/html5patch.css"))
+        includes.add(getHtmlLink("/styles/pagination.css"))
+        includes.add(getHtmlLink("/styles/safeguards.css"))
+        includes.add(getHtmlLink("/styles/readiumCSS-base.css"))
+        includes.add(getHtmlLink("/styles/readiumCSS-default.css"))
+        includes.add(getHtmlLink("/styles/readiumCSS-before.css"))
+        includes.add(getHtmlLink("/styles/readiumCSS-after.css"))
+        includes.add(getHtmlScript("/scripts/touchHandling.js"))
+        includes.add(getHtmlScript("/scripts/utils.js"))
         for (element in includes){
             resourceHtml = StringBuilder(resourceHtml).insert(endHeadIndex, element).toString()
         }

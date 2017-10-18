@@ -19,6 +19,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import org.readium.r2.navigator.R2EpubActivity
 import org.readium.r2.shared.Publication
 import org.readium.r2.streamer.Containers.Container
 import org.readium.r2.streamer.Parser.EpubParser
@@ -27,6 +28,7 @@ import org.readium.r2.streamer.Server.Server
 import java.io.File
 import java.io.InputStream
 import java.net.URL
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -112,6 +114,33 @@ class MainActivity : AppCompatActivity() {
 
     fun startServer() {
         server.start()
+        val after = Scanner(assets.open("ReadiumCSS/ReadiumCSS-after.css"), "utf-8")
+                .useDelimiter("\\A").next()
+        val before = Scanner(assets.open("ReadiumCSS/ReadiumCSS-before.css"), "utf-8")
+                .useDelimiter("\\A").next()
+        val default = Scanner(assets.open("ReadiumCSS/ReadiumCSS-default.css"), "utf-8")
+                .useDelimiter("\\A").next()
+        val base = Scanner(assets.open("ReadiumCSS/ReadiumCSS-default.css"), "utf-8")
+                .useDelimiter("\\A").next()
+        val html5patch = Scanner(assets.open("ReadiumCSS/ReadiumCSS-html5patch.css"), "utf-8")
+                .useDelimiter("\\A").next()
+        val pagination = Scanner(assets.open("ReadiumCSS/ReadiumCSS-pagination.css"), "utf-8")
+                .useDelimiter("\\A").next()
+        val safeguards = Scanner(assets.open("ReadiumCSS/ReadiumCSS-safeguards.css"), "utf-8")
+                .useDelimiter("\\A").next()
+        val touchHandling = Scanner(assets.open("ReadiumCSS/touchHandling.js"), "utf-8")
+                .useDelimiter("\\A").next()
+        val utils = Scanner(assets.open("ReadiumCSS/utils.js"), "utf-8")
+                .useDelimiter("\\A").next()
+        server.addResource("pagination.css", pagination)
+        server.addResource("html5patch.css", html5patch)
+        server.addResource("safeguards.css", safeguards)
+        server.addResource("readiumCSS-base.css", base)
+        server.addResource("readiumCSS-after.css", after)
+        server.addResource("readiumCSS-before.css", before)
+        server.addResource("readiumCSS-default.css", default)
+        server.addResource("touchHandling.js", touchHandling)
+        server.addResource("utils.js", utils)
     }
 
     private fun copyEpubFromAssetsToSdCard(epubFileName: String) {

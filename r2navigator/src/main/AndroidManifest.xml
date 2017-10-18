@@ -1,2 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.readium.r2.navigator" />
+    package="org.readium.r2.navigator">
+
+    <application>
+        <activity
+            android:name=".R2EpubActivity"
+            android:label="@string/title_activity_r2_epub"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TOCActivity"></activity>
+    </application>
+
+</manifest>

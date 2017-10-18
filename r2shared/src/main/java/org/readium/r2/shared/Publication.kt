@@ -105,7 +105,7 @@ class Publication {
         val link = Link()
         val manifestPath = "$endPoint/manifest.json"
 
-        publicationUrl = URL(baseURL.toString() + "/" + manifestPath)
+        publicationUrl = URL(baseURL.toString() + manifestPath)
         link.href = publicationUrl.toString()
         link.typeLink = "application/webpub+json"
         link.rel.add("self")

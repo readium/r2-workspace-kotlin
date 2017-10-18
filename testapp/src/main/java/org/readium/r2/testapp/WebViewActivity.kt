@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -18,6 +19,8 @@ class WebViewActivity : AppCompatActivity() {
 
     lateinit var publication_path:String
     lateinit var epub_name:String
+
+    lateinit var JSInterface: JavascriptInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +34,9 @@ class WebViewActivity : AppCompatActivity() {
         Log.d(TAG, publication_path)
         Log.d(TAG, epub_name)
 
+        val settings = webView.settings
+        settings.javaScriptEnabled = true
+
         webView.loadUrl(urlString)
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
@@ -38,7 +44,9 @@ class WebViewActivity : AppCompatActivity() {
                 return false
             }
         }
+
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toc, menu)
         return super.onCreateOptionsMenu(menu)

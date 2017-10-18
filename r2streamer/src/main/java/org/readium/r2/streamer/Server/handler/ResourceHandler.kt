@@ -1,5 +1,6 @@
 package org.readium.r2.streamer.Server.handler
 
+import android.util.Log
 import org.readium.r2.shared.Link
 import org.readium.r2.streamer.Fetcher.Fetcher
 
@@ -62,6 +63,7 @@ class ResourceHandler : DefaultHandler() {
             
         } catch (e: Exception) {
             println(TAG + " Exception " + e.toString())
+            Log.e(TAG, e.toString())
             return NanoHTTPD.newFixedLengthResponse(Status.INTERNAL_ERROR, mimeType, ResponseStatus.FAILURE_RESPONSE)
         }
 

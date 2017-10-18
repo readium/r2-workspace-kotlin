@@ -16,8 +16,8 @@ class Fetcher(publication: Publication, container: Container) {
 
         val rootFilePath = publication.internalData["rootfile"] ?: throw Exception("Missing root file")
         if (rootFilePath.isNotEmpty() && rootFilePath.contains('/')) {
-            rootFileDirectory = rootFilePath.replaceAfterLast("/", "", rootFilePath);
-            rootFileDirectory = rootFileDirectory.dropLast(1);
+            rootFileDirectory = rootFilePath.replaceAfterLast("/", "", rootFilePath)
+            rootFileDirectory = rootFileDirectory.dropLast(1)
         } else {
             rootFileDirectory = ""
         }
@@ -34,8 +34,8 @@ class Fetcher(publication: Publication, container: Container) {
 
     fun dataStream(path: String): InputStream {
         publication.resource("/" + path) ?: throw Exception("Missing file")
-        val inputStream = container.dataInputStream(path)
-//        contentFilters?.apply(inputStream, publication, path)
+        var inputStream = container.dataInputStream(path)
+        inputStream = contentFilters?.apply(inputStream, publication, path) ?: inputStream
         return inputStream
     }
 
@@ -50,7 +50,7 @@ class Fetcher(publication: Publication, container: Container) {
         when (mimeType) {
             "application/epub+zip", "application/oebps-package+xml" -> return ContentFiltersEpub()
             "application/x-cbr" -> return ContentFiltersCbz()
-            else -> throw Exception("Missing container  else MIMEtype")
+            else -> throw Exception("Missing container or MIMEtype")
         }
     }
 }

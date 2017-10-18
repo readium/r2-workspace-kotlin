@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">R2Navigator</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_r2_epub">R2EpubActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

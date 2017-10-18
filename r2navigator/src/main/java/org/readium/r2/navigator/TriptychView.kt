@@ -1,24 +1,30 @@
 package org.readium.r2.navigator
 
+import android.app.Fragment
 import android.graphics.Rect
 import android.view.View
+import org.readium.r2.navigator.myWebView
 import android.widget.ScrollView
 import kotlin.system.exitProcess
+import org.readium.r2.navigator.Views.*
 
 interface TriptychViewDelegate {
     fun triptychView(view: TriptychView, index: Int, location: BinaryLocation) : View
 }
 
+enum class Views{
+    one,
+    two,
+    many
+}
+
 class TriptychView (frame: Rect, viewCount: Int, initialIndex: Int) {
-
-    class Views(views: List<View>) {
-
-    }
 
     private var index: Int
     lateinit private var scrollView: ScrollView
     val viewCount: Int
-    var views: Views? = null
+    var viewNumber: Views = Views.many
+    var views: List<myWebView> = mutableListOf()
 
     private var isAtAnEdge: Boolean
 
@@ -30,6 +36,36 @@ class TriptychView (frame: Rect, viewCount: Int, initialIndex: Int) {
         isAtAnEdge = ((index == 0) || (index == (viewCount - 1)))
         this.viewCount = viewCount
         //ScrollView properties...
+    }
+
+    fun currentView() : myWebView {
+        return when (viewNumber){
+            one -> views[0]
+            two, many -> views[index]
+        }
+    }
+
+    fun moveTo(nextIndex: Int, id: String? = null){
+
+        // If we stay in the current html document
+        val cw  = currentView()
+        if (index == nextIndex){
+            if (id != null){
+                if (id == ""){
+                    cw.scrollAt(BinaryLocation.beginning)
+                } else {
+                    cw.scrollAt(id)
+                }
+            }
+            return
+        }
+
+        //Else
+        if (index < nextIndex) {
+            cw.scrollAt(BinaryLocation.beginning)
+        } else {
+            cw.scrollAt(BinaryLocation.end)
+        }
     }
 
 }
