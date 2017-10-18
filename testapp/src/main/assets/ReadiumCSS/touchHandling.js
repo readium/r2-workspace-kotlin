@@ -71,12 +71,12 @@ var handleTouchEnd = function(event) {
         if (position <= 0.2) {
             // TAP left.
             console.log("LeftTapped");
-            Android.scrollLeft(scrollLeft());
+            Android.scrollLeft();
             //webkit.messageHandlers.leftTap.postMessage("");
         } else if(position >= 0.8) {
             // TAP rigth.
             console.log("RightTapped");
-            Android.scrollRight(scrollRight());
+            Android.scrollRight();
             //webkit.messageHandlers.rightTap.postMessage("");
         } else {
             // TAP center.

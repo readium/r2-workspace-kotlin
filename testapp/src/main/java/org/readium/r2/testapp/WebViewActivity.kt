@@ -21,7 +21,7 @@ import java.net.URL
 class WebViewActivity : AppCompatActivity() {
 
     val TAG = this::class.java.simpleName
-
+    var maxWidth = 0
     lateinit var publication_path:String
     lateinit var epub_name:String
     var publication: Publication? = null
@@ -46,6 +46,7 @@ class WebViewActivity : AppCompatActivity() {
         webView.addJavascriptInterface(this, "Android")
 
 
+
         webView.loadUrl(urlString)
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
@@ -53,9 +54,12 @@ class WebViewActivity : AppCompatActivity() {
                 return false
             }
         }
+
+        val webView = webView
+        webView.isVerticalScrollBarEnabled = false
     }
 
-    fun load(url: String){
+    fun load(url: String, goToEnd: Boolean){
         runOnUiThread(Runnable {
             webView.loadUrl(url)
             webView.webViewClient = object : WebViewClient() {
@@ -67,23 +71,20 @@ class WebViewActivity : AppCompatActivity() {
         })
     }
 
-    // TODO: Find a way to change doc when needed
     @android.webkit.JavascriptInterface
-    fun scrollRight(result: String){
-        if (spineItem < publication!!.spine.size - 1 && webView.scrollX == 0) {
-            val url = URL + "/" + epub_name + publication!!.spine.get(spineItem + 1).href
-            load(url)
+    fun scrollRight(result: Int){
+        if (spineItem < publication!!.spine.size - 1 && !webView.canScrollHorizontally(1)) {
+            load(URL + "/" + epub_name + publication!!.spine.get(spineItem + 1).href, false)
             spineItem++
         } else {
             webView.scrollX = webView.scrollX + webView.width
         }
     }
 
-    // TODO: Find a way to change doc when needed
     @android.webkit.JavascriptInterface
-    fun scrollLeft(result: String){
-        if (spineItem > 0 && webView.scrollX > 100) {
-            load(URL + "/" + epub_name + publication!!.spine.get(spineItem - 1).href)
+    fun scrollLeft(result: Int){
+        if (spineItem > 0 && !webView.canScrollHorizontally(-1)) {
+            load(URL + "/" + epub_name + publication!!.spine.get(spineItem - 1).href, true)
             spineItem--
         } else {
             webView.scrollX = webView.scrollX - webView.width
