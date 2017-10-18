@@ -71,15 +71,17 @@ var handleTouchEnd = function(event) {
         if (position <= 0.2) {
             // TAP left.
             console.log("LeftTapped");
-            webkit.messageHandlers.leftTap.postMessage("");
+            Android.scrollLeft(scrollLeft());
+            //webkit.messageHandlers.leftTap.postMessage("");
         } else if(position >= 0.8) {
             // TAP rigth.
             console.log("RightTapped");
-            webkit.messageHandlers.rightTap.postMessage("");
+            Android.scrollRight(scrollRight());
+            //webkit.messageHandlers.rightTap.postMessage("");
         } else {
             // TAP center.
             console.log("CenterTapped");
-            webkit.messageHandlers.centerTap.postMessage("");
+            //webkit.messageHandlers.centerTap.postMessage("");
         }
         event.stopPropagation();
         event.preventDefault();

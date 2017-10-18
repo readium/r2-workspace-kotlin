@@ -4,14 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Layout
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.webkit.JavascriptInterface
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.view.MotionEvent
+import android.view.View
+import android.webkit.*
+import android.widget.Toast
+import com.fasterxml.jackson.databind.ext.Java7Support
 import kotlinx.android.synthetic.main.activity_web_view.*
+import org.readium.r2.shared.Publication
+import org.readium.r2.streamer.Parser.EpubParser
+import java.net.URL
 
 class WebViewActivity : AppCompatActivity() {
 
@@ -19,8 +24,8 @@ class WebViewActivity : AppCompatActivity() {
 
     lateinit var publication_path:String
     lateinit var epub_name:String
-
-    lateinit var JSInterface: JavascriptInterface
+    var publication: Publication? = null
+    var spineItem = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +34,17 @@ class WebViewActivity : AppCompatActivity() {
         val urlString = intent.getStringExtra("url")
         publication_path = intent.getStringExtra("publication_path")
         epub_name = intent.getStringExtra("epub_name")
+        publication = EpubParser().parse(publication_path)?.publication
 
         Log.d(TAG, urlString)
         Log.d(TAG, publication_path)
         Log.d(TAG, epub_name)
 
-        val settings = webView.settings
-        settings.javaScriptEnabled = true
+        // TODO : prevent vertical scrolling
+        webView.settings.javaScriptEnabled = true
+        webView.isVerticalScrollBarEnabled = false
+        webView.addJavascriptInterface(this, "Android")
+
 
         webView.loadUrl(urlString)
         webView.webViewClient = object : WebViewClient() {
@@ -44,7 +53,41 @@ class WebViewActivity : AppCompatActivity() {
                 return false
             }
         }
+    }
 
+    fun load(url: String){
+        runOnUiThread(Runnable {
+            webView.loadUrl(url)
+            webView.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                    view.loadUrl(request.url.toString())
+                    return false
+                }
+            }
+        })
+    }
+
+    // TODO: Find a way to change doc when needed
+    @android.webkit.JavascriptInterface
+    fun scrollRight(result: String){
+        if (spineItem < publication!!.spine.size - 1 && webView.scrollX == 0) {
+            val url = URL + "/" + epub_name + publication!!.spine.get(spineItem + 1).href
+            load(url)
+            spineItem++
+        } else {
+            webView.scrollX = webView.scrollX + webView.width
+        }
+    }
+
+    // TODO: Find a way to change doc when needed
+    @android.webkit.JavascriptInterface
+    fun scrollLeft(result: String){
+        if (spineItem > 0 && webView.scrollX > 100) {
+            load(URL + "/" + epub_name + publication!!.spine.get(spineItem - 1).href)
+            spineItem--
+        } else {
+            webView.scrollX = webView.scrollX - webView.width
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
