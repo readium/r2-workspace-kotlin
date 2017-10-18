@@ -1,8 +1,9 @@
 package org.readium.r2.shared
 
 import org.json.JSONObject
+import java.io.Serializable
 
-class Contributor : JSONable{
+class Contributor : JSONable, Serializable {
 
     var multilangName:MultilangString = MultilangString()
 

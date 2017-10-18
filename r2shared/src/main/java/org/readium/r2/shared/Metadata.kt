@@ -1,8 +1,9 @@
 package org.readium.r2.shared
 
 import org.json.JSONObject
+import java.io.Serializable
 
-class Metadata{
+class Metadata : Serializable {
 
     /// The structure used for the serialisation.
     var multilangTitle: MultilangString? = null

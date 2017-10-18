@@ -1,6 +1,8 @@
 package org.readium.r2.shared
 
-class MetadataItem{
+import java.io.Serializable
+
+class MetadataItem : Serializable{
 
     var property: String? = null
     var value: String? = null

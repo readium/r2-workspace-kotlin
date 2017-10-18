@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.readium.r2.navigator.R2EpubActivityFragment"
-    tools:showIn="@layout/activity_r2_epub2">
+    tools:showIn="@layout/activity_r2_epub">
 
 </WebView>

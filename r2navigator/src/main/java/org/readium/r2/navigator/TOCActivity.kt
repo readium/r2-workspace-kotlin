@@ -1,4 +1,4 @@
-package org.readium.r2.testapp
+package org.readium.r2.navigator
 
 import android.app.Activity
 import android.app.ListActivity
@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_epub_list.*
 import org.readium.r2.shared.Publication
-import org.readium.r2.streamer.Parser.EpubParser
 import android.view.View
 import android.view.ViewGroup
 import org.readium.r2.shared.Link
@@ -28,9 +27,9 @@ class TOCActivity : ListActivity() {
 
         val epub_name = intent.getStringExtra("epub_name")
         val publication_path = intent.getStringExtra("publication_path")
-        val publication: Publication? = EpubParser().parse(publication_path)?.publication
+        val publication = intent.getSerializableExtra("publication") as Publication
 
-        listAdapter = TOCAdapter(this, publication?.spine!!)
+        listAdapter = TOCAdapter(this, publication.spine)
 
         list.setOnItemClickListener { _, _, position, _ ->
 

@@ -1,11 +1,13 @@
 package org.readium.r2.streamer.Server
 
+import android.content.res.AssetManager
 import fi.iki.elonen.router.RouterNanoHTTPD
 import org.readium.r2.shared.Publication
 import org.readium.r2.streamer.Containers.Container
 import org.readium.r2.streamer.Fetcher.Fetcher
 import org.readium.r2.streamer.Server.handler.*
 import java.net.URL
+import java.util.*
 
 
 class Server(port: Int) : AbstractServer(port) {
@@ -26,6 +28,39 @@ abstract class AbstractServer(port: Int) : RouterNanoHTTPD(port) {
 
     fun addResource(name: String, body: String) {
         ressources.add(name, body)
+    }
+
+    fun loadResources(assets: AssetManager){
+        addResource("fs_normalize.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-fs_normalize.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("highlights.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-highlights.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("night_mode.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-night_mode.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("os_a11y.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-os_a11y.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("sepia_mode.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-sepia_mode.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("user_settings.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-user_settings.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("pagination.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-pagination.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("html5patch.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-html5patch.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("safeguards.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-safeguards.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("readiumCSS-base.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-default.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("readiumCSS-after.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-after.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("readiumCSS-before.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-before.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("readiumCSS-default.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-default.css"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("touchHandling.js", Scanner(assets.open("ReadiumCSS/touchHandling.js"), "utf-8")
+                .useDelimiter("\\A").next())
+        addResource("utils.js", Scanner(assets.open("ReadiumCSS/utils.js"), "utf-8")
+                .useDelimiter("\\A").next())
     }
 
     fun addEpub(publication: Publication, container: Container, fileName: String) {

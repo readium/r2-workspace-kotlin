@@ -1,7 +1,10 @@
 package org.readium.r2.shared
 
+import android.os.Parcel
+import android.os.Parcelable
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.Serializable
 import java.net.URL
 
 fun getJSONArray(list: List<JSONable>) : JSONArray{
@@ -25,7 +28,8 @@ fun tryPut(obj: JSONObject, list: List<JSONable>, tag: String){
         obj.putOpt(tag, getJSONArray(list))
 }
 
-class Publication {
+class Publication : Serializable {
+
     /// The version of the publication, if the type needs any.
     var version: Double = 0.0
     /// The metadata (title, identifier, contributors, etc.).
@@ -48,7 +52,7 @@ class Publication {
     /// Extension point for links that shouldn't show up in the manifest.
     var otherLinks: MutableList<Link> = mutableListOf()
     var internalData: MutableMap<String, String> = mutableMapOf()
-    var manifestDictionnary: Map<String, Any> = mapOf()
+    //var manifestDictionnary: Map<String, Any> = mapOf()
     var coverLink: Link?  = null
         get() = linkWithRel("cover")
 
@@ -116,4 +120,5 @@ class Publication {
             resources.firstOrNull(closure) ?:
                 spine.firstOrNull(closure) ?:
                 links.firstOrNull(closure)
+
 }

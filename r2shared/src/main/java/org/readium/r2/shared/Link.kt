@@ -1,10 +1,11 @@
 package org.readium.r2.shared
 
 import org.json.JSONObject
+import java.io.Serializable
 import java.sql.Timestamp
 
 //  A link to a resource
-class Link : JSONable{
+class Link : JSONable, Serializable{
     //  The link destination
     var href: String? = null
     /// MIME type of resource.

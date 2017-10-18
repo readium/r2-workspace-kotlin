@@ -28,8 +28,6 @@ import org.readium.r2.streamer.Server.Server
 import java.io.File
 import java.io.InputStream
 import java.net.URL
-import java.util.*
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     var publication_path: String = r2test_directory_path + epub_name
 
     val server = Server(PORT_NUMBER)
+    var publi: Publication? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
@@ -114,33 +113,7 @@ class MainActivity : AppCompatActivity() {
 
     fun startServer() {
         server.start()
-        val after = Scanner(assets.open("ReadiumCSS/ReadiumCSS-after.css"), "utf-8")
-                .useDelimiter("\\A").next()
-        val before = Scanner(assets.open("ReadiumCSS/ReadiumCSS-before.css"), "utf-8")
-                .useDelimiter("\\A").next()
-        val default = Scanner(assets.open("ReadiumCSS/ReadiumCSS-default.css"), "utf-8")
-                .useDelimiter("\\A").next()
-        val base = Scanner(assets.open("ReadiumCSS/ReadiumCSS-default.css"), "utf-8")
-                .useDelimiter("\\A").next()
-        val html5patch = Scanner(assets.open("ReadiumCSS/ReadiumCSS-html5patch.css"), "utf-8")
-                .useDelimiter("\\A").next()
-        val pagination = Scanner(assets.open("ReadiumCSS/ReadiumCSS-pagination.css"), "utf-8")
-                .useDelimiter("\\A").next()
-        val safeguards = Scanner(assets.open("ReadiumCSS/ReadiumCSS-safeguards.css"), "utf-8")
-                .useDelimiter("\\A").next()
-        val touchHandling = Scanner(assets.open("ReadiumCSS/touchHandling.js"), "utf-8")
-                .useDelimiter("\\A").next()
-        val utils = Scanner(assets.open("ReadiumCSS/utils.js"), "utf-8")
-                .useDelimiter("\\A").next()
-        server.addResource("pagination.css", pagination)
-        server.addResource("html5patch.css", html5patch)
-        server.addResource("safeguards.css", safeguards)
-        server.addResource("readiumCSS-base.css", base)
-        server.addResource("readiumCSS-after.css", after)
-        server.addResource("readiumCSS-before.css", before)
-        server.addResource("readiumCSS-default.css", default)
-        server.addResource("touchHandling.js", touchHandling)
-        server.addResource("utils.js", utils)
+        server.loadResources(assets)
     }
 
     private fun copyEpubFromAssetsToSdCard(epubFileName: String) {
@@ -154,6 +127,7 @@ class MainActivity : AppCompatActivity() {
         val pub: PubBox? = EpubParser().parse(publication_path)
         val publication: Publication? = pub?.publication
         val container: Container? = pub?.container
+        publi = publication
         textView.text = String.format("%s\n\n%s", publication?.metadata?.title ?: getString(R.string.error_invalid_epub), publication?.metadata?.description ?: getString(R.string.fallback_no_description))
 
         server.addEpub(publication!!, container!!, "/" + epub_name)
@@ -161,10 +135,11 @@ class MainActivity : AppCompatActivity() {
         if (publication.spine.size > 0) {
             val urlString = URL + "/" + epub_name + publication.spine.get(0).href
             readButton.setOnClickListener {
-                val intent = Intent(this, WebViewActivity::class.java)
+                val intent = Intent(this, R2EpubActivity::class.java)
                 intent.putExtra("url", urlString)
                 intent.putExtra("publication_path", publication_path)
                 intent.putExtra("epub_name", epub_name)
+                intent.putExtra("publication", publication)
                 startActivity(intent)
             }
             Log.d(TAG, urlString)

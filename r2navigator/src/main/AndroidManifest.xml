@@ -3,11 +3,8 @@
     package="org.readium.r2.navigator">
 
     <application>
-        <activity
-            android:name=".R2EpubActivity"
-            android:label="@string/title_activity_r2_epub"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TOCActivity"></activity>
+        <activity android:name=".R2EpubActivity" />
+        <activity android:name=".TOCActivity" />
     </application>
 
 </manifest>
