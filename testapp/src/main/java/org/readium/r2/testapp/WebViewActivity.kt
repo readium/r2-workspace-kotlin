@@ -72,7 +72,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     @android.webkit.JavascriptInterface
-    fun scrollRight(result: Int){
+    fun scrollRight(){
         if (spineItem < publication!!.spine.size - 1 && !webView.canScrollHorizontally(1)) {
             load(URL + "/" + epub_name + publication!!.spine.get(spineItem + 1).href, false)
             spineItem++
@@ -82,7 +82,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     @android.webkit.JavascriptInterface
-    fun scrollLeft(result: Int){
+    fun scrollLeft(){
         if (spineItem > 0 && !webView.canScrollHorizontally(-1)) {
             load(URL + "/" + epub_name + publication!!.spine.get(spineItem - 1).href, true)
             spineItem--
