@@ -1,5 +1,6 @@
 package org.readium.r2.streamer.Parser
 
+import android.content.SharedPreferences
 import android.util.Log
 import org.readium.r2.shared.Publication
 import org.readium.r2.streamer.XmlParser.XmlParser

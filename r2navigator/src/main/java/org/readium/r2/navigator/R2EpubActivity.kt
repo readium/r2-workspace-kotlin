@@ -1,15 +1,18 @@
 package org.readium.r2.navigator
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.Preference
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_r2_epub.*
 import org.readium.r2.shared.Publication
 
@@ -20,6 +23,7 @@ class R2EpubActivity : AppCompatActivity() {
     lateinit var epub_name:String
     var publication: Publication? = null
     var spineItem = 0
+    lateinit var settings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +43,6 @@ class R2EpubActivity : AppCompatActivity() {
         webView.isVerticalScrollBarEnabled = false
         webView.addJavascriptInterface(this, "Android")
 
-
-
         webView.loadUrl(urlString)
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
@@ -48,9 +50,6 @@ class R2EpubActivity : AppCompatActivity() {
                 return false
             }
         }
-
-        val webView = webView
-        webView.isVerticalScrollBarEnabled = false
     }
 
     fun load(url: String, goToEnd: Boolean){
@@ -71,7 +70,7 @@ class R2EpubActivity : AppCompatActivity() {
             load(URL + "/" + epub_name + publication!!.spine.get(spineItem + 1).href, false)
             spineItem++
         } else {
-            webView.scrollX = webView.scrollX + webView.width + 2
+            webView.scrollTo(webView.scrollX + webView.width, 0)
         }
     }
 
@@ -81,7 +80,7 @@ class R2EpubActivity : AppCompatActivity() {
             load(URL + "/" + epub_name + publication!!.spine.get(spineItem - 1).href, true)
             spineItem--
         } else {
-            webView.scrollX = webView.scrollX - (webView.width + 2)
+            webView.scrollTo(webView.scrollX - webView.width, 0)
         }
     }
 
@@ -101,6 +100,15 @@ class R2EpubActivity : AppCompatActivity() {
 
                 return true
             }
+            R.id.settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                intent.putExtra("publication_path", publication_path)
+                intent.putExtra("epub_name", epub_name)
+                intent.putExtra("publication", publication)
+                startActivityForResult(intent, 3)
+
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -110,14 +118,11 @@ class R2EpubActivity : AppCompatActivity() {
             var spine_item_uri: String? = null
             if (data != null) {
                 spine_item_uri = data.getStringExtra("spine_item_uri")
-                webView.loadUrl(spine_item_uri)
-                webView.webViewClient = object : WebViewClient() {
-                    override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-                        view.loadUrl(request.url.toString())
-                        return false
-                    }
-                }
+                load(spine_item_uri.toString(), false)
             }
+        } else if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
+            Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show()
         }
+
     }
 }

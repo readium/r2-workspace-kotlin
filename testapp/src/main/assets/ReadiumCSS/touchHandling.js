@@ -65,23 +65,17 @@ var handleTouchEnd = function(event) {
     var screenWidth = maxScreenX;
     var tapAreaWidth = maxScreenX * 0.2;
 
-    // // Tap to turn.
     if(touchDistance < 0.01) {
         var position = (touch.screenX % maxScreenX) / maxScreenX;
         if (position <= 0.2) {
-            // TAP left.
             console.log("LeftTapped");
             Android.scrollLeft();
-            //webkit.messageHandlers.leftTap.postMessage("");
         } else if(position >= 0.8) {
-            // TAP rigth.
             console.log("RightTapped");
             Android.scrollRight();
-            //webkit.messageHandlers.rightTap.postMessage("");
         } else {
-            // TAP center.
             console.log("CenterTapped");
-            //webkit.messageHandlers.centerTap.postMessage("");
+            setProperty("--USER__textColor", "blue")
         }
         event.stopPropagation();
         event.preventDefault();

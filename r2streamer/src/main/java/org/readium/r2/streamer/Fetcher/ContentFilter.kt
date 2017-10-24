@@ -74,7 +74,7 @@ class ContentFiltersEpub: ContentFilters {
             return stream
         val includes = mutableListOf<String>()
 
-        includes.add("<meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0;\"/>\n")
+        includes.add("<meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;\"/>\n")
         includes.add(getHtmlLink("/styles/scroll.css"))
         includes.add(getHtmlLink("/styles/user_settings.css"))
         includes.add(getHtmlLink("/styles/html5patch.css"))

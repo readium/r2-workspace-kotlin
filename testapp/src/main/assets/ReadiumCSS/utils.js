@@ -22,6 +22,7 @@ window.addEventListener('scroll', function(e) {
                                                     });
                        }
                        ticking = true;
+                       return false;
                        });
 
 // Scroll to the given TagId in document and snap.
@@ -50,10 +51,10 @@ var scrollLeft = function() {
     var offset = window.scrollX - maxScreenX;
 
     if (offset >= 0) {
-//        document.body.scrollLeft = offset;
+        document.body.scrollLeft = offset;
         return "";
     } else {
-  //      document.body.scrollLeft = 0;
+        document.body.scrollLeft = 0;
         return "edge"; // Need to previousDocument.
     }
 };
@@ -63,10 +64,10 @@ var scrollRight = function() {
     var scrollWidth = document.getElementsByTagName("body")[0].scrollWidth;
 
     if (offset < scrollWidth) {
-        //document.body.scrollLeft = offset;
+        document.body.scrollLeft = offset;
         return "";
     } else {
-        //document.body.scrollLeft = scrollWidth;
+        document.body.scrollLeft = scrollWidth;
         return "edge"; // Need to nextDocument.
     }
 };
@@ -82,6 +83,7 @@ var snapOffset = function(offset) {
 
 // For setting user setting.
 var setProperty = function(key, value) {
+    console.log(key + ": " + value + ";");
     var root = document.documentElement;
 
     root.style.setProperty(key, value);

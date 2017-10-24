@@ -1,12 +1,10 @@
 package org.readium.r2.navigator
 
-import android.app.Fragment
 import android.graphics.Rect
 import android.view.View
-import org.readium.r2.navigator.myWebView
 import android.widget.ScrollView
-import kotlin.system.exitProcess
 import org.readium.r2.navigator.Views.*
+import kotlin.system.exitProcess
 
 interface TriptychViewDelegate {
     fun triptychView(view: TriptychView, index: Int, location: BinaryLocation) : View

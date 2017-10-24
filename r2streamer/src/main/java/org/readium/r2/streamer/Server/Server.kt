@@ -7,6 +7,7 @@ import org.readium.r2.streamer.Containers.Container
 import org.readium.r2.streamer.Fetcher.Fetcher
 import org.readium.r2.streamer.Server.handler.*
 import java.net.URL
+import java.nio.file.attribute.UserPrincipalLookupService
 import java.util.*
 
 
@@ -35,11 +36,7 @@ abstract class AbstractServer(port: Int) : RouterNanoHTTPD(port) {
                 .useDelimiter("\\A").next())
         addResource("highlights.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-highlights.css"), "utf-8")
                 .useDelimiter("\\A").next())
-        addResource("night_mode.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-night_mode.css"), "utf-8")
-                .useDelimiter("\\A").next())
         addResource("os_a11y.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-os_a11y.css"), "utf-8")
-                .useDelimiter("\\A").next())
-        addResource("sepia_mode.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-sepia_mode.css"), "utf-8")
                 .useDelimiter("\\A").next())
         addResource("user_settings.css", Scanner(assets.open("ReadiumCSS/ReadiumCSS-user_settings.css"), "utf-8")
                 .useDelimiter("\\A").next())

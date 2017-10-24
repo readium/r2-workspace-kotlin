@@ -19,7 +19,5 @@ class R2EpubActivityFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //TODO
     }
 }
