@@ -75,7 +75,7 @@ var handleTouchEnd = function(event) {
             Android.scrollRight();
         } else {
             console.log("CenterTapped");
-            setProperty("--USER__textColor", "blue")
+            Android.CenterTapped();
         }
         event.stopPropagation();
         event.preventDefault();
