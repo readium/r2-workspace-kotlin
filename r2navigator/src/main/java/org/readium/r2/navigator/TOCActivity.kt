@@ -39,6 +39,7 @@ class TOCActivity : ListActivity() {
 
             val intent = Intent()
             intent.putExtra("spine_item_uri", spine_item_uri)
+            intent.putExtra("spine_item_index", position)
             setResult(Activity.RESULT_OK, intent)
             finish()
 
