@@ -15,6 +15,10 @@ import android.view.ViewGroup
 import org.readium.r2.shared.Link
 import android.widget.TextView
 import kotlinx.android.synthetic.main.toc_item.view.*
+//import jdk.nashorn.internal.objects.ArrayBufferView.buffer
+//import android.support.test.espresso.core.internal.deps.guava.io.ByteStreams.toByteArray
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 
 class TOCActivity : ListActivity() {

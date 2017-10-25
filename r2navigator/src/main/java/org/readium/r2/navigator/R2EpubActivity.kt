@@ -58,7 +58,6 @@ class R2EpubActivity : AppCompatActivity() {
         resourcePager.adapter = myAdapter
 
         triptychLayout.setupWithViewPager(resourcePager);
-
     }
 
     @SuppressLint("JavascriptInterface")
@@ -76,15 +75,12 @@ class R2EpubActivity : AppCompatActivity() {
                 return false
             }
         }
-
         webView.webChromeClient = object : WebChromeClient() {
             override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
                 super.onShowCustomView(view, callback)
             }
         }
-
         webView.loadUrl(url)
-
         viewList.add(webView)
     }
 

@@ -87,13 +87,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(R.xml.pref_general)
             setHasOptionsMenu(true)
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"))
-            bindPreferenceSummaryToValue(findPreference("example_list"))
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -116,12 +109,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(R.xml.pref_notification)
             setHasOptionsMenu(true)
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"))
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -149,7 +136,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"))
+            // bindPreferenceSummaryToValue(findPreference("sync_frequency"))
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -168,6 +155,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
          * A preference value change listener that updates the preference's summary
          * to reflect its new value.
          */
+/*
         private val sBindPreferenceSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, value ->
             val stringValue = value.toString()
 
@@ -213,6 +201,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             }
             true
         }
+*/
 
         /**
          * Helper method to determine if the device has an extra-large screen. For
@@ -233,14 +222,15 @@ class SettingsActivity : AppCompatPreferenceActivity() {
          */
         private fun bindPreferenceSummaryToValue(preference: Preference) {
             // Set the listener to watch for value changes.
-            preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener
+            //preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener
 
             // Trigger the listener immediately with the preference's
             // current value.
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+            /*sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                     PreferenceManager
                             .getDefaultSharedPreferences(preference.context)
                             .getString(preference.key, ""))
+                            */
         }
     }
 }

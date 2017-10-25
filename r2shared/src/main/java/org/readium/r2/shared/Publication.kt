@@ -28,6 +28,16 @@ fun tryPut(obj: JSONObject, list: List<JSONable>, tag: String){
         obj.putOpt(tag, getJSONArray(list))
 }
 
+class TocElement(val link: Link, val children: List<TocElement>) : JSONable {
+
+    override fun getJSON(): JSONObject {
+        val json = link.getJSON()
+        tryPut(json, children, "children")
+        return json
+    }
+
+}
+
 class Publication : Serializable {
 
     /// The version of the publication, if the type needs any.

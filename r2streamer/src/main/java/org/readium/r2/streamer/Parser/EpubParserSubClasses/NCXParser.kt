@@ -1,6 +1,7 @@
 package org.readium.r2.streamer.Parser.EpubParserSubClasses
 
 import org.readium.r2.shared.Link
+import org.readium.r2.shared.TocElement
 import org.readium.r2.streamer.XmlParser.XmlParser
 import org.readium.r2.streamer.XmlParser.Node
 import org.readium.r2.streamer.Parser.normalize
@@ -19,8 +20,7 @@ class NCXParser{
         return nodeArray(pageListElement, "pageTarget")
     }
 
-    private fun nodeArray(element: Node?, type: String) : List<Link>
-    {
+    private fun nodeArray(element: Node?, type: String) : List<Link> {
         // The "to be returned" node array.
         val newNodeArray: MutableList<Link> = mutableListOf()
 
@@ -32,11 +32,11 @@ class NCXParser{
         return newNodeArray
     }
 
-    private fun node(element: Node, type: String) : Link {
+    private fun node(element: Node, type: String) : Link{
         val newNode = Link()
         newNode.href = normalize(ncxDocumentPath, element.getFirst("content")?.properties?.get("src"))
         newNode.title = element.getFirst("navLabel")!!.getFirst("text")!!.text
-        element.get("type")?.let {
+        element.get("navPoint")?.let {
             for (childNode in it){
                 newNode.children.plusAssign(node(childNode, type))
             }
