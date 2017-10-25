@@ -90,8 +90,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".EpubListActivity" />
-        <activity android:name="org.readium.r2.navigator.R2EpubActivity"/>
-        <activity android:name="org.readium.r2.navigator.TOCActivity"/>
     </application>
 
 </manifest>

@@ -60,7 +60,7 @@ class R2EpubActivity : AppCompatActivity() {
         triptychLayout.setupWithViewPager(resourcePager);
     }
 
-    @SuppressLint("JavascriptInterface")
+    @SuppressLint("JavascriptInterface", "SetJavaScriptEnabled")
     private fun addView(viewList: MutableList<View>, url: String) {
 
         val webView = R2WebView(this)
