@@ -87,53 +87,62 @@ class R2EpubActivity : AppCompatActivity() {
     internal inner class R2WebView : WebView {
 
         internal lateinit var context: Context
-        private val bAllowScroll = false
-
-        val contentWidth: Int
-            get() = this.computeHorizontalScrollRange()
-        val totalHeight: Int
-            get() = this.computeVerticalScrollRange()
+        private var web = this;
 
         constructor(context: Context) : super(context) {
             this.context = context
-
         }
 
         constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
         @android.webkit.JavascriptInterface
         fun scrollRight() {
-            if (!this.canScrollHorizontally(1)) {
+            if (!web.canScrollHorizontally(1)) {
                 nextResource()
             } else {
-                this.scrollTo(this.scrollX + this.width, 0)
+                web.scrollTo(web.scrollX + web.width, 0)
             }
         }
 
         @android.webkit.JavascriptInterface
         fun scrollLeft() {
-            if (!this.canScrollHorizontally(-1)) {
+            if (!web.canScrollHorizontally(-1)) {
                 previousResource()
             } else {
-                this.scrollTo(this.scrollX - this.width, 0)
+                web.scrollTo(web.scrollX - web.width, 0)
+            }
+        }
+
+        @android.webkit.JavascriptInterface
+        fun CenterTapped() {
+            toggleActionBar()
+        }
+
+    }
+
+
+    fun toggleActionBar() {
+        runOnUiThread {
+
+            if (supportActionBar!!.isShowing) {
+                supportActionBar!!.hide()
+            } else {
+                supportActionBar!!.show()
             }
         }
     }
-
 
     fun nextResource() {
         runOnUiThread {
             resourcePager.setCurrentItem(resourcePager.getCurrentItem() + 1)
         }
-
     }
+
     fun previousResource() {
         runOnUiThread {
             resourcePager.setCurrentItem(resourcePager.getCurrentItem() - 1)
         }
     }
-
-
 
     class MyPagerAdapter(private val mListViews: MutableList<View>) : PagerAdapter() {
 
