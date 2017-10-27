@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="General">
+        <SwitchPreference
+            android:key="defaults"
+            android:title="Publisher's Defaults"
+            android:summary="User publisher's layout defaults"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>
