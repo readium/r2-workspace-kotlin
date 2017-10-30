@@ -2,6 +2,7 @@ package org.readium.r2.navigator
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Fragment
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -190,12 +191,7 @@ class R2EpubActivity : AppCompatActivity() {
                 return true
             }
             R.id.settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
-                intent.putExtra("publication_path", publication_path)
-                intent.putExtra("epub_name", epub_name)
-                intent.putExtra("publication", publication)
-                startActivityForResult(intent, 3)
-
+                fragmentManager.beginTransaction().add(R.id.frameLayout, SettingsFragment()).commit()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
