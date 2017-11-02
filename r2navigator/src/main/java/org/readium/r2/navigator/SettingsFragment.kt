@@ -1,41 +1,43 @@
 package org.readium.r2.navigator
 
 import android.content.Context
-import android.net.Uri
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceFragment
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [SettingsFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+    lateinit var change: Change
 
-class SettingsFragment : PreferenceFragment() {
+    interface Change {
+        fun onModeChange(mode: String)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == "mode"){
+            change.onModeChange(sharedPreferences?.getString("mode", "readium-default-on") ?: "readium-default-on")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preference)
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_settings, container, false)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        view.setBackgroundColor(resources.getColor(android.R.color.white))
+        return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        change = activity as Change
     }
 
 }

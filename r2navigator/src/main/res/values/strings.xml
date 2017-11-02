@@ -52,16 +52,44 @@
         <item>-1</item>
     </string-array>
 
+    <string-array name="mode_list">
+        <item>Default</item>
+        <item>Sepia</item>
+        <item>Night</item>
+    </string-array>
+
+    <string-array name="mode_list_values">
+        <item>readium-default-on</item>
+        <item>readium-sepia-on</item>
+        <item>readium-night-on</item>
+    </string-array>
+
+    <string-array name="font_list">
+        <item>Publisher's default</item>
+        <item>Helvetica Neue</item>
+        <item>Iowan</item>
+        <item>Athelas</item>
+        <item>Seravek</item>
+    </string-array>
+
+    <string-array name="font_list_values">
+        <item>Publisher's default</item>
+        <item>Helvetica Neue</item>
+        <item>Iowan</item>
+        <item>Athelas</item>
+        <item>Seravek</item>
+    </string-array>
+
     <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
+        <item>0.5</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="list_preference_entry_values">
+        <item>0.5</item>
         <item>1</item>
         <item>2</item>
-        <item>3</item>
     </string-array>
 
     <string-array name="multi_select_list_preference_default_value" />

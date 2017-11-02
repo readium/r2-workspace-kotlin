@@ -104,11 +104,16 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
                 thread.start()
-
             } else if (intent.scheme.compareTo("ftp") == 0) {
                 // TODO Import from FTP!
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        server.stop()
+
     }
 
     fun startServer() {

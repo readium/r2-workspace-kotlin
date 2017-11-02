@@ -5,8 +5,36 @@
         <SwitchPreference
             android:key="defaults"
             android:title="Publisher's Defaults"
-            android:summary="User publisher's layout defaults"
-            />
+            android:summary="User publisher's layout defaults" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Font">
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="fontSize"
+            android:entries="@array/list_preference_entries"
+            android:entryValues="@array/list_preference_entry_values"
+            android:key="font_size"
+            android:title="Font Size"/>
+        <ListPreference
+            android:defaultValue="Publisher"
+            android:dialogTitle="font"
+            android:entries="@array/font_list"
+            android:entryValues="@array/font_list_values"
+            android:key="font"
+            android:title="Font"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Appearance">
+        <ListPreference
+            android:defaultValue="Default"
+            android:dialogTitle="Mode"
+            android:entries="@array/mode_list"
+            android:entryValues="@array/mode_list_values"
+            android:key="mode"
+            android:title="Mode"/>
+        <SwitchPreference
+            android:key="scroll"
+            android:title="Scroll mode"
+            android:summary="Vertical scroll" />
     </PreferenceCategory>
 
 </PreferenceScreen>
