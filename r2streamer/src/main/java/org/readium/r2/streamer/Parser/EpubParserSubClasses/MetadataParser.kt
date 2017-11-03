@@ -83,17 +83,17 @@ class MetadataParser {
     //   - Attributes: The XML document attributes.
     // - Returns: The content of the `<dc:identifier>` element, `nil` if the
     //            element wasn't found.
-    fun uniqueIdentifier(metadata: Node, documentProperties: Map<String, String>): String {
+    fun uniqueIdentifier(metadata: Node, documentProperties: Map<String, String>): String? {
         val identifiers = metadata.get("dc:identifier") ?: throw Exception("No identifier")
         if (identifiers.isEmpty())
-            throw Exception("No identifier")
+            return null
         val uniqueId = documentProperties["unique-identifier"]
         if (identifiers.size > 1 && uniqueId != null) {
             val uniqueIdentifiers = identifiers.filter { it.properties["id"] == uniqueId }
             if (!uniqueIdentifiers.isEmpty())
                 return uniqueIdentifiers.firstOrNull()?.text ?: throw Exception("No identifier")
         }
-        return identifiers[0].text ?: throw Exception("No identifier")
+        return identifiers[0].text
     }
 
     fun modifiedDate(metadataElement: Node) = metadataElement.get("meta")!!.firstOrNull {

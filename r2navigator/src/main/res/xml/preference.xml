@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:styles="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="General">
+        <org.readium.r2.navigator.UserSettings.UpDownPreference
+            android:key="fontSize"
+            android:title="Font size"
+            styles:step="10"
+            styles:min="60"
+            styles:max="150"/>
         <SwitchPreference
             android:key="defaults"
             android:title="Publisher's Defaults"
             android:summary="User publisher's layout defaults" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Font">
-        <ListPreference
-            android:defaultValue="1"
-            android:dialogTitle="fontSize"
-            android:entries="@array/list_preference_entries"
-            android:entryValues="@array/list_preference_entry_values"
-            android:key="font_size"
-            android:title="Font Size"/>
         <ListPreference
             android:defaultValue="Publisher"
             android:dialogTitle="font"

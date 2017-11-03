@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.readium.r2.navigator.R2EpubActivity
 import org.readium.r2.shared.Publication
@@ -129,13 +130,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun parseAndShowEpub() {
 
-        val pub: PubBox? = EpubParser().parse(publication_path)
-        val publication: Publication? = pub?.publication
-        val container: Container? = pub?.container
+        val pub = EpubParser().parse(publication_path)
+        if (pub == null){
+            Toast.makeText(applicationContext, "Invalid Epub", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val publication = pub.publication
+        val container = pub.container
         publi = publication
-        textView.text = String.format("%s\n\n%s", publication?.metadata?.title ?: getString(R.string.error_invalid_epub), publication?.metadata?.description ?: getString(R.string.fallback_no_description))
+        textView.text = String.format("%s\n\n%s", publication.metadata.title, publication.metadata.description ?: getString(R.string.fallback_no_description))
 
-        server.addEpub(publication!!, container!!, "/" + epub_name)
+        server.addEpub(publication, container, "/" + epub_name)
 
         if (publication.spine.size > 0) {
             val urlString = URL + "/" + epub_name + publication.spine.get(0).href

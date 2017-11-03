@@ -75,16 +75,9 @@ class EpubParser : PublicationParser {
         }
         aexml.parseXml(ByteArrayInputStream(data))
         val epubVersion = aexml.root().properties["version"]!!.toDouble()
-        val publication: Publication
-        try {
-            publication = opfParser.parseOpf(aexml, container, epubVersion)
-        } catch(e: Exception){
-            Log.e("Error", e.message, e)
-            return null
-        }
-
+        val publication = opfParser.parseOpf(aexml, container, epubVersion) ?: return null
         // commenting out for now
-//        parseEncryption(container, publication)
+        // parseEncryption(container, publication)
         parseNavigationDocument(container, publication)
         parseNcxDocument(container, publication)
         return PubBox(publication, container)

@@ -11,18 +11,15 @@ class OPFParser {
     val smilp = SMILParser()
     private var rootFilePath: String? = null
 
-    fun parseOpf(document: XmlParser, container: Container, epubVersion: Double) : Publication {
+    fun parseOpf(document: XmlParser, container: Container, epubVersion: Double) : Publication? {
         val publication = Publication()
 
         rootFilePath = container.rootFile.rootFilePath
         publication.version = epubVersion
         publication.internalData["type"] = "epub"
         publication.internalData["rootfile"] = rootFilePath!!
-        try {
-            parseMetadata(document, publication)
-        } catch(e: Exception){
-            throw e
-        }
+        if (!parseMetadata(document, publication))
+            return null
         parseRessources(document.getFirst("package")!!.getFirst("manifest")!!, publication)
         coverLinkFromMeta(document.root().getFirst("metadata") ?:
                     document.root().getFirst("opf:metadata")!!, publication)
@@ -31,14 +28,14 @@ class OPFParser {
         return publication
     }
 
-    private fun parseMetadata(document: XmlParser, publication: Publication) {
+    private fun parseMetadata(document: XmlParser, publication: Publication) : Boolean {
         val metadata = Metadata()
         val mp = MetadataParser()
         val metadataElement: Node? = document
                 .root().getFirst("metadata") ?: document.root().getFirst("opf:metadata")
         metadata.multilangTitle = mp.mainTitle(metadataElement!!)
         metadata.identifier = mp.uniqueIdentifier(metadataElement,
-                    document.getFirst("package")!!.properties)
+                    document.getFirst("package")!!.properties) ?: return false
         metadata.description = metadataElement.getFirst("dc:description")?.text
         metadata.publicationDate = metadataElement.getFirst("dc:date")?.text
         metadata.modified = mp.modifiedDate(metadataElement)
@@ -56,6 +53,7 @@ class OPFParser {
         mp.parseRenditionProperties(metadataElement, metadata)
         metadata.otherMetadata = mp.parseMediaDurations(metadataElement, metadata.otherMetadata)
         publication.metadata = metadata
+        return true
     }
 
     private fun parseRessources(manifest: Node, publication: Publication){

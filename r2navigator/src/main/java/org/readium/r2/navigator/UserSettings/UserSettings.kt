@@ -29,7 +29,12 @@ class UserSettings(preferences: SharedPreferences) {
     var pageMargins = PageMargins(1.0)
 
     init {
-        appearance = Appearance.valueOf(preferences.getString("mode", "readium-default-on"))
+        appearance = when(preferences.getString("mode", "default")){
+            "readium-night-on" -> Appearance.Night
+            "readium-sepia-on" -> Appearance.Sepia
+            else -> Appearance.Default
+        }
+        fontSize = preferences.getString("fontSize", "100")
     }
 
     fun getProperties() : List<CssProperty>{
@@ -40,7 +45,7 @@ class UserSettings(preferences: SharedPreferences) {
             else -> "readium-font-on"
         }))
         properties.add(CssProperty(fontKey, font.name))
-        properties.add(CssProperty(appearanceKey, appearance.name))
+        properties.add(CssProperty(appearanceKey, appearance.toString()))
         properties.add(CssProperty(scrollKey, scroll.name))
         properties.add(CssProperty(publisherSettingsKey, when (publisherSettings){
             true -> "readium-advanded-off"
