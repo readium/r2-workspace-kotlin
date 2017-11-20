@@ -9,6 +9,14 @@ import java.net.URL
 import java.util.*
 import kotlin.system.exitProcess
 
+fun URL.removeLastComponent() : URL{
+    var str = this.toString()
+    val i = str.lastIndexOf('/', 0, true)
+    if (i != -1)
+        str = str.substring(0, i)
+    return URL(str)
+}
+
 interface ContentFilters{
     var decoder: Decoder
 
@@ -19,14 +27,6 @@ interface ContentFilters{
     fun apply(input: ByteArray, publication: Publication, path: String) : ByteArray {
         return input
     }
-}
-
-fun URL.removeLastComponent() : URL{
-    var str = this.toString()
-    val i = str.lastIndexOf('/', 0, true)
-    if (i != -1)
-        str = str.substring(0, i)
-    return URL(str)
 }
 
 class ContentFiltersEpub: ContentFilters {
@@ -69,25 +69,28 @@ class ContentFiltersEpub: ContentFilters {
     private fun injectReflowableHtml(stream: InputStream, baseUrl: URL) : InputStream {
         val data = stream.readBytes()
         var resourceHtml = String(data) //UTF-8
-        val endHeadIndex = resourceHtml.indexOf("</head>", 0, false)
+        var beginHeadIndex = resourceHtml.indexOf("<head>", 0, false) + 6
+        var endHeadIndex = resourceHtml.indexOf("</head>", 0, false)
         if (endHeadIndex == -1)
             return stream
-        val includes = mutableListOf<String>()
-        includes.add("<meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;\"/>\n")
-        includes.add(getHtmlLink("/styles/scroll.css"))
-        includes.add(getHtmlLink("/styles/user_settings.css"))
-        includes.add(getHtmlLink("/styles/html5patch.css"))
-        includes.add(getHtmlLink("/styles/pagination.css"))
-        includes.add(getHtmlLink("/styles/safeguards.css"))
-        includes.add(getHtmlLink("/styles/readiumCSS-base.css"))
-        includes.add(getHtmlLink("/styles/readiumCSS-default.css"))
-        includes.add(getHtmlLink("/styles/readiumCSS-before.css"))
-        includes.add(getHtmlLink("/styles/readiumCSS-after.css"))
-        includes.add(getHtmlScript("/scripts/touchHandling.js"))
-        includes.add(getHtmlScript("/scripts/utils.js"))
-        for (element in includes){
-            resourceHtml = StringBuilder(resourceHtml).insert(endHeadIndex, element).toString()
+        val endIncludes = mutableListOf<String>()
+        val beginIncludes = mutableListOf<String>()
+        beginIncludes.add("<meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;\"/>")
+        beginIncludes.add(getHtmlLink("/styles/before.css"))
+        beginIncludes.add(getHtmlLink("/styles/default.css"))
+        endIncludes.add(getHtmlLink("/styles/after.css"))
+        endIncludes.add(getHtmlScript("/scripts/touchHandling.js"))
+        endIncludes.add(getHtmlScript("/scripts/utils.js"))
+        for (element in beginIncludes){
+            resourceHtml = StringBuilder(resourceHtml).insert(beginHeadIndex, element).toString()
+            beginHeadIndex += element.length
+            endHeadIndex += element.length
         }
+        for (element in endIncludes){
+            resourceHtml = StringBuilder(resourceHtml).insert(endHeadIndex, element).toString()
+            endHeadIndex += element.length
+        }
+        resourceHtml = StringBuilder(resourceHtml).insert(endHeadIndex, "<style>@import url('https://fonts.googleapis.com/css?family=PT+Serif|Roboto|Source+Sans+Pro|Vollkorn');</style> ").toString()
         return ByteArrayInputStream(resourceHtml.toByteArray())
     }
 

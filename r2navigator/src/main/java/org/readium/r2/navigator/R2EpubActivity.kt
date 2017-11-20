@@ -79,7 +79,7 @@ class R2EpubActivity : AppCompatActivity() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                cssOperator.applyCSS(view as R2WebView)
+                cssOperator.applyAllCSS(view as R2WebView)
             }
         }
         webView.webChromeClient = object : WebChromeClient() {

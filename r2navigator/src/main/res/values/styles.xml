@@ -15,6 +15,7 @@ s
         <attr name="step" format="float"/>
         <attr name="min" format="float"/>
         <attr name="max" format="float"/>
+        <attr name="prefKey" format="string"/>
     </declare-styleable>
 
 </resources>
