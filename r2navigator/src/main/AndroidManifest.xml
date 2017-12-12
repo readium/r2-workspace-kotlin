@@ -3,16 +3,12 @@
     package="org.readium.r2.navigator">
 
     <application>
-        <activity android:name=".R2EpubActivity" />
+        <activity android:name=".R2EpubActivity" android:screenOrientation="portrait"/>
         <activity
-            android:name=".TOCActivity"
+            android:name=".R2OutlineActivity"
             android:label="Table of Contents"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".PrefActivity"></activity>
+            android:theme="@style/AppTheme" android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
