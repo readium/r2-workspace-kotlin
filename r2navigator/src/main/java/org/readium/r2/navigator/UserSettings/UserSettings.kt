@@ -51,6 +51,9 @@ class UserSettings(preferences: SharedPreferences) {
         Log.d("", "")
     }
 
+//    var isVerticalScrollEnabled:Boolean = false
+//        get() { return verticalScroll == "readium-scroll-on"}
+
     fun getProperties() : List<CssProperty> {
         val properties = mutableListOf<CssProperty>()
 
