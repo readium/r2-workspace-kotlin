@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 
 
-class R2PagerAdapter internal constructor(fm: FragmentManager, private val mItems: List<String>) : UpdatableFragmentPagerAdapter(fm) {
+class R2PagerAdapter internal constructor(fm: FragmentManager, private val mItems: List<String>) : R2FragmentPagerAdapter(fm) {
 
 
     override fun getItem(position: Int): Fragment {
