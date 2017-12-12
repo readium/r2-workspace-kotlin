@@ -7,7 +7,6 @@ import org.readium.r2.streamer.Containers.Container
 import org.readium.r2.streamer.Fetcher.Fetcher
 import org.readium.r2.streamer.Server.handler.*
 import java.net.URL
-import java.nio.file.attribute.UserPrincipalLookupService
 import java.util.*
 
 
@@ -17,7 +16,7 @@ class Server(port: Int) : AbstractServer(port) {
 
 abstract class AbstractServer(port: Int) : RouterNanoHTTPD(port) {
 
-    private val SEARCH_QUERY_HANDLE = "/search"
+//    private val SEARCH_QUERY_HANDLE = "/search"
     private val MANIFEST_HANDLE = "/manifest"
     private val MANIFEST_ITEM_HANDLE = "/(.*)"
     private val MEDIA_OVERLAY_HANDLE = "/media-overlay"
@@ -64,6 +63,7 @@ abstract class AbstractServer(port: Int) : RouterNanoHTTPD(port) {
                 .useDelimiter("\\A").next())
         addResource("utils.js", Scanner(assets.open("ReadiumCSS/utils.js"), "utf-8")
                 .useDelimiter("\\A").next())
+
     }
 
     fun addEpub(publication: Publication, container: Container, fileName: String) {
@@ -72,7 +72,7 @@ abstract class AbstractServer(port: Int) : RouterNanoHTTPD(port) {
 
         addLinks(publication, fileName)
 
-        publication.addSelfLink(fileName, URL("http://localhost:3333"))
+        publication.addSelfLink(fileName, URL(URL))
 
         if (containsMediaOverlay) {
             addRoute(fileName + MEDIA_OVERLAY_HANDLE, MediaOverlayHandler::class.java, fetcher)
