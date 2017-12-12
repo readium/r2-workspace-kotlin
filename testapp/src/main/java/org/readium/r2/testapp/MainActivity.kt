@@ -22,9 +22,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.readium.r2.navigator.R2EpubActivity
 import org.readium.r2.shared.Publication
-import org.readium.r2.streamer.Containers.Container
 import org.readium.r2.streamer.Parser.EpubParser
-import org.readium.r2.streamer.Parser.PubBox
 import org.readium.r2.streamer.Server.Server
 import java.io.File
 import java.io.InputStream
@@ -118,8 +116,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startServer() {
-        server.start()
-        server.loadResources(assets)
+        if (!server.wasStarted()) {
+            server.start()
+            server.loadResources(assets)
+        }
     }
 
     private fun copyEpubFromAssetsToSdCard(epubFileName: String) {
@@ -147,6 +147,7 @@ class MainActivity : AppCompatActivity() {
             readButton.setOnClickListener {
                 val intent = Intent(this, R2EpubActivity::class.java)
                 intent.putExtra("url", urlString)
+                intent.putExtra("server_url", URL)
                 intent.putExtra("publication_path", publication_path)
                 intent.putExtra("epub_name", epub_name)
                 intent.putExtra("publication", publication)
@@ -249,13 +250,13 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         when (item.getItemId()) {
-            R.id.list -> {
-
-                val intent = Intent(this, EpubListActivity::class.java)
-                startActivityForResult(intent, 2)
-
-                return false
-            }
+//            R.id.list -> {
+//
+//                val intent = Intent(this, EpubListActivity::class.java)
+//                startActivityForResult(intent, 2)
+//
+//                return false
+//            }
             R.id.add -> {
 
                 // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
