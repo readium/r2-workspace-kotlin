@@ -1,43 +1,45 @@
 package org.readium.r2.navigator
 
 import android.app.Activity
-import android.app.ListActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.ArrayAdapter
-import kotlinx.android.synthetic.main.activity_epub_list.*
-import org.readium.r2.shared.Publication
 import android.view.View
 import android.view.ViewGroup
-import org.readium.r2.shared.Link
+import android.widget.ArrayAdapter
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_outline.*
 import kotlinx.android.synthetic.main.toc_item.view.*
-//import jdk.nashorn.internal.objects.ArrayBufferView.buffer
-//import android.support.test.espresso.core.internal.deps.guava.io.ByteStreams.toByteArray
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
+import org.readium.r2.shared.Link
+import org.readium.r2.shared.Publication
 
 
-class TOCActivity : ListActivity() {
+class R2OutlineActivity : AppCompatActivity() {
 
     val TAG = this::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_toc)
+        setContentView(R.layout.activity_outline)
 
         val epub_name = intent.getStringExtra("epub_name")
         val publication_path = intent.getStringExtra("publication_path")
+        val server_url = intent.getStringExtra("server_url")
         val publication = intent.getSerializableExtra("publication") as Publication
 
-        listAdapter = TOCAdapter(this, publication.spine)
+//        listAdapter = TOCAdapter(this, publication.spine)
+        title = publication.metadata.title
+
+        val listAdapter = TOCAdapter(this, publication.spine)
+
+        list.adapter = listAdapter
 
         list.setOnItemClickListener { _, _, position, _ ->
 
-            val spine_item_uri = URL + "/" + epub_name + publication.spine.get(position).href
+            val spine_item_uri = server_url + "/" + epub_name + publication.spine.get(position).href
 
             Log.d(TAG, spine_item_uri)
 
@@ -48,6 +50,8 @@ class TOCActivity : ListActivity() {
             finish()
 
         }
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     inner class TOCAdapter(context: Context, users: MutableList<Link>) : ArrayAdapter<Link>(context, R.layout.toc_item, users) {
@@ -75,6 +79,7 @@ class TOCActivity : ListActivity() {
                 viewHolder = myView.tag as ViewHolder
             }
 
+//            viewHolder.toc_textView!!.setText(spine_item!!.href)
             viewHolder.toc_textView!!.setText(spine_item!!.href)
 
             return myView

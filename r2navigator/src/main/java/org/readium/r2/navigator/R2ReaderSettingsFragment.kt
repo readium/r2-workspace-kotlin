@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 
-class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class R2ReaderSettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     lateinit var change: Change
     val properties = mutableListOf<String>()

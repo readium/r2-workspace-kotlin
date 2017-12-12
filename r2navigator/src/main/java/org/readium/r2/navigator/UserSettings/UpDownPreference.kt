@@ -5,7 +5,6 @@ import android.preference.DialogPreference
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import org.readium.r2.navigator.R
 
 class UpDownPreference(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs) {
@@ -19,7 +18,7 @@ class UpDownPreference(context: Context, attrs: AttributeSet) : DialogPreference
 
     init {
         this.attrs = attrs
-        dialogLayoutResource = R.layout.up_down_preference
+        dialogLayoutResource = R.layout.preference_up_down
         setPositiveButtonText("Ok")
         setDialogIcon(null)
         for (i in 0..attrs.attributeCount - 1){
