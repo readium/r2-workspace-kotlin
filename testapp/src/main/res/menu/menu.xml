@@ -7,9 +7,5 @@
         android:title="@string/menu_item_add_epub"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/list"
-        android:title="@string/menu_item_show_epub_list"
-        app:showAsAction="always" />
 
 </menu>
