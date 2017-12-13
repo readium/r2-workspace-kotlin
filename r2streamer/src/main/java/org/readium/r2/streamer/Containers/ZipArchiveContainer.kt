@@ -1,5 +1,7 @@
 package org.readium.r2.streamer.Containers
 
+import android.renderscript.ScriptGroup
+import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.util.zip.ZipFile
@@ -9,7 +11,7 @@ interface ZipArchiveContainer: Container {
 
     override fun data(relativePath: String) : ByteArray{
 
-        val zipEntry = zipFile.getEntry(relativePath)
+        val zipEntry = zipFile.getEntry(relativePath)// ?: return ByteArray(0)
         val fis = zipFile.getInputStream(zipEntry)
         val buffer = ByteArrayOutputStream()
         var nRead: Int

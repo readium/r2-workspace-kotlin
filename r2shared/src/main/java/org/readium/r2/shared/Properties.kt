@@ -1,8 +1,9 @@
 package org.readium.r2.shared
 
 import org.json.JSONObject
+import java.io.Serializable
 
-class Properties : JSONable {
+class Properties : JSONable, Serializable {
     /// Suggested orientation for the device when displaying the linked resource.
     var orientation: String? = null
     /// Indicates how the linked resource should be displayed in a reading
