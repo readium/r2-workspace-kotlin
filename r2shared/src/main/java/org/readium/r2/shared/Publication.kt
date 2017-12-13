@@ -100,7 +100,7 @@ class Publication : Serializable {
     }
 
     fun linkWithHref(href: String) : Link? {
-        val findLinkWithHref: (Link) -> Boolean = { href == it.href }
+        val findLinkWithHref: (Link) -> Boolean = { (href == it.href) || ("/" + href == it.href)}
         return findLinkInPublicationLinks(findLinkWithHref)
     }
 

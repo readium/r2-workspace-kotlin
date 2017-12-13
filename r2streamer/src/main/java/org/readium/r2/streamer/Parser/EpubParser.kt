@@ -2,6 +2,8 @@ package org.readium.r2.streamer.Parser
 
 import android.content.SharedPreferences
 import android.util.Log
+import org.readium.r2.shared.Drm
+import org.readium.r2.shared.Encryption
 import org.readium.r2.shared.Publication
 import org.readium.r2.streamer.XmlParser.XmlParser
 import org.readium.r2.streamer.Containers.ContainerEpub
@@ -18,6 +20,7 @@ import java.io.File
 const val defaultEpubVersion = 1.2
 const val containerDotXmlPath = "META-INF/container.xml"
 const val encryptionDotXmlPath = "META-INF/encryption.xml"
+const val lcplFilePath = "META-INF/license.lcpl"
 const val mimetype = "application/epub+zip"
 const val mimetypeOEBPS = "application/oebps-package+xml"
 const val mediaOverlayURL = "media-overlay?resource="
@@ -76,22 +79,40 @@ class EpubParser : PublicationParser {
         aexml.parseXml(ByteArrayInputStream(data))
         val epubVersion = aexml.root().properties["version"]!!.toDouble()
         val publication = opfParser.parseOpf(aexml, container, epubVersion) ?: return null
-        // commenting out for now
-        // parseEncryption(container, publication)
+        parseEncryption(container, publication, scanForDrm(container))
         parseNavigationDocument(container, publication)
         parseNcxDocument(container, publication)
         return PubBox(publication, container)
     }
 
-    private fun parseEncryption(container: EpubContainer, publication: Publication) {
-        val document: XmlParser
+    fun scanForDrm(container: EpubContainer) : Drm? {
         try {
-            document = container.xmlDocumentforFile(encryptionDotXmlPath)
+            container.data(lcplFilePath)
+            return Drm()
         } catch (e: Exception){
-            Log.d("Error", "Could not decrypt", e)
+            return null
+        }
+    }
+
+    private fun parseEncryption(container: EpubContainer, publication: Publication, drm: Drm?) {
+        val documentData = try {
+            container.data(encryptionDotXmlPath)
+        } catch (e: Exception) {
             return
         }
-        return
+        val document = XmlParser()
+        document.parseXml(documentData.inputStream())
+        val encryptedDataElements = document.getFirst("encryption")?.get("EncryptedData") ?: return
+        for(encryptedDataElement in encryptedDataElements){
+            val encryption = Encryption()
+            val keyInfoUri = encryptedDataElement.getFirst("KeyInfo")?.getFirst("RetrievalMethods")?.let{ it.properties["URI"] }
+            if (keyInfoUri == "license.lcpl#/encryption/content_key" && drm?.brand == Drm.Brand.lcp)
+                encryption.scheme = "lcp"
+            encryption.algorithm = encryptedDataElement.getFirst("EncryptionMethod")?.let{ it.properties["Algorithm"] }
+            encp.parseEncryptionProperties(encryptedDataElement, encryption)
+            encp.add(encryption, publication, encryptedDataElement)
+        }
+
     }
 
     private fun parseNavigationDocument(container: EpubContainer, publication: Publication) {

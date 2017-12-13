@@ -35,7 +35,7 @@ class ContentFiltersEpub: ContentFilters {
 
     override fun apply(input: InputStream, publication: Publication, path: String): InputStream {
         var decodedInputStream = decoder.decoding(input, publication, path)
-        val link = publication.linkWithHref("/" + path)
+        val link = publication.linkWithHref(path)
         val baseUrl = publication.baseUrl()?.removeLastComponent()
         if ((link?.typeLink == "application/xhtml+xml" || link?.typeLink == "text/html")
                 && baseUrl != null){
@@ -56,19 +56,21 @@ class ContentFiltersEpub: ContentFilters {
         val baseUrl = publication.baseUrl()?.removeLastComponent()
         if ((link?.typeLink == "application/xhtml+xml" || link?.typeLink == "text/html")
                 && baseUrl != null){
-            if (publication.metadata.rendition.layout == RenditionLayout.reflowable && link.properties?.layout == null
-                    || link.properties?.layout == "reflowable"){
-                decodedInputStream = injectReflowableHtml(decodedInputStream, baseUrl) as ByteArrayInputStream
-            } else {
-                decodedInputStream = injectFixedLayohtHtml(decodedInputStream, baseUrl) as ByteArrayInputStream
-            }
+            decodedInputStream =
+                    if (publication.metadata.rendition.layout == RenditionLayout.reflowable && (link.properties?.layout == null
+                        || link.properties?.layout == "reflowable"))
+                    {
+                        injectReflowableHtml(decodedInputStream, baseUrl) as ByteArrayInputStream
+                    } else {
+                        injectFixedLayohtHtml(decodedInputStream, baseUrl) as ByteArrayInputStream
+                    }
         }
         return decodedInputStream.readBytes()
     }
 
     private fun injectReflowableHtml(stream: InputStream, baseUrl: URL) : InputStream {
         val data = stream.readBytes()
-        var resourceHtml = String(data) //UTF-8
+        var resourceHtml = String(data)
         var beginHeadIndex = resourceHtml.indexOf("<head>", 0, false) + 6
         var endHeadIndex = resourceHtml.indexOf("</head>", 0, false)
         if (endHeadIndex == -1)
