@@ -1,1 +1,1 @@
-include ':r2shared', ':r2streamer', ':r2navigator', ':testapp', ':lcp'
+include ':r2shared', ':r2streamer', ':r2navigator', ':testapp', ':lcp', ':r2lcp'

@@ -1,21 +1,15 @@
 package org.readium.r2.streamer.Fetcher
 
-import android.renderscript.ScriptGroup
 import android.util.Log
-import org.readium.r2.shared.Encryption
-import org.readium.r2.shared.Publication
-import java.nio.channels.SeekableByteChannel
-import android.provider.SyncStateContract.Helpers.update
 import com.mcxiaoke.koi.HASH
 import com.mcxiaoke.koi.ext.toHexBytes
-import java.io.*
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.util.*
+import org.readium.r2.shared.Publication
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import kotlin.experimental.xor
 
 
-class Decoder {
+class FontDecoder {
 
     val Adobe = 1024
     val Idpf = 1040

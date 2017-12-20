@@ -1,24 +1,14 @@
 package org.readium.r2.streamer.Fetcher
 
-import com.mcxiaoke.koi.ext.appendTo
 import org.readium.r2.shared.Publication
 import org.readium.r2.shared.RenditionLayout
+import org.readium.r2.shared.removeLastComponent
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.net.URL
-import java.util.*
-import kotlin.system.exitProcess
-
-fun URL.removeLastComponent() : URL{
-    var str = this.toString()
-    val i = str.lastIndexOf('/', 0, true)
-    if (i != -1)
-        str = str.substring(0, i)
-    return URL(str)
-}
 
 interface ContentFilters{
-    var decoder: Decoder
+    var fontDecoder: FontDecoder
 
     fun apply(input: InputStream, publication: Publication, path: String) : InputStream {
         return input
@@ -31,10 +21,10 @@ interface ContentFilters{
 
 class ContentFiltersEpub: ContentFilters {
 
-    override var decoder = Decoder()
+    override var fontDecoder = FontDecoder()
 
     override fun apply(input: InputStream, publication: Publication, path: String): InputStream {
-        var decodedInputStream = decoder.decoding(input, publication, path)
+        var decodedInputStream = fontDecoder.decoding(input, publication, path)
         val link = publication.linkWithHref(path)
         val baseUrl = publication.baseUrl()?.removeLastComponent()
         if ((link?.typeLink == "application/xhtml+xml" || link?.typeLink == "text/html")
@@ -51,7 +41,7 @@ class ContentFiltersEpub: ContentFilters {
 
     override fun apply(input: ByteArray, publication: Publication, path: String): ByteArray {
         val inputStream = ByteArrayInputStream(input)
-        var decodedInputStream = decoder.decoding(inputStream, publication, path)
+        var decodedInputStream = fontDecoder.decoding(inputStream, publication, path)
         val link = publication.linkWithHref(path)
         val baseUrl = publication.baseUrl()?.removeLastComponent()
         if ((link?.typeLink == "application/xhtml+xml" || link?.typeLink == "text/html")
@@ -129,6 +119,6 @@ class ContentFiltersEpub: ContentFilters {
 }
 
 class ContentFiltersCbz : ContentFilters {
-    override var decoder: Decoder = Decoder()
+    override var fontDecoder: FontDecoder = FontDecoder()
 }
 

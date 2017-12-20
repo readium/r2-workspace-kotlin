@@ -48,4 +48,5 @@ class Link : JSONable, Serializable{
         json.putOpt("duration", duration)
         return json
     }
+
 }

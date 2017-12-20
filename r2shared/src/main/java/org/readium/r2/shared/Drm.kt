@@ -8,11 +8,13 @@ class Drm {
     val scheme = "http://readium.org/2014/01/lcp"
 
     var profile: String? = ""
-    var decypher: ((ByteArray) -> ByteArray) = {
-        ByteArray(0)
-    }
+    var license: DrmLicense? = null
 
     enum class Brand {
         lcp
+    }
+
+    fun initDrmLicense(){
+
     }
 }

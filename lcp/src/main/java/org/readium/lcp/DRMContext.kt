@@ -4,7 +4,6 @@ data class DRMContext (
     // Hashed passphrase in hex used to generate the user key
     val hashedPassphrase: String,
 
-
     // Hex key, encoded with user key, used to decrypt content
     val encryptedContentKey: String,
 
