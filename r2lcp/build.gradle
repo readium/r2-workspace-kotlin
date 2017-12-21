@@ -43,6 +43,13 @@ dependencies {
     implementation project(':lcp')
 
 }
+
 repositories {
     mavenCentral()
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
