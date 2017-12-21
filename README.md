@@ -13,7 +13,7 @@ It showcase the use of the differents building blocks of Readium-2
 
 1) 
 2) 
-3) Run the project named `r2-testapp-kotlin`.
+3)
 
 ## [@Contributors] Efficient workflow for testing changes on Readium-2
 
