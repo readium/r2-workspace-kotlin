@@ -1,1 +1,1 @@
-include ':r2shared', ':r2streamer', ':r2navigator', ':testapp', ':lcp', ':r2lcp'
+include ':r2-shared-kotlin', ':r2-streamer-kotlin', ':r2-navigator-kotlin', ':r2-testapp-kotlin', ':r2-lcp-wrapper-kotlin', ':r2-opds-kotlin', ':r2-lcp-kotlin'
