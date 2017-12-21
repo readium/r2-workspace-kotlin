@@ -15,6 +15,4 @@ It showcase the use of the differents building blocks of Readium-2
 2) 
 3)
 
-## [@Contributors] Efficient workflow for testing changes on Readium-2
-
 
