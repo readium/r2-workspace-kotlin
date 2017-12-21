@@ -3,15 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion "26.0.2"
 
 
     defaultConfig {
         applicationId "org.readium.r2.testapp"
         minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 8
+        targetSdkVersion 27
+        versionCode 9
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -40,7 +40,7 @@ dependencies {
     implementation project(':r2-lcp-kotlin')
     implementation project(':r2-lcp-wrapper-kotlin')
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'org.nanohttpd:nanohttpd-nanolets:2.3.1'
