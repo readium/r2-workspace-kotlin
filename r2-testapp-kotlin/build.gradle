@@ -34,11 +34,11 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
-    implementation project(':r2-navigator-kotlin')
-    implementation project(':r2-streamer-kotlin')
-    implementation project(':r2-shared-kotlin')
-    implementation project(':r2-lcp-kotlin')
-    implementation project(':r2-lcp-wrapper-kotlin')
+    implementation project(':r2-navigator')
+    implementation project(':r2-streamer')
+    implementation project(':r2-shared')
+    implementation project(':r2-lcp')
+    implementation project(':r2-lcp-wrapper')
 
     implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
