@@ -1,4 +1,4 @@
-[![BSD-3](https://img.shields.io/badge/License-BSD--3-brightgreen.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](/LICENSE)
 # r2-workspace-kotlin / r2-testapp-kotlin
 
 A test app for the Kotlin implementation of Readium-2.
