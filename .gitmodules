@@ -1,18 +1,18 @@
 [submodule "r2-opds-kotlin"]
 	path = r2-opds-kotlin
-	url = git@github.com:d-i-t-a/r2-opds-kotlin.git
+url=git@github.com:edrlab/r2-opds-kotlin.git
 [submodule "r2-lcp-kotlin"]
 	path = r2-lcp-kotlin
-	url = git@github.com:d-i-t-a/r2-lcp-kotlin.git
+url=git@github.com:edrlab/r2-lcp-kotlin.git
 [submodule "r2-lcp-wrapper-kotlin"]
 	path = r2-lcp-wrapper-kotlin
-	url = git@github.com:d-i-t-a/r2-lcp-wrapper-kotlin.git
+url=git@github.com:edrlab/r2-lcp-wrapper-kotlin.git
 [submodule "r2-navigator-kotlin"]
 	path = r2-navigator-kotlin
-	url = git@github.com:d-i-t-a/r2-navigator-kotlin.git
+url=git@github.com:edrlab/r2-navigator-kotlin.git
 [submodule "r2-shared-kotlin"]
 	path = r2-shared-kotlin
-	url = git@github.com:d-i-t-a/r2-shared-kotlin.git
+url=git@github.com:edrlab/r2-shared-kotlin.git
 [submodule "r2-streamer-kotlin"]
 	path = r2-streamer-kotlin
-	url = git@github.com:d-i-t-a/r2-streamer-kotlin.git
+url=git@github.com:edrlab/r2-streamer-kotlin.git
