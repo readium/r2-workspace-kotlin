@@ -1,5 +1,6 @@
-[![BSD-3](https://img.shields.io/badge/License-BSD--3-brightgreen.svg)](https://opensource.org/licenses/BSD-3-Clause)
-# r2-workspace-kotlin / r2-testapp-kotlin
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](/LICENSE)
+# Developer Workspace
+## r2-workspace-kotlin
 
 A test app for the Kotlin implementation of Readium-2.
 It showcase the use of the differents building blocks of Readium-2
