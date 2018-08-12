@@ -3,7 +3,7 @@
 ## r2-workspace-kotlin
 
 A test app for the Kotlin implementation of Readium-2.
-It showcase the use of the differents building blocks of Readium-2
+It showcase the use of the different building blocks of Readium-2
 
 
 - [r2-shared-kotlin](https://github.com/readium/r2-shared-kotlin) (Model, shared for both streamer and navigator)
