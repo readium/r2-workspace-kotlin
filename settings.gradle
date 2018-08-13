@@ -1,4 +1,4 @@
-include ':r2-shared', ':r2-streamer', ':r2-navigator', ':r2-lcp', ':r2-opds', ':r2-testapp', ':liblcp'
+include ':r2-shared', ':r2-streamer', ':r2-navigator', ':r2-opds', ':r2-testapp', ':r2-lcp', ':liblcp'
 
 project(':r2-testapp').projectDir = new File('r2-testapp-kotlin/r2-testapp')
 project(':r2-shared').projectDir = new File('r2-shared-kotlin/r2-shared')
