@@ -1,9 +1,6 @@
 [submodule "r2-opds-kotlin"]
 	path = r2-opds-kotlin
 url=git@github.com:readium/r2-opds-kotlin.git
-[submodule "r2-navigator-kotlin"]
-	path = r2-navigator-kotlin
-url=git@github.com:readium/r2-navigator-kotlin.git
 [submodule "r2-shared-kotlin"]
 	path = r2-shared-kotlin
 url=git@github.com:readium/r2-shared-kotlin.git
