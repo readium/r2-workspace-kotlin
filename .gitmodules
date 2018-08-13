@@ -1,6 +1,3 @@
-[submodule "r2-shared-kotlin"]
-	path = r2-shared-kotlin
-url=git@github.com:readium/r2-shared-kotlin.git
 [submodule "r2-streamer-kotlin"]
 	path = r2-streamer-kotlin
 url=git@github.com:readium/r2-streamer-kotlin.git
