@@ -1,6 +1,3 @@
-[submodule "r2-streamer-kotlin"]
-	path = r2-streamer-kotlin
-url=git@github.com:readium/r2-streamer-kotlin.git
 [submodule "r2-testapp-kotlin"]
 	path = r2-testapp-kotlin
 url=git@github.com:readium/r2-testapp-kotlin.git
