@@ -1,12 +1,6 @@
 [submodule "r2-opds-kotlin"]
 	path = r2-opds-kotlin
 url=git@github.com:readium/r2-opds-kotlin.git
-[submodule "r2-lcp-kotlin"]
-	path = r2-lcp-kotlin
-url=git@github.com:readium/r2-lcp-kotlin.git
-[submodule "r2-lcp-wrapper-kotlin"]
-	path = r2-lcp-wrapper-kotlin
-url=git@github.com:readium/r2-lcp-wrapper-kotlin.git
 [submodule "r2-navigator-kotlin"]
 	path = r2-navigator-kotlin
 url=git@github.com:readium/r2-navigator-kotlin.git
