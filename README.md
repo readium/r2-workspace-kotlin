@@ -12,7 +12,7 @@ You pick this branch if are an integrator and you would like to get started with
 1. git clone --recurse-submodules -b int/testapp-with-lcp https://github.com/readium/r2-workspace-kotlin.git r2-workspace-kotlin
 2. ckeckout **int/testapp-with-lcp** branch **including it's submodules**
 3. in Android Studio **Open an existing Android Studio project** and select the **r2-workspace-kotlin** directory
-4. Select Build Variant **intTestappWithLcpDebug** for all Modules
+4. Select Build Variant **intTestappWithLcpDebug** for all Modules (View -> Top Windows -> Build Variants)
 5. create a Run configuration (if no configuration exists)
    1. Add new **Android App** and name it
    2. Select Module **r2-testapp** 
