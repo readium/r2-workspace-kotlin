@@ -2,11 +2,11 @@
 # r2-workspace-kotlin
 A workspace for on-boarding developers
 
-This workspace is one of the ways you can get started with the R2 Kotlin Projects. It is not the only way and you can pick to setup your developement environment in the way that best fits your needs.
+This workspace is one of the ways you can get started with the R2 Kotlin Projects with highlights and annotation features. It is not the only way and you can pick to setup your developement environment in the way that best fits your needs.
 
 This is one of the 4 Github branches in this workspace:
 
-### dev/testapp
+### dev/highlights
 You pick this branch if are an developer and a R2 contributor. You can get started quickly on the R2 Testapp and it's modules with this branch. We do appreciate any contribution, no matter how small it is, it makes a difference :) 
 
 1. git clone --recurse-submodules -b dev/highlights https://github.com/drminside/r2-workspace-kotlin-hl.git r2-workspace-kotlin
