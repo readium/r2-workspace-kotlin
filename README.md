@@ -10,8 +10,8 @@ This is one of the 4 Github branches in this workspace:
 You pick this branch if are an integrator and you would like to get started with the R2 Testapp supporting LCP. 
 
 1. git clone --recurse-submodules -b int/testapp-with-lcp https://github.com/readium/r2-workspace-kotlin.git r2-workspace-kotlin
-2. copy **liblcp.aar** into the **liblcp** directory
-3. in Android Studio **Open an existing Android Studio project** and select the **r2-workspace-kotlin** directory
+2. in Android Studio **Open an existing Android Studio project** and select the **r2-workspace-kotlin** directory
+3. **contact EDRLab for lcplib info**
 4. run confuguration **r2-testapp** 
 
 
