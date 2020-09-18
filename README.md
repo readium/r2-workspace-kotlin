@@ -12,7 +12,7 @@ You pick this branch if are an developer and a R2 contributor. You can get start
 1. git clone --recurse-submodules -b dev/testapp-with-lcp https://github.com/readium/r2-workspace-kotlin.git r2-workspace-kotlin
 2. in Android Studio **Open an existing Android Studio project** and select the **r2-workspace-kotlin** directory
 3. **contact EDRLab for lcplib info**
-4. run confuguration **r2-testapp** 
+4. run configuration **r2-testapp** 
 
 
 
