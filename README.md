@@ -11,5 +11,5 @@ You pick this branch if are an integrator and all you need is to quickly get sta
 
 1. git clone --recurse-submodules -b int/testapp https://github.com/readium/r2-workspace-kotlin.git r2-workspace-kotlin
 2. in Android Studio **Open an existing Android Studio project** and select the **r2-workspace-kotlin** directory
-3. run confuguration **r2-testapp** 
+3. run configuration **r2-testapp** 
   
