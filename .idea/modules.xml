@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/develop.iml" filepath="$PROJECT_DIR$/.idea/develop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/r2-testapp-kotlin/r2-testapp/develop.r2-testapp.iml" filepath="$PROJECT_DIR$/.idea/modules/r2-testapp-kotlin/r2-testapp/develop.r2-testapp.iml" />
+    </modules>
+  </component>
+</project>
