@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/develop.iml" filepath="$PROJECT_DIR$/.idea/modules/develop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/liblcp/develop.liblcp.iml" filepath="$PROJECT_DIR$/.idea/modules/liblcp/develop.liblcp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/r2-lcp-kotlin/r2-lcp/develop.r2-lcp.iml" filepath="$PROJECT_DIR$/.idea/modules/r2-lcp-kotlin/r2-lcp/develop.r2-lcp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/r2-testapp-kotlin/r2-testapp/develop.r2-testapp.iml" filepath="$PROJECT_DIR$/.idea/modules/r2-testapp-kotlin/r2-testapp/develop.r2-testapp.iml" />
+    </modules>
+  </component>
+</project>
