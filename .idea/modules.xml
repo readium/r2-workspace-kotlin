@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/develop.iml" filepath="$PROJECT_DIR$/.idea/develop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/r2-navigator-kotlin/r2-navigator/develop.r2-navigator.iml" filepath="$PROJECT_DIR$/.idea/modules/r2-navigator-kotlin/r2-navigator/develop.r2-navigator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/r2-opds-kotlin/r2-opds/develop.r2-opds.iml" filepath="$PROJECT_DIR$/.idea/modules/r2-opds-kotlin/r2-opds/develop.r2-opds.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/r2-shared-kotlin/r2-shared/develop.r2-shared.iml" filepath="$PROJECT_DIR$/.idea/modules/r2-shared-kotlin/r2-shared/develop.r2-shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/r2-streamer-kotlin/r2-streamer/develop.r2-streamer.iml" filepath="$PROJECT_DIR$/.idea/modules/r2-streamer-kotlin/r2-streamer/develop.r2-streamer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/r2-testapp-kotlin/r2-testapp/develop.r2-testapp.iml" filepath="$PROJECT_DIR$/.idea/modules/r2-testapp-kotlin/r2-testapp/develop.r2-testapp.iml" />
+    </modules>
+  </component>
+</project>
